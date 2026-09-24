@@ -1,0 +1,12 @@
+# Datos pesados que se regeneran con los scripts
+dataset/
+segments/
+
+# Dependencias de Node
+eval/node_modules/
+
+# Editores y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

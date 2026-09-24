@@ -1,0 +1,524 @@
+{
+  "model": "cloud",
+  "n": 500,
+  "accuracy": 0.844,
+  "log_loss": 0.7821309403780885,
+  "mean_confidence": 0.9692653475231279,
+  "mean_confidence_errors": 0.9077650994757003,
+  "macro": {
+    "precision": 0.862172360353076,
+    "recall": 0.844,
+    "f1": 0.8420182772700758
+  },
+  "auc": 0.95688,
+  "ci95": {
+    "accuracy": [
+      0.812,
+      0.874
+    ],
+    "f1_macro": [
+      0.8087105539810304,
+      0.8720962810471051
+    ],
+    "auc": [
+      0.9401773786557128,
+      0.9716949436733294
+    ]
+  },
+  "per_class": {
+    "Orgánico": {
+      "precision": 0.7810457516339869,
+      "recall": 0.956,
+      "f1": 0.8597122302158273,
+      "support": 250,
+      "auc": 0.95688
+    },
+    "Reciclable": {
+      "precision": 0.9432989690721649,
+      "recall": 0.732,
+      "f1": 0.8243243243243243,
+      "support": 250,
+      "auc": 0.95688
+    }
+  },
+  "confusion_matrix": [
+    [
+      239,
+      11
+    ],
+    [
+      67,
+      183
+    ]
+  ],
+  "errors": [
+    {
+      "file": "O_12580.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.9981576537484538
+    },
+    {
+      "file": "O_12607.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.54424536
+    },
+    {
+      "file": "O_12620.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.9991206217348776
+    },
+    {
+      "file": "O_12695.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.8557740571154812
+    },
+    {
+      "file": "O_12741.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.8919485289194853
+    },
+    {
+      "file": "O_13133.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.8565873928293697
+    },
+    {
+      "file": "O_13246.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.5374950038751499
+    },
+    {
+      "file": "O_13256.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.9124228826639652
+    },
+    {
+      "file": "O_13448.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.9267457857546784
+    },
+    {
+      "file": "O_13460.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.6268920111932397
+    },
+    {
+      "file": "O_13863.jpg",
+      "true": "Orgánico",
+      "pred": "Reciclable",
+      "prob": 0.9999997960525127
+    },
+    {
+      "file": "R_10087.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.73386163
+    },
+    {
+      "file": "R_10108.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999966008503932
+    },
+    {
+      "file": "R_10116.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.8520582903559196
+    },
+    {
+      "file": "R_10127.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.651094949065697
+    },
+    {
+      "file": "R_10152.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.967163075492554
+    },
+    {
+      "file": "R_10156.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.7508651450519087
+    },
+    {
+      "file": "R_10162.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.80464798
+    },
+    {
+      "file": "R_10179.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.8492617
+    },
+    {
+      "file": "R_10193.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.6663436100096917
+    },
+    {
+      "file": "R_10218.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9614075442383623
+    },
+    {
+      "file": "R_10219.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9998347146809605
+    },
+    {
+      "file": "R_10220.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.6426788214392706
+    },
+    {
+      "file": "R_10290.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9047788653338081
+    },
+    {
+      "file": "R_10309.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9980896785687609
+    },
+    {
+      "file": "R_10312.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9474311541015619
+    },
+    {
+      "file": "R_10355.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.76975179
+    },
+    {
+      "file": "R_10374.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9822307740226925
+    },
+    {
+      "file": "R_10476.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.931647444597397
+    },
+    {
+      "file": "R_10480.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9837730765618731
+    },
+    {
+      "file": "R_10484.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9204043607959564
+    },
+    {
+      "file": "R_10577.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999982787351882
+    },
+    {
+      "file": "R_10601.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9906379150576963
+    },
+    {
+      "file": "R_10606.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9812942376172901
+    },
+    {
+      "file": "R_10631.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9665132887747957
+    },
+    {
+      "file": "R_10634.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9997720330047545
+    },
+    {
+      "file": "R_10654.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.6406139507815815
+    },
+    {
+      "file": "R_10655.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9906640689445121
+    },
+    {
+      "file": "R_10685.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.98973805
+    },
+    {
+      "file": "R_10697.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9665511732341419
+    },
+    {
+      "file": "R_10707.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9304766448771306
+    },
+    {
+      "file": "R_10709.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999418801900828
+    },
+    {
+      "file": "R_10713.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.52061266
+    },
+    {
+      "file": "R_10718.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9818334569463405
+    },
+    {
+      "file": "R_10721.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9995351373791237
+    },
+    {
+      "file": "R_10761.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9976283812208702
+    },
+    {
+      "file": "R_10771.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.7820526478205265
+    },
+    {
+      "file": "R_10807.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999509160027236
+    },
+    {
+      "file": "R_10826.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9888137494406876
+    },
+    {
+      "file": "R_10838.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9760248246403723
+    },
+    {
+      "file": "R_10845.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999128671183797
+    },
+    {
+      "file": "R_10864.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9582205068301742
+    },
+    {
+      "file": "R_10871.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9991500030514329
+    },
+    {
+      "file": "R_10884.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9998690661257453
+    },
+    {
+      "file": "R_10894.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9977488200322395
+    },
+    {
+      "file": "R_10900.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.81476766
+    },
+    {
+      "file": "R_10912.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.998901899934114
+    },
+    {
+      "file": "R_10921.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999999601172946
+    },
+    {
+      "file": "R_10934.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999942635623942
+    },
+    {
+      "file": "R_10937.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999749786597832
+    },
+    {
+      "file": "R_10941.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999546745871518
+    },
+    {
+      "file": "R_10944.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.8920812753959363
+    },
+    {
+      "file": "R_10957.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9257468720347094
+    },
+    {
+      "file": "R_10958.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.96682939190537
+    },
+    {
+      "file": "R_10961.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9549566119640021
+    },
+    {
+      "file": "R_10987.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9998820982202099
+    },
+    {
+      "file": "R_10991.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9920117933895537
+    },
+    {
+      "file": "R_10992.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9290308771612351
+    },
+    {
+      "file": "R_11011.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.7688735469337936
+    },
+    {
+      "file": "R_11013.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9991269301748006
+    },
+    {
+      "file": "R_11044.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9503689790918824
+    },
+    {
+      "file": "R_11051.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9972509507530566
+    },
+    {
+      "file": "R_11057.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9429883082896493
+    },
+    {
+      "file": "R_11062.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999970975331233
+    },
+    {
+      "file": "R_11067.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9987537544443662
+    },
+    {
+      "file": "R_11085.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9999901246345555
+    },
+    {
+      "file": "R_11097.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.6155434492228274
+    },
+    {
+      "file": "R_11108.jpg",
+      "true": "Reciclable",
+      "pred": "Orgánico",
+      "prob": 0.9343874042150172
+    }
+  ]
+}
