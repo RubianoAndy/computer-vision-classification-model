@@ -16,12 +16,19 @@ const num = (v, d = 3) => (Number.isFinite(v) ? v.toFixed(d).replace(".", ",") :
 const normalize = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 
 /* ─── Pestañas ─────────────────────────────────────────────────────────── */
+function showTab(name) {
+    document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === name));
+    document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === `panel-${name}`));
+    if (name !== "camera") stopCamera();
+}
+
 document.querySelectorAll(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t === tab));
-        document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === `panel-${tab.dataset.tab}`));
-        if (tab.dataset.tab !== "camera") stopCamera();
-    });
+    tab.addEventListener("click", () => showTab(tab.dataset.tab));
+});
+
+// Enlaces de la barra superior y de la portada que abren una pestaña concreta
+document.querySelectorAll("[data-goto]").forEach((link) => {
+    link.addEventListener("click", () => showTab(link.dataset.goto));
 });
 
 /* ─── Carga del modelo desde el endpoint de Teachable Machine ─────────── */
@@ -34,7 +41,7 @@ async function loadModel() {
         labels = model.getClassLabels();
         status.classList.remove("loading");
         status.classList.add("ready");
-        text.textContent = `Modelo cargado desde la nube · ${labels.length} clases: ${labels.join(", ")}`;
+        text.textContent = `Modelo en la nube listo · ${labels.join(" / ")}`;
     } catch (err) {
         console.error(err);
         status.classList.remove("loading");
