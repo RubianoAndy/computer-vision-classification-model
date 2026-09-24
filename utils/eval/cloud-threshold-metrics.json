@@ -1,0 +1,90 @@
+{
+  "default": {
+    "accuracy": 0.844,
+    "macro": {
+      "precision": 0.862172360353076,
+      "recall": 0.844,
+      "f1": 0.8420182772700758
+    },
+    "per_class": {
+      "Orgánico": {
+        "precision": 0.7810457516339869,
+        "recall": 0.956,
+        "f1": 0.8597122302158273,
+        "support": 250
+      },
+      "Reciclable": {
+        "precision": 0.9432989690721649,
+        "recall": 0.732,
+        "f1": 0.8243243243243243,
+        "support": 250
+      }
+    },
+    "confusion_matrix": [
+      [
+        239,
+        11
+      ],
+      [
+        67,
+        183
+      ]
+    ],
+    "errors": 78
+  },
+  "adjusted": {
+    "accuracy": 0.888,
+    "macro": {
+      "precision": 0.8886217948717949,
+      "recall": 0.888,
+      "f1": 0.8879551820728291
+    },
+    "per_class": {
+      "Orgánico": {
+        "precision": 0.8730769230769231,
+        "recall": 0.908,
+        "f1": 0.8901960784313725,
+        "support": 250
+      },
+      "Reciclable": {
+        "precision": 0.9041666666666667,
+        "recall": 0.868,
+        "f1": 0.8857142857142857,
+        "support": 250
+      }
+    },
+    "confusion_matrix": [
+      [
+        227,
+        23
+      ],
+      [
+        33,
+        217
+      ]
+    ],
+    "errors": 56
+  },
+  "threshold": 0.9774649764676184,
+  "validation": {
+    "n": 500,
+    "tpr": 0.924,
+    "fpr": 0.096,
+    "accuracy_default": 0.858,
+    "accuracy_adjusted": 0.914
+  },
+  "ci95": {
+    "accuracy_default": [
+      0.812,
+      0.874
+    ],
+    "accuracy_adjusted": [
+      0.862,
+      0.914
+    ],
+    "difference": [
+      0.01995000000000002,
+      0.07000000000000006
+    ]
+  }
+}

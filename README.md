@@ -30,6 +30,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Recurso | Enlace |
 |---|---|
+| **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
 | **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/UerwbSsVX/ |
 | **Dataset** | [techsash/waste-classification-data](https://www.kaggle.com/datasets/techsash/waste-classification-data) |
 | **Herramienta** | [Teachable Machine](https://teachablemachine.withgoogle.com/) |
@@ -71,6 +72,8 @@ HTML + CSS + JavaScript sin *framework* de interfaz, con `@teachablemachine/imag
 | **Una imagen** | Arrastrar o elegir una foto; muestra la clase, la caneca con su color, la confianza y las dos probabilidades |
 | **Conjunto de imágenes** | Cargar una carpeta completa; si trae subcarpetas `Orgánico/` y `Reciclable/` calcula exactitud, precisión, exhaustividad, F1 y matriz de confusión en vivo, y exporta un CSV |
 | **Cámara** | Clasificación en tiempo real desde la webcam |
+
+Los tres modos comparten un **interruptor de umbral de decisión**: *por defecto* (gana la clase con mayor probabilidad, umbral 0,5) o *ajustado* (solo se declara *Orgánico* si su probabilidad supera el umbral elegido en validación). En el modo *Conjunto de imágenes* el cambio recalcula al instante las métricas sin volver a ejecutar el modelo, lo que permite ver el efecto del ajuste sobre las mismas imágenes.
 
 ### 5 · Evaluación fuera de la herramienta
 
@@ -137,18 +140,21 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
     │   ├── package.json              # @tensorflow/tfjs · jpeg-js
     │   ├── model-inference.js        # Inferencia (nube o disco) → CSV de probabilidades
     │   ├── model-evaluation.py       # Métricas, ROC, AUC, bootstrap y figuras del informe
-    │   ├── error-gallery.py          # Galería de errores y umbral alternativo
-    │   ├── cloud-predictions.csv     # Probabilidades del modelo en la nube (500 filas)
-    │   ├── cloud-metrics.json        # Métricas completas
+    │   ├── threshold-selection.py    # Elige el umbral en validación y lo evalúa en prueba
+    │   ├── error-gallery.py          # Galería de errores
+    │   ├── cloud-predictions.csv     # Probabilidades en prueba (500 filas)
+    │   ├── val-predictions.csv       # Probabilidades en validación (500 filas)
+    │   ├── cloud-metrics.json        # Métricas con el umbral por defecto
+    │   ├── cloud-threshold-metrics.json  # Umbral elegido y métricas con ambos umbrales
     │   └── local-predictions.csv     # Mismas probabilidades con la copia descargada
     └── models/
         ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
         └── tm-waste-model/           # model.json · weights.bin · metadata.json
 ```
 
-Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
+Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/, val/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
 
-> ℹ️ **Las imágenes no se versionan.** `dataset/` pesa unos 430 MB y `segments/` unos 60 MB; ambos se regeneran con los scripts de abajo, con semilla fija (`SEED = 42`), así que se obtienen exactamente las mismas 1.500 imágenes.
+> ℹ️ **Las imágenes no se versionan.** `dataset/` pesa unos 430 MB y `segments/` unos 80 MB; ambos se regeneran con los scripts de abajo, con semilla fija (`SEED = 42`), así que se obtienen exactamente las mismas 2.000 imágenes.
 
 ---
 
@@ -197,7 +203,9 @@ En **GitHub Pages** basta con publicar la rama desde la raíz (`/`): `index.html
 cd utils/eval
 npm install
 node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../../segments/test cloud-predictions.csv
+node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../../segments/val val-predictions.csv
 python model-evaluation.py cloud-predictions.csv cloud
+python threshold-selection.py val-predictions.csv cloud-predictions.csv cloud
 python error-gallery.py cloud-predictions.csv cloud
 ```
 

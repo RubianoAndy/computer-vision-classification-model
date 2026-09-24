@@ -77,6 +77,17 @@
                     de imágenes o la cámara en vivo.
                 </p>
 
+                <div class="threshold">
+                    <div class="threshold-head">
+                        <span class="threshold-title">Umbral de decisión</span>
+                        <div class="threshold-switch" role="group" aria-label="Umbral de decisión">
+                            <button class="threshold-option active" data-threshold="default">Por defecto (0,5)</button>
+                            <button class="threshold-option" data-threshold="adjusted">Ajustado (0,977)</button>
+                        </div>
+                    </div>
+                    <p class="threshold-note small muted" id="threshold-note"></p>
+                </div>
+
                 <nav class="tabs" role="tablist">
                     <button class="tab active" data-tab="single" role="tab">Una imagen</button>
                     <button class="tab" data-tab="batch" role="tab">Conjunto de imágenes</button>
@@ -223,7 +234,11 @@
                 </div>
                 <p class="muted small">
                     El modelo tiende a llamar <em>orgánico</em> a reciclables blandos y de colores vivos
-                    (papel de seda, tela, pitillos). Ante la duda, revisa el residuo antes de decidir.
+                    (papel de seda, tela, pitillos). Por eso el clasificador ofrece un
+                    <strong>umbral ajustado</strong>: solo declara orgánico un residuo cuando la
+                    probabilidad supera el 97,7 %, un valor elegido sobre un segmento de validación
+                    independiente. Con él la exactitud sobre las 500 imágenes de prueba sube de
+                    84,4 % a 88,8 %. Ante la duda, revisa el residuo antes de decidir.
                 </p>
             </div>
         </section>

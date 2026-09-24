@@ -133,6 +133,26 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
 .button.ghost { border-color: var(--line); color: var(--navy); }
 .button:disabled { opacity: .5; cursor: not-allowed; }
 
+/* Umbral de decisión */
+.threshold {
+    background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    padding: 14px 18px; margin-bottom: 22px;
+}
+.threshold-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.threshold-title { font-weight: 700; font-size: 14px; color: var(--navy); }
+.threshold-switch { display: inline-flex; border: 1px solid var(--navy); }
+.threshold-option {
+    background: var(--surface); border: none; padding: 8px 14px; font: inherit; font-size: 13px;
+    font-weight: 600; color: var(--navy); cursor: pointer;
+}
+.threshold-option + .threshold-option { border-left: 1px solid var(--navy); }
+.threshold-option.active { background: var(--navy); color: #fff; }
+.threshold-note { margin: 8px 0 0; }
+.result-note {
+    margin: 14px 0 0; padding: 10px 12px; background: var(--gold-soft); color: var(--gold-ink);
+    font-size: 13px; border-left: 3px solid var(--gold);
+}
+
 /* Pestañas */
 .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); margin-bottom: 26px; flex-wrap: wrap; }
 .tab {

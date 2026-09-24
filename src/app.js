@@ -2,6 +2,8 @@
  * Carga el modelo publicado en la nube de Teachable Machine y lo ejecuta en el
  * navegador con TensorFlow.js. Tres modos: una imagen, conjunto de imágenes
  * (con métricas si las carpetas traen la etiqueta) y cámara en vivo.
+ * La decisión final se toma con un umbral configurable: el argmax por defecto
+ * (0,5) o el umbral ajustado que corrige el sesgo hacia la clase orgánica.
  */
 
 let model = null;
@@ -9,6 +11,7 @@ let labels = [];
 let webcam = null;
 let cameraLoop = null;
 let batchRows = [];
+let useAdjustedThreshold = false;
 
 const $ = (id) => document.getElementById(id);
 const pct = (p) => `${(p * 100).toFixed(1).replace(".", ",")} %`;
@@ -31,6 +34,36 @@ document.querySelectorAll("[data-goto]").forEach((link) => {
     link.addEventListener("click", () => showTab(link.dataset.goto));
 });
 
+/* ─── Umbral de decisión ───────────────────────────────────────────────── */
+function currentThreshold() {
+    return useAdjustedThreshold ? THRESHOLD.value : THRESHOLD.defaultValue;
+}
+
+// Convierte las probabilidades en una etiqueta final según el umbral activo
+function decide(probs) {
+    const p = probs[THRESHOLD.positive];
+    if (p === undefined) {
+        return Object.entries(probs).sort((a, b) => b[1] - a[1])[0][0];
+    }
+    return p >= currentThreshold() ? THRESHOLD.positive : THRESHOLD.fallback;
+}
+
+function setThreshold(adjusted) {
+    useAdjustedThreshold = adjusted;
+    document.querySelectorAll(".threshold-option").forEach((b) => {
+        b.classList.toggle("active", (b.dataset.threshold === "adjusted") === adjusted);
+    });
+    $("threshold-note").textContent = adjusted
+        ? `Umbral ajustado: solo se declara ${THRESHOLD.positive} si su probabilidad es al menos ${pct(THRESHOLD.value)}.`
+        : `Umbral por defecto: gana la clase con mayor probabilidad (${pct(THRESHOLD.defaultValue)}).`;
+    if (lastSingle) renderResult($("result-single"), lastSingle);
+    if (batchRows.length) applyDecisionToBatch();
+}
+
+document.querySelectorAll(".threshold-option").forEach((b) => {
+    b.addEventListener("click", () => setThreshold(b.dataset.threshold === "adjusted"));
+});
+
 /* ─── Carga del modelo desde el endpoint de Teachable Machine ─────────── */
 async function loadModel() {
     const status = $("model-status");
@@ -50,17 +83,22 @@ async function loadModel() {
     }
 }
 
+// Devuelve las probabilidades por clase (ordenadas) y la decisión final
 async function predict(imageElement) {
     const predictions = await model.predict(imageElement);
     predictions.sort((a, b) => b.probability - a.probability);
-    return predictions;
+    const probs = Object.fromEntries(predictions.map((p) => [p.className, p.probability]));
+    return { predictions, probs, decision: decide(probs) };
 }
 
 /* ─── Tarjeta de resultado ─────────────────────────────────────────────── */
-function renderResult(container, predictions) {
-    const top = predictions[0];
-    const meta = CLASSES[top.className] || { bin: "Sin caneca asignada", color: "#ddd", text: "#111", hint: "" };
-    const bars = predictions.map((p) => {
+let lastSingle = null;
+
+function renderResult(container, result) {
+    const decision = decide(result.probs);
+    const meta = CLASSES[decision] || { bin: "Sin caneca asignada", color: "#ddd", text: "#111", hint: "" };
+    const argmax = result.predictions[0].className;
+    const bars = result.predictions.map((p) => {
         const m = CLASSES[p.className] || { color: "#999" };
         return `
             <div class="bar-row">
@@ -69,16 +107,20 @@ function renderResult(container, predictions) {
                 <span class="bar-value">${pct(p.probability)}</span>
             </div>`;
     }).join("");
+    const note = useAdjustedThreshold && decision !== argmax
+        ? `<p class="result-note">Con el umbral por defecto la respuesta habría sido <strong>${argmax}</strong>; el umbral ajustado la corrige a <strong>${decision}</strong>.</p>`
+        : "";
     container.innerHTML = `
         <div class="result-head">
             <span class="bin-chip" style="background:${meta.color};color:${meta.text}">${meta.bin}</span>
             <div>
-                <p class="result-label">${top.className}</p>
-                <span class="result-conf">Confianza ${pct(top.probability)}</span>
+                <p class="result-label">${decision}</p>
+                <span class="result-conf">Probabilidad de ${decision}: ${pct(result.probs[decision] ?? 0)} · umbral ${useAdjustedThreshold ? "ajustado" : "por defecto"}</span>
             </div>
         </div>
         <p class="result-hint">${meta.hint}</p>
-        ${bars}`;
+        ${bars}
+        ${note}`;
 }
 
 /* ─── Modo: una imagen ─────────────────────────────────────────────────── */
@@ -93,7 +135,8 @@ async function classifySingle(file) {
     $("dropzone-single-inner").hidden = true;
     dropzone.classList.add("has-image");
     await new Promise((resolve) => (preview.onload = resolve));
-    renderResult($("result-single"), await predict(preview));
+    lastSingle = await predict(preview);
+    renderResult($("result-single"), lastSingle);
     URL.revokeObjectURL(url);
 }
 
@@ -110,6 +153,33 @@ function labelFromPath(file) {
     return labels.find((l) => normalize(l) === folder) || null;
 }
 
+function rowHtml(row, index) {
+    const tag = row.correct === null ? `<span class="tag na">sin etiqueta</span>`
+        : row.correct ? `<span class="tag ok">acierto</span>` : `<span class="tag bad">error</span>`;
+    const meta = CLASSES[row.pred] || { color: "#ddd", text: "#111" };
+    return `
+        <tr>
+            <td>${index + 1}</td>
+            <td><img src="${row.url}" alt=""></td>
+            <td>${row.file}</td>
+            <td>${row.truth || "—"}</td>
+            <td><span class="tag" style="background:${meta.color};color:${meta.text};border:1px solid rgba(0,0,0,.12)">${row.pred}</span></td>
+            <td>${pct(row.probs[row.pred] ?? 0)}</td>
+            <td>${tag}</td>
+        </tr>`;
+}
+
+// Recalcula la etiqueta de cada fila con el umbral activo, sin volver a
+// ejecutar el modelo, y vuelve a dibujar la tabla y las métricas
+function applyDecisionToBatch() {
+    batchRows.forEach((row) => {
+        row.pred = decide(row.probs);
+        row.correct = row.truth ? row.truth === row.pred : null;
+    });
+    $("batch-table").querySelector("tbody").innerHTML = batchRows.map(rowHtml).join("");
+    renderMetrics();
+}
+
 async function classifyBatch(fileList) {
     if (!model) return;
     const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
@@ -117,6 +187,7 @@ async function classifyBatch(fileList) {
     files.sort((a, b) => (a.webkitRelativePath || a.name).localeCompare(b.webkitRelativePath || b.name));
 
     const tbody = $("batch-table").querySelector("tbody");
+    batchRows.forEach((r) => URL.revokeObjectURL(r.url));
     tbody.innerHTML = "";
     $("batch-table").hidden = false;
     $("metrics").hidden = true;
@@ -130,33 +201,15 @@ async function classifyBatch(fileList) {
         const img = new Image();
         img.src = url;
         await new Promise((resolve) => (img.onload = resolve));
-        const predictions = await predict(img);
-        const top = predictions[0];
+        const result = await predict(img);
         const truth = labelFromPath(file);
         const row = {
-            file: file.name,
-            truth,
-            pred: top.className,
-            prob: top.probability,
-            probs: Object.fromEntries(predictions.map((p) => [p.className, p.probability])),
-            correct: truth ? truth === top.className : null,
+            file: file.name, url, truth, probs: result.probs,
+            pred: result.decision,
+            correct: truth ? truth === result.decision : null,
         };
         batchRows.push(row);
-
-        const tag = row.correct === null ? `<span class="tag na">sin etiqueta</span>`
-            : row.correct ? `<span class="tag ok">acierto</span>` : `<span class="tag bad">error</span>`;
-        const meta = CLASSES[row.pred] || { color: "#ddd", text: "#111" };
-        tbody.insertAdjacentHTML("beforeend", `
-            <tr>
-                <td>${i + 1}</td>
-                <td><img src="${url}" alt=""></td>
-                <td>${file.name}</td>
-                <td>${truth || "—"}</td>
-                <td><span class="tag" style="background:${meta.color};color:${meta.text};border:1px solid rgba(0,0,0,.12)">${row.pred}</span></td>
-                <td>${pct(row.prob)}</td>
-                <td>${tag}</td>
-            </tr>`);
-
+        tbody.insertAdjacentHTML("beforeend", rowHtml(row, i));
         $("progress-bar").style.width = `${((i + 1) / files.length) * 100}%`;
         $("progress-text").textContent = `${i + 1} de ${files.length} imágenes`;
     }
@@ -189,7 +242,7 @@ function renderMetrics() {
 
     box.innerHTML = `
         <div class="metric-card">
-            <h3>Exactitud</h3>
+            <h3>Exactitud · umbral ${useAdjustedThreshold ? "ajustado" : "por defecto"}</h3>
             <div class="kpi">${pct(accuracy)}</div>
             <div class="kpi-sub">${labeled.filter((r) => r.correct).length} aciertos de ${labeled.length} imágenes etiquetadas · F1 macro ${num(macroF1)}</div>
         </div>
@@ -211,8 +264,8 @@ function renderMetrics() {
 }
 
 function exportCsv() {
-    const header = ["file", "true", "pred", ...labels].join(",");
-    const lines = batchRows.map((r) => [r.file, r.truth || "", r.pred, ...labels.map((l) => (r.probs[l] ?? 0).toFixed(6))].join(","));
+    const header = ["file", "true", "pred", "threshold", ...labels].join(",");
+    const lines = batchRows.map((r) => [r.file, r.truth || "", r.pred, currentThreshold(), ...labels.map((l) => (r.probs[l] ?? 0).toFixed(6))].join(","));
     const blob = new Blob([[header, ...lines].join("\n")], { type: "text/csv;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -258,4 +311,5 @@ function stopCamera() {
 $("camera-start").addEventListener("click", startCamera);
 $("camera-stop").addEventListener("click", stopCamera);
 
+setThreshold(false);
 loadModel();
