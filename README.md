@@ -30,6 +30,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Recurso | Enlace |
 |---|---|
+| **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
 | **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/UerwbSsVX/ |
 | **Dataset** | [techsash/waste-classification-data](https://www.kaggle.com/datasets/techsash/waste-classification-data) |
