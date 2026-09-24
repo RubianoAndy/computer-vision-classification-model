@@ -104,7 +104,7 @@ Orgánico 0,95 · Reciclable 0,87 · exactitud interna 0,907. La pérdida de pru
 Matriz de confusión (filas = real, columnas = predicha): Orgánico `239 / 11`, Reciclable `67 / 183`.
 
 - **Sesgo hacia Orgánico**: 67 de los 78 errores son reciclables enviados a la caneca verde, el error menos costoso de los dos.
-- **Umbral**: mover el corte de 0,5 a 0,991 (elegido en la curva ROC) sube la exactitud a 0,892 sin reentrenar.
+- **Ajuste del modelo**: el umbral de decisión se eligió sobre un segmento de validación independiente (0,977) y en prueba sube la exactitud de 0,844 a **0,888** (errores de 78 a 56, mejora pareada [0,020; 0,070]); está integrado en la app como interruptor.
 - **Confianza**: media de 0,969, y de 0,908 en los errores; el modelo se equivoca con seguridad.
 - **Interna vs. independiente**: la exactitud del panel, 0,907, queda 6,3 puntos por encima y fuera del intervalo de confianza.
 - **Nube = local = app**: la copia descargada da las mismas probabilidades que el endpoint, y la app reporta 423 aciertos frente a 422 del script (una imagen de diferencia por el redimensionamiento del navegador).
