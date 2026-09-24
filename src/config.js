@@ -23,6 +23,13 @@ const LABEL_ALIASES = {
     "Reciclable": ["reciclable", "reciclables", "recyclable", "r"],
 };
 
+// Prefijos del nombre de archivo que identifican la clase cuando las imágenes
+// se cargan sueltas (sin carpeta), como O_123.jpg y R_456.jpg en el dataset.
+const FILENAME_PREFIXES = {
+    "Orgánico": ["o_", "o-"],
+    "Reciclable": ["r_", "r-"],
+};
+
 // Nombre visible, color de la caneca y explicación de cada clase del modelo.
 // Código de colores de la Resolución 2184 de 2019 (Colombia).
 const CLASSES = {

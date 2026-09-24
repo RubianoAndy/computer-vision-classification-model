@@ -155,9 +155,24 @@ function labelFromPath(file) {
     return labels.find((l) => normalize(l) === folder || (LABEL_ALIASES[l] || []).includes(folder)) || null;
 }
 
+// Etiqueta real a partir del prefijo del nombre de archivo (O_123.jpg, R_45.jpg)
+function labelFromName(name) {
+    const n = normalize(name);
+    return labels.find((l) => (FILENAME_PREFIXES[l] || []).some((p) => n.startsWith(p))) || null;
+}
+
+// Clase real según el selector: automática (carpeta y luego prefijo), una
+// clase fija para todas las imágenes, o ninguna
+function truthFor(row) {
+    const mode = $("batch-label").value;
+    if (mode === "none") return null;
+    if (labels.includes(mode)) return mode;
+    return labelFromPath(row.fileObj) || labelFromName(row.file);
+}
+
 function rowHtml(row, index) {
-    const tag = row.correct === null ? `<span class="tag na">sin etiqueta</span>`
-        : row.correct ? `<span class="tag ok">acierto</span>` : `<span class="tag bad">error</span>`;
+    const tag = row.correct === null ? `<span class="tag na">Sin etiqueta</span>`
+        : row.correct ? `<span class="tag ok">Acierto</span>` : `<span class="tag bad">Error</span>`;
     const meta = CLASSES[row.pred] || { color: "#ddd", text: "#111" };
     return `
         <tr>
@@ -175,6 +190,7 @@ function rowHtml(row, index) {
 // ejecutar el modelo, y vuelve a dibujar la tabla y las métricas
 function applyDecisionToBatch() {
     batchRows.forEach((row) => {
+        row.truth = truthFor(row);
         row.pred = decide(row.probs);
         row.correct = row.truth ? row.truth === row.pred : null;
     });
@@ -191,6 +207,7 @@ async function classifyBatch(fileList) {
     const tbody = $("batch-table").querySelector("tbody");
     batchRows.forEach((r) => URL.revokeObjectURL(r.url));
     tbody.innerHTML = "";
+    document.querySelector(".table-wrap").scrollTop = 0;
     $("batch-table").hidden = false;
     $("metrics").hidden = true;
     $("progress").hidden = false;
@@ -204,12 +221,9 @@ async function classifyBatch(fileList) {
         img.src = url;
         await new Promise((resolve) => (img.onload = resolve));
         const result = await predict(img);
-        const truth = labelFromPath(file);
-        const row = {
-            file: file.name, url, truth, probs: result.probs,
-            pred: result.decision,
-            correct: truth ? truth === result.decision : null,
-        };
+        const row = { file: file.name, fileObj: file, url, probs: result.probs, pred: result.decision };
+        row.truth = truthFor(row);
+        row.correct = row.truth ? row.truth === row.pred : null;
         batchRows.push(row);
         tbody.insertAdjacentHTML("beforeend", rowHtml(row, i));
         $("progress-bar").style.width = `${((i + 1) / files.length) * 100}%`;
@@ -278,6 +292,7 @@ function exportCsv() {
 
 $("file-batch-folder").addEventListener("change", (e) => classifyBatch(e.target.files));
 $("file-batch-files").addEventListener("change", (e) => classifyBatch(e.target.files));
+$("batch-label").addEventListener("change", () => { if (batchRows.length) applyDecisionToBatch(); });
 $("export-csv").addEventListener("click", exportCsv);
 
 /* ─── Modo: cámara ─────────────────────────────────────────────────────── */

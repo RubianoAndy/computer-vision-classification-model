@@ -33,7 +33,7 @@
     <section class="hero" id="inicio">
         <div class="wrap hero-grid">
             <div class="hero-copy">
-                <span class="badge">Visión por Computador · Proyecto final · 2026</span>
+                <span class="badge">Visión por Computador | Proyecto final | 2026</span>
                 <h1>Clasificador de <span class="accent">residuos</span></h1>
                 <p class="lead">
                     Toma una foto de un residuo y descubre en qué caneca va. Un modelo de
@@ -124,14 +124,23 @@
                             Cargar varias imágenes
                         </label>
                         <button class="button ghost" id="export-csv" disabled>Descargar CSV</button>
+                        <label class="batch-label" for="batch-label">
+                            Clase real
+                            <select id="batch-label">
+                                <option value="auto">Automática (carpeta o prefijo O_ / R_)</option>
+                                <option value="Orgánico">Todas son Orgánico</option>
+                                <option value="Reciclable">Todas son Reciclable</option>
+                                <option value="none">Sin etiqueta</option>
+                            </select>
+                        </label>
                     </div>
                     <p class="muted small">
-                        Si la carpeta tiene subcarpetas con el nombre de cada clase
-                        (<em>Orgánico</em> / <em>Reciclable</em>, o <em>O</em> / <em>R</em> como
-                        en el dataset original) la aplicación compara la predicción con la
-                        etiqueta y calcula exactitud, precisión, exhaustividad, F1 y la matriz
-                        de confusión. También puedes cargar directamente una carpeta de una
-                        sola clase.
+                        La clase real de cada imagen se toma de su carpeta (<em>Orgánico</em> /
+                        <em>Reciclable</em>, o <em>O</em> / <em>R</em> como en el dataset) o, si
+                        cargas imágenes sueltas, del prefijo del nombre (<em>O_</em>, <em>R_</em>).
+                        Si tus fotos no siguen ninguna convención, indica arriba de qué clase son.
+                        Con la clase real la aplicación marca aciertos y errores y calcula
+                        exactitud, precisión, exhaustividad, F1 y la matriz de confusión.
                     </p>
 
                     <div class="progress" id="progress" hidden>
@@ -249,7 +258,7 @@
     <footer class="footer">
         <div class="wrap footer-inner">
             <img src="assets/images/logo-white.png" alt="Universidad de La Salle">
-            <p>Proyecto final · Visión por Computador · Maestría en Inteligencia Artificial · Facultad de Ingeniería<br>Universidad de La Salle · Bogotá D. C., Colombia · 2026</p>
+            <p>Proyecto final | Visión por Computador | Maestría en Inteligencia Artificial | Facultad de Ingeniería<br>Universidad de La Salle | Bogotá D. C., Colombia | 2026<br><strong>Andrés Giovanny Rubiano Muñoz "Andy Rubiano"</strong></p>
         </div>
     </footer>
 

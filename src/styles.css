@@ -203,6 +203,11 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
 
 /* Conjunto de imágenes */
 .batch-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.batch-label { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--navy); margin-left: auto; }
+.batch-label select {
+    font: inherit; font-size: 13px; padding: 10px 12px; border: 1px solid var(--navy); border-radius: 0;
+    background: var(--surface); color: var(--navy); cursor: pointer;
+}
 .progress { display: flex; align-items: center; gap: 12px; margin: 14px 0; font-size: 13px; color: var(--muted); }
 .progress-track { flex: 1; height: 8px; background: #e9eef5; border-radius: 0; overflow: hidden; }
 .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--navy), var(--blue)); transition: width .2s; }
