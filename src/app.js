@@ -171,8 +171,8 @@ function truthFor(row) {
 }
 
 function rowHtml(row, index) {
-    const tag = row.correct === null ? `<span class="tag na">SIN ETIQUETA</span>`
-        : row.correct ? `<span class="tag ok">ACIERTO</span>` : `<span class="tag bad">ERROR</span>`;
+    const tag = row.correct === null ? `<span class="tag na">Sin etiqueta</span>`
+        : row.correct ? `<span class="tag ok">Acierto</span>` : `<span class="tag bad">Error</span>`;
     const meta = CLASSES[row.pred] || { color: "#ddd", text: "#111" };
     return `
         <tr>
