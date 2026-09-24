@@ -7,7 +7,7 @@ from pathlib import Path
 
 from PIL import Image
 
-SRC = Path(__file__).resolve().parents[1] / "dataset" / "datasets" / "techsash" / "waste-classification-data" / "versions" / "1" / "DATASET"
+SRC = Path(__file__).resolve().parents[2] / "dataset" / "datasets" / "techsash" / "waste-classification-data" / "versions" / "1" / "DATASET"
 SAMPLE, SEED = 300, 42
 random.seed(SEED)
 

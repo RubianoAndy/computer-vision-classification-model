@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "dataset" / "datasets" / "techsash" / "waste-classification-data" / "versions" / "1" / "DATASET"
 DST = ROOT / "segments"
 CLASSES = {"O": "Organico", "R": "Reciclable"}   # carpeta original -> clase

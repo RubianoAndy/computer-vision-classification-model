@@ -112,36 +112,41 @@ Las figuras (matriz de confusión, curva ROC, histograma de probabilidades y gal
 
 ## 📚 Estructura del Repositorio
 
+La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.html` es la página, `src/` y `assets/` la alimentan, y todo lo que no forma parte de la aplicación vive en `utils/`.
+
 ```
 .
+├── index.html                        # La aplicación web: una imagen · conjunto de imágenes · cámara
 ├── README.md                         # Este archivo
+├── .nojekyll                         # GitHub Pages sirve los archivos tal cual
 ├── .gitignore
-├── assets/
-│   └── images/
-│       ├── Logo.png                  # Logo institucional
-│       └── author/                   # Fotografía del autor
-├── app/                              # Aplicación web (HTML + CSS + JS, sin build)
-│   ├── index.html                    # Tres modos: una imagen · conjunto de imágenes · cámara
-│   ├── styles.css
+├── src/                              # Lo que alimenta a index.html
+│   ├── styles.css                    # Identidad Universidad de La Salle, formas cuadradas
 │   ├── app.js                        # Carga del modelo, inferencia, métricas en vivo, CSV
 │   └── config.js                     # MODEL_URL (endpoint) y descripción de las clases
-├── scripts/
-│   ├── dataset-inspection.py         # Formatos, modos y tamaños del dataset
-│   └── split-construction.py         # dHash, exclusión de repetidos y muestreo 500/250 por clase
-├── eval/
-│   ├── package.json                  # @tensorflow/tfjs · jpeg-js
-│   ├── model-inference.js            # Inferencia (nube o disco) → CSV de probabilidades
-│   ├── model-evaluation.py           # Métricas, ROC, AUC, bootstrap y figuras del informe
-│   ├── error-gallery.py              # Galería de errores y umbral alternativo
-│   ├── cloud-predictions.csv         # Probabilidades del modelo en la nube (500 filas)
-│   ├── cloud-metrics.json            # Métricas completas
-│   └── local-predictions.csv         # Mismas probabilidades con la copia descargada
-├── models/
-│   ├── tm-waste-model.zip            # Exportación TensorFlow.js descargada de Teachable Machine
-│   └── tm-waste-model/               # model.json · weights.bin · metadata.json
-├── segments/                         # (no versionado) train/ y test/ con Organico/ y Reciclable/
-└── dataset/                          # (no versionado) caché de kagglehub
+├── assets/
+│   └── images/
+│       ├── Logo.png                  # Logo institucional (README y favicon)
+│       ├── logo-white.png            # Logo en blanco para la barra y el pie de la app
+│       └── author/                   # Fotografía del autor
+└── utils/                            # Todo lo que no es la aplicación
+    ├── scripts/
+    │   ├── dataset-inspection.py     # Formatos, modos y tamaños del dataset
+    │   └── split-construction.py     # dHash, exclusión de repetidos y muestreo 500/250 por clase
+    ├── eval/
+    │   ├── package.json              # @tensorflow/tfjs · jpeg-js
+    │   ├── model-inference.js        # Inferencia (nube o disco) → CSV de probabilidades
+    │   ├── model-evaluation.py       # Métricas, ROC, AUC, bootstrap y figuras del informe
+    │   ├── error-gallery.py          # Galería de errores y umbral alternativo
+    │   ├── cloud-predictions.csv     # Probabilidades del modelo en la nube (500 filas)
+    │   ├── cloud-metrics.json        # Métricas completas
+    │   └── local-predictions.csv     # Mismas probabilidades con la copia descargada
+    └── models/
+        ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
+        └── tm-waste-model/           # model.json · weights.bin · metadata.json
 ```
+
+Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
 
 > ℹ️ **Las imágenes no se versionan.** `dataset/` pesa unos 430 MB y `segments/` unos 60 MB; ambos se regeneran con los scripts de abajo, con semilla fija (`SEED = 42`), así que se obtienen exactamente las mismas 1.500 imágenes.
 
@@ -163,37 +168,40 @@ Las figuras (matriz de confusión, curva ROC, histograma de probabilidades y gal
 
 ```bash
 KAGGLEHUB_CACHE=./dataset python -c "import kagglehub; kagglehub.dataset_download('techsash/waste-classification-data')"
-python scripts/dataset-inspection.py
-python scripts/split-construction.py
+python utils/scripts/dataset-inspection.py
+python utils/scripts/split-construction.py
 ```
 
 ### 2 · Entrenamiento y despliegue
 
 1. En Teachable Machine, proyecto de imagen con dos clases, **Orgánico** y **Reciclable**, y subir `segments/train/<clase>`.
 2. *Preparar modelo* con los valores por defecto.
-3. *Exportar modelo → TensorFlow.js → Subir (enlace para compartir)* y copiar la URL en `app/config.js` (`MODEL_URL`).
-4. Opcional: *Descargar* para conservar una copia en `models/`.
+3. *Exportar modelo → TensorFlow.js → Subir (enlace para compartir)* y copiar la URL en `src/config.js` (`MODEL_URL`).
+4. Opcional: *Descargar* para conservar una copia en `utils/models/`.
 
 ### 3 · Aplicación web
 
+En local, desde la raíz del repositorio:
+
 ```bash
-cd app
 python -m http.server 8765
 ```
 
 Abrir <http://127.0.0.1:8765/>. Para probar el modo *Conjunto de imágenes* con métricas, cargar la carpeta `segments/test`.
 
+En **GitHub Pages** basta con publicar la rama desde la raíz (`/`): `index.html`, `src/` y `assets/` son todo lo que la página necesita, y el archivo `.nojekyll` evita que GitHub procese el sitio con Jekyll. El modelo se descarga desde el endpoint de Teachable Machine, así que no hay nada que compilar ni desplegar aparte.
+
 ### 4 · Evaluación
 
 ```bash
-cd eval
+cd utils/eval
 npm install
-node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../segments/test cloud-predictions.csv
+node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../../segments/test cloud-predictions.csv
 python model-evaluation.py cloud-predictions.csv cloud
 python error-gallery.py cloud-predictions.csv cloud
 ```
 
-Para evaluar la copia local: `node model-inference.js ../models/tm-waste-model ../segments/test local-predictions.csv`.
+Para evaluar la copia local: `node model-inference.js ../models/tm-waste-model ../../segments/test local-predictions.csv`.
 
 > ⚠️ Las carpetas de `segments/` van sin tilde (`Organico`, `Reciclable`) mientras que las clases del modelo la llevan (`Orgánico`). Los scripts y la app normalizan el nombre, así que no hay que renombrar nada.
 

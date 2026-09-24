@@ -3,7 +3,7 @@ dataset/
 segments/
 
 # Dependencias de Node
-eval/node_modules/
+utils/eval/node_modules/
 
 # Editores y sistema
 .vscode/

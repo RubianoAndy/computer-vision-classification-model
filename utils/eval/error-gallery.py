@@ -11,7 +11,7 @@ from PIL import Image
 from sklearn.metrics import roc_curve
 
 csv_path, model_name = sys.argv[1], sys.argv[2]
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 TEST = ROOT / "segments" / "test"
 OUT = ROOT.parent / "computer vision-classification-model-report" / "assets" / "images" / "results"
 folder = lambda label: label.replace("á", "a")

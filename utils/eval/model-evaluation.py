@@ -14,7 +14,7 @@ from sklearn.metrics import (accuracy_score, auc, confusion_matrix, log_loss,
                              precision_recall_fscore_support, roc_curve)
 
 csv_path, model_name = sys.argv[1], sys.argv[2]
-OUT = Path(__file__).resolve().parents[2] / "computer vision-classification-model-report" / "assets" / "images" / "results"
+OUT = Path(__file__).resolve().parents[3] / "computer vision-classification-model-report" / "assets" / "images" / "results"
 OUT.mkdir(parents=True, exist_ok=True)
 SEED, BOOTSTRAP = 42, 2000
 
