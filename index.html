@@ -19,7 +19,7 @@
                 <a href="#clasificador" data-goto="single">Clasificar</a>
                 <a href="#clasificador" data-goto="batch">Conjunto</a>
                 <a href="#clasificador" data-goto="camera">Cámara</a>
-                <a href="#como-funciona">Cómo funciona</a>
+                <a href="#como-funciona">¿Cómo funciona?</a>
                 <a href="#modelo">Modelo</a>
             </nav>
             <div class="model-status loading" id="model-status" title="Estado del modelo">
@@ -70,7 +70,7 @@
     <main>
         <section class="block" id="clasificador">
             <div class="wrap">
-                <span class="eyebrow">01 — Clasificador</span>
+                <span class="eyebrow">01 - Clasificador</span>
                 <h2>Clasifica un residuo y conoce su caneca</h2>
                 <p class="block-intro">
                     Elige cómo quieres probar el modelo: una fotografía, una carpeta completa
@@ -127,9 +127,11 @@
                     </div>
                     <p class="muted small">
                         Si la carpeta tiene subcarpetas con el nombre de cada clase
-                        (<em>Orgánico</em>, <em>Reciclable</em>) la aplicación compara la
-                        predicción con la etiqueta y calcula exactitud, precisión,
-                        exhaustividad, F1 y la matriz de confusión.
+                        (<em>Orgánico</em> / <em>Reciclable</em>, o <em>O</em> / <em>R</em> como
+                        en el dataset original) la aplicación compara la predicción con la
+                        etiqueta y calcula exactitud, precisión, exhaustividad, F1 y la matriz
+                        de confusión. También puedes cargar directamente una carpeta de una
+                        sola clase.
                     </p>
 
                     <div class="progress" id="progress" hidden>
@@ -175,7 +177,7 @@
         <!-- Cómo funciona -->
         <section class="block alt" id="como-funciona">
             <div class="wrap">
-                <span class="eyebrow">02 — Cómo funciona</span>
+                <span class="eyebrow">02 - ¿Cómo funciona?</span>
                 <h2>Dos clases, dos canecas</h2>
                 <p class="block-intro">
                     La aplicación clasifica fotografías de residuos en dos categorías e indica
@@ -200,7 +202,7 @@
         <!-- Modelo -->
         <section class="block" id="modelo">
             <div class="wrap">
-                <span class="eyebrow">03 — El modelo</span>
+                <span class="eyebrow">03 - El modelo</span>
                 <h2>Qué tan bien funciona</h2>
                 <p class="block-intro">
                     Evaluado sobre 500 imágenes que nunca vio, 250 por clase, descargando el

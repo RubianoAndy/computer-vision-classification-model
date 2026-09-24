@@ -212,7 +212,7 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
     background: var(--surface); border: 1px solid var(--line); border-radius: 0;
     padding: 18px; box-shadow: var(--shadow); border-top: 4px solid var(--gold);
 }
-.metric-card h3 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.metric-card h3 { margin: 0 0 10px; font-size: 13px; font-weight: 700; color: var(--muted); }
 .kpi { font-size: 38px; font-weight: 800; line-height: 1; color: var(--navy); }
 .kpi-sub { color: var(--muted); font-size: 13px; margin-top: 8px; }
 .metric-card table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -222,10 +222,10 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
 .cm td.diag { background: #eef4fb; font-weight: 700; color: var(--navy); }
 .cm th.rot { font-weight: 500; color: var(--muted); }
 
-.table-wrap { overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 0; }
+.table-wrap { overflow: auto; max-height: 790px; background: var(--surface); border: 1px solid var(--line); border-radius: 0; }  /* unas 10 filas visibles */
 #batch-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 #batch-table th, #batch-table td { padding: 9px 12px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
-#batch-table th { background: var(--navy); color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+#batch-table th { background: var(--navy); color: #fff; font-size: 13px; font-weight: 600; position: sticky; top: 0; z-index: 1; }
 #batch-table img { width: 56px; height: 56px; object-fit: cover; border-radius: 0; display: block; }
 .tag { display: inline-block; padding: 3px 9px; border-radius: 0; font-size: 12px; font-weight: 700; }
 .tag.ok { background: #e6f3ea; color: var(--ok); }

@@ -15,6 +15,14 @@ const THRESHOLD = {
     defaultValue: 0.5,      // umbral por defecto (equivale al argmax)
 };
 
+// Nombres de carpeta que se aceptan como etiqueta de cada clase en el modo
+// "Conjunto de imágenes" (se comparan sin tildes ni mayúsculas). Incluye las
+// carpetas O y R del dataset original de Kaggle.
+const LABEL_ALIASES = {
+    "Orgánico": ["organico", "organicos", "organic", "o"],
+    "Reciclable": ["reciclable", "reciclables", "recyclable", "r"],
+};
+
 // Nombre visible, color de la caneca y explicación de cada clase del modelo.
 // Código de colores de la Resolución 2184 de 2019 (Colombia).
 const CLASSES = {

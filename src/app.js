@@ -146,11 +146,13 @@ $("file-single").addEventListener("change", (e) => classifySingle(e.target.files
 dropzone.addEventListener("drop", (e) => classifySingle(e.dataTransfer.files[0]));
 
 /* ─── Modo: conjunto de imágenes ───────────────────────────────────────── */
+// Etiqueta real a partir de la carpeta que contiene la imagen: el nombre de la
+// clase o cualquiera de sus alias (O, R, organic, recyclable...)
 function labelFromPath(file) {
     const parts = (file.webkitRelativePath || "").split("/");
     if (parts.length < 2) return null;
     const folder = normalize(parts[parts.length - 2]);
-    return labels.find((l) => normalize(l) === folder) || null;
+    return labels.find((l) => normalize(l) === folder || (LABEL_ALIASES[l] || []).includes(folder)) || null;
 }
 
 function rowHtml(row, index) {
