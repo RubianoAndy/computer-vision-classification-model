@@ -1,6 +1,6 @@
 // Dirección del modelo publicado en la nube de Teachable Machine.
 // Se obtiene en: Exportar modelo → TensorFlow.js → Subir (enlace para compartir).
-// El endpoint sirve tres archivos: model.json, metadata.json y weights.bin.
+// El endpoint sirve tres archivos: model.json, metadata.json y model.weights.bin.
 const MODEL_URL = "https://teachablemachine.withgoogle.com/models/UerwbSsVX/";
 
 // Umbral de decisión ajustado. El modelo tiende a llamar "Orgánico" a

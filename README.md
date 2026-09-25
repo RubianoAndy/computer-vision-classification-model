@@ -30,6 +30,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Recurso | Enlace |
 |---|---|
+| **Video demostrativo (YouTube)** | _INSERTAR AQUÍ LA URL DEL VIDEO_ |
 | **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
 | **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/UerwbSsVX/ |
@@ -37,7 +38,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 | **Herramienta** | [Teachable Machine](https://teachablemachine.withgoogle.com/) |
 | **Informe** | `../computer vision-classification-model-report/build/main.pdf` |
 
-> ℹ️ **Por qué la inferencia ocurre en el navegador.** El endpoint de Teachable Machine no es una API de predicción sino un servidor de archivos estáticos: entrega `model.json`, `weights.bin` y `metadata.json`, y quien los descarga ejecuta el modelo con TensorFlow.js. No hay costo por consulta y las fotografías nunca salen del dispositivo del usuario.
+> ℹ️ **Por qué la inferencia ocurre en el navegador.** El endpoint de Teachable Machine no es una API de predicción sino un servidor de archivos estáticos: entrega `model.json`, `model.weights.bin` y `metadata.json`, y quien los descarga ejecuta el modelo con TensorFlow.js. No hay costo por consulta y las fotografías nunca salen del dispositivo del usuario.
 
 ---
 
