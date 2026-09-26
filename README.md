@@ -149,9 +149,11 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
     │   ├── cloud-metrics.json        # Métricas con el umbral por defecto
     │   ├── cloud-threshold-metrics.json  # Umbral elegido y métricas con ambos umbrales
     │   └── local-predictions.csv     # Mismas probabilidades con la copia descargada
-    └── models/
-        ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
-        └── tm-waste-model/           # model.json · weights.bin · metadata.json
+    ├── models/
+    │   ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
+    │   └── tm-waste-model/           # model.json · weights.bin · metadata.json
+    └── teachable-machine/
+        └── clasificador-residuos-sin-entrenar.tm   # Proyecto de TM con las 1.000 imágenes cargadas, sin entrenar
 ```
 
 Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/, val/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
@@ -182,7 +184,9 @@ python utils/scripts/split-construction.py
 
 ### 2 · Entrenamiento y despliegue
 
-1. En Teachable Machine, proyecto de imagen con dos clases, **Orgánico** y **Reciclable**, y subir `segments/train/<clase>`.
+> 💡 **Atajo para reproducir el entrenamiento.** `utils/teachable-machine/clasificador-residuos-sin-entrenar.tm` es el proyecto de Teachable Machine con las dos clases y sus 500 imágenes ya cargadas, **sin entrenar** y con los hiperparámetros por defecto. En la plataforma: menú ☰ → *Abrir el proyecto desde un archivo* → elegir el `.tm`, y queda listo para pulsar *Preparar modelo* (unos dos minutos). No requiere cuenta de Google.
+
+1. En Teachable Machine, proyecto de imagen con dos clases, **Orgánico** y **Reciclable**, y subir `segments/train/<clase>` (o abrir el `.tm` anterior).
 2. *Preparar modelo* con los valores por defecto.
 3. *Exportar modelo → TensorFlow.js → Subir (enlace para compartir)* y copiar la URL en `src/config.js` (`MODEL_URL`).
 4. Opcional: *Descargar* para conservar una copia en `utils/models/`.
