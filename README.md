@@ -153,9 +153,13 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
     ├── models/
     │   ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
     │   └── tm-waste-model/           # model.json · weights.bin · metadata.json
+    ├── postman/
+    │   └── clasificador-residuos.postman_collection.json   # APIs del proyecto numeradas 01-06, con pruebas
     └── teachable-machine/
         └── clasificador-residuos-sin-entrenar.tm   # Proyecto de TM con las 1.000 imágenes cargadas, sin entrenar
 ```
+
+> ℹ️ **Colección de Postman.** `utils/postman/clasificador-residuos.postman_collection.json` reúne las peticiones que hace el proyecto, numeradas: **01** `metadata.json` (etiquetas y tamaño de entrada), **02** `model.json` (arquitectura y manifiesto de pesos), **03** `model.weights.bin` (263 tensores, 2.154.032 bytes), **04** la redirección 302 del endpoint hacia Google Cloud Storage, **05** la aplicación publicada y **06** su `config.js`. Cada petición trae pruebas automáticas (estado, tipo de contenido, CORS, etiquetas, tamaño de los pesos). Se importa en Postman con *Import → File*; también corre desde consola con `npx newman run utils/postman/clasificador-residuos.postman_collection.json`.
 
 Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/, val/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
 
