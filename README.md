@@ -110,6 +110,7 @@ Matriz de confusión (filas = real, columnas = predicha): Orgánico `239 / 11`, 
 - **Confianza**: media de 0,969, y de 0,908 en los errores; el modelo se equivoca con seguridad.
 - **Interna vs. independiente**: la exactitud del panel, 0,907, queda 6,3 puntos por encima y fuera del intervalo de confianza.
 - **Nube = local = app**: la copia descargada da las mismas probabilidades que el endpoint, y la app reporta 423 aciertos frente a 422 del script (una imagen de diferencia por el redimensionamiento del navegador).
+- **Cámara en vivo**: cuatro objetos reales frente a la webcam (naranja, jengibre, celular y caja de cartón) clasificados correctamente con probabilidades por encima de 0,98; las capturas están en el informe.
 
 Las figuras (matriz de confusión, curva ROC, histograma de probabilidades y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
 
