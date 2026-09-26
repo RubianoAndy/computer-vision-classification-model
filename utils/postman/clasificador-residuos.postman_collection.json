@@ -2,7 +2,7 @@
   "info": {
     "name": "Clasificador de residuos · Teachable Machine",
     "_postman_id": "42c7cfdc-3bbe-40e3-9be7-65ff50de1381",
-    "description": "APIs que consume el proyecto final de Visión por Computador (Universidad de La Salle, 2026).\n\nEl modelo entrenado en Teachable Machine se publica como un endpoint de solo lectura que sirve tres archivos estáticos (peticiones GET, sin autenticación). Cada dirección bajo `{{modelUrl}}` redirige con 302 al almacenamiento de Google Cloud Storage (`{{storageUrl}}`), que responde con la cabecera `Access-Control-Allow-Origin: *`.\n\n- **01** metadata.json · etiquetas y tamaño de entrada (JSON, 257 bytes)\n- **02** model.json · arquitectura y manifiesto de pesos (JSON, 91.918 bytes)\n- **03** model.weights.bin · 263 tensores float32 (binario, 2.154.032 bytes)\n- **04** redirección 302 del endpoint (sin seguir la redirección)\n- **05** aplicación web publicada en GitHub Pages\n- **06** configuración de la aplicación (config.js) con la URL del modelo y el umbral ajustado\n\nVariables de la colección: `modelUrl`, `storageUrl`, `appUrl`.",
+    "description": "APIs que consume el proyecto final de Visión por Computador (Universidad de La Salle, 2026).\n\nEl modelo entrenado en Teachable Machine se publica como un endpoint de solo lectura que sirve tres archivos estáticos (peticiones GET, sin autenticación). Cada dirección bajo `{{modelUrl}}` redirige con 302 al almacenamiento de Google Cloud Storage (`{{storageUrl}}`), que responde con la cabecera `Access-Control-Allow-Origin: *`.\n\n- **01** metadata.json · etiquetas y tamaño de entrada (JSON, 257 bytes)\n- **02** model.json · arquitectura y manifiesto de pesos (JSON, 91.918 bytes)\n- **03** model.weights.bin · 263 tensores float32 (binario, 2.154.032 bytes)\n- **04** redirección 302 del endpoint (sin seguir la redirección)\n\nVariables de la colección: `modelUrl` y `storageUrl`.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -14,11 +14,6 @@
     {
       "key": "storageUrl",
       "value": "https://storage.googleapis.com/tm-model/UerwbSsVX/",
-      "type": "string"
-    },
-    {
-      "key": "appUrl",
-      "value": "https://rubianoandy.github.io/computer-vision-classification-model/",
       "type": "string"
     }
   ],
@@ -144,64 +139,6 @@
             "exec": [
               "pm.test('Estado 302', () => pm.response.to.have.status(302));",
               "pm.test('Location apunta a storage.googleapis.com/tm-model', () => pm.expect(pm.response.headers.get('Location')).to.include('storage.googleapis.com/tm-model/'));"
-            ]
-          }
-        }
-      ],
-      "response": []
-    },
-    {
-      "name": "05 - Aplicación web publicada (GitHub Pages)",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{appUrl}}",
-          "host": [
-            "{{appUrl}}"
-          ]
-        },
-        "description": "Página de la aplicación (JavaScript vanilla) que consume el modelo desde `{{modelUrl}}`. Sirve `index.html`; los estilos, la configuración y la lógica están en `src/`."
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-              "pm.test('Es HTML', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html'));",
-              "pm.test('Es el clasificador de residuos', () => pm.expect(pm.response.text()).to.include('Clasificador de residuos'));",
-              "pm.test('Carga la biblioteca de Teachable Machine', () => pm.expect(pm.response.text()).to.include('@teachablemachine/image'));"
-            ]
-          }
-        }
-      ],
-      "response": []
-    },
-    {
-      "name": "06 - Configuración de la aplicación (config.js)",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{appUrl}}src/config.js",
-          "host": [
-            "{{appUrl}}src/config.js"
-          ]
-        },
-        "description": "Archivo de configuración que la aplicación carga antes de la lógica: `MODEL_URL` (endpoint del modelo), `THRESHOLD` (umbral de decisión ajustado, 0,977 sobre la probabilidad de Orgánico), alias de carpetas y prefijos de archivo para la clase real, y la descripción de cada clase con su caneca."
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Estado 200', () => pm.response.to.have.status(200));",
-              "const js = pm.response.text();",
-              "pm.test('Apunta al modelo publicado', () => pm.expect(js).to.include(pm.collectionVariables.get('modelUrl')));",
-              "pm.test('Umbral ajustado 0,977', () => pm.expect(js).to.include('value: 0.977'));"
             ]
           }
         }
