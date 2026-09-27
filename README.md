@@ -87,7 +87,7 @@ El panel *Más datos* de Teachable Machine no entrega la probabilidad de cada im
 
 ### Lo que reporta Teachable Machine (prueba interna, 150 imágenes)
 
-Orgánico 0,95 · Reciclable 0,87 · exactitud interna 0,907. La pérdida de prueba crece desde la época 12 mientras la de entrenamiento cae a cero: sobreajuste en la calibración, no en la etiqueta.
+Orgánico 0,85 · Reciclable 0,91 · exactitud interna **0,880** (132 de 150), con errores equilibrados entre clases (11 orgánicos y 7 reciclables mal clasificados). El entrenamiento llega a 1,0 hacia la época 5 y la prueba se estabiliza cerca de 0,88; la pérdida de prueba crece desde la época 12 hasta 0,55 mientras la de entrenamiento cae a cero: sobreajuste en la calibración, no en la etiqueta.
 
 ### Evaluación sobre el segmento independiente (500 imágenes)
 
@@ -106,10 +106,10 @@ Orgánico 0,95 · Reciclable 0,87 · exactitud interna 0,907. La pérdida de pru
 Matriz de confusión (filas = real, columnas = predicha): Orgánico `239 / 11`, Reciclable `67 / 183`.
 
 - **Sesgo hacia Orgánico**: 67 de los 78 errores son reciclables enviados a la caneca verde, el error menos costoso de los dos.
-- **Ajuste del modelo**: el umbral de decisión se eligió sobre un segmento de validación independiente (0,977) y en prueba sube la exactitud de 0,844 a **0,888** (errores de 78 a 56, mejora pareada [0,020; 0,070]); está integrado en la app como interruptor.
+- **Ajuste del modelo**: el umbral de decisión se eligió sobre un segmento de validación independiente (0,977) y en prueba sube la exactitud de 0,844 a **0,888** (errores de 78 a 56, mejora pareada [0,020; 0,070]); a cambio, los orgánicos enviados a la caneca blanca suben de 11 a 23. Está integrado en la app como selector de umbral.
 - **Confianza**: media de 0,969, y de 0,908 en los errores; el modelo se equivoca con seguridad.
-- **Interna vs. independiente**: la exactitud del panel, 0,907, queda 6,3 puntos por encima y fuera del intervalo de confianza.
-- **Nube = local = app**: la copia descargada da las mismas probabilidades que el endpoint, y la app reporta 423 aciertos frente a 422 del script (una imagen de diferencia por el redimensionamiento del navegador).
+- **Interna vs. independiente**: la exactitud del panel, 0,880, queda 3,6 puntos por encima y fuera del intervalo de confianza, y su equilibrio de errores oculta el sesgo hacia Orgánico que aparece con imágenes nuevas.
+- **Nube = local = app**: la copia descargada da las mismas probabilidades que el endpoint, y la app reporta 423 aciertos frente a 422 del script con el umbral por defecto y 436 frente a 444 con el ajustado (diferencias por el redimensionamiento del navegador).
 - **Cámara en vivo**: cuatro objetos reales frente a la webcam (naranja, jengibre, celular y caja de cartón) clasificados correctamente con probabilidades por encima de 0,98; las capturas están en el informe.
 
 Las figuras (matriz de confusión, curva ROC, histograma de probabilidades y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
