@@ -1,14 +1,10 @@
 <div align="center">
-    <img src="assets/images/Logo.png" width="250" alt="Logo Universidad de La Salle">
+    <img src="assets/images/logo-dark-512.png" width="320" alt="Andy Rubiano - Plantas carnívoras">
 </div>
 
-# Clasificador de residuos orgánicos y reciclables con Teachable Machine, desplegado en la nube e integrado en una aplicación web para la separación en la fuente
+# ¿Qué carnívora es? Identificador de plantas carnívoras por género con Teachable Machine, desplegado en la nube e integrado en una aplicación web
 
 ## 📋 Información General
-
-<div align="center">
-    <img src="assets/images/author/Andy%20Rubiano.png" width="180" alt="Andrés Giovanny Rubiano Muñoz" style="border-radius: 10px;">
-</div>
 
 | Aspecto | Detalles |
 |--------|----------|
@@ -19,22 +15,22 @@
 | **Actividad** | Actividad 6 · Proyecto Final – Implementemos un modelo de clasificación |
 | **Programa** | Maestría en Inteligencia Artificial |
 | **Universidad** | Universidad de La Salle |
-| **Entregable** | Modelo en la nube + aplicación web + scripts de evaluación (el informe está en `../computer vision-classification-model-report`) |
+| **Entregable** | Modelo en la nube + aplicación web + scripts de preparación y evaluación (el informe está en `../computer vision-classification-model-report`) |
 | **Año** | 2026 |
 
 ---
 
 ## 🎯 Descripción
 
-Este repositorio contiene el **proyecto** del informe: los scripts que preparan el dataset, la aplicación web que consume el modelo y los scripts que lo evalúan. El modelo es un clasificador binario de residuos, *orgánico* o *reciclable*, entrenado en **Teachable Machine** y publicado en la nube de la plataforma, pensado como asistente de **separación en la fuente** según el código de colores colombiano (Resolución 2184 de 2019): caneca **verde** para orgánicos y caneca **blanca** para reciclables.
+Este repositorio contiene el **proyecto** del informe: los scripts que preparan el dataset, la aplicación web que consume el modelo y los scripts que lo evalúan. El modelo identifica el **género** de una planta carnívora a partir de una foto, entre siete géneros (*Dionaea*, *Drosera*, *Sarracenia*, *Nepenthes*, *Darlingtonia*, *Heliamphora* y *Pinguicula*) más una clase *No carnivora*, y fue entrenado en **Teachable Machine** con fotografías propias y de la comunidad del canal de YouTube **Andy Rubiano - Plantas carnívoras**. La aplicación responde el género, su confianza, la segunda opción y la **ficha de cuidados**, y cuando la confianza es baja dice "no estoy seguro".
 
 | Recurso | Enlace |
 |---|---|
-| **Video demostrativo (YouTube, no listado)** | https://youtu.be/AJZDffewiuk |
+| **Video demostrativo (YouTube, no listado)** | *pendiente* |
 | **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
-| **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/UerwbSsVX/ |
-| **Dataset** | [techsash/waste-classification-data](https://www.kaggle.com/datasets/techsash/waste-classification-data) |
+| **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/RmIb0tr6_/ |
+| **Canal de YouTube** | https://www.youtube.com/@RubianoAndy |
 | **Herramienta** | [Teachable Machine](https://teachablemachine.withgoogle.com/) |
 | **Informe** | `../computer vision-classification-model-report/build/main.pdf` |
 
@@ -44,75 +40,81 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 ## 🧪 Proceso
 
-### 1 · Dataset y segmentos
+### 1 · Dataset propio
 
-25.077 imágenes en dos carpetas, *O* (orgánicos) y *R* (reciclables), descargadas con `kagglehub`. Con *dHash* se eliminaron los duplicados por contenido y se encontró que **295 imágenes de la partición TEST también están en TRAIN** (el 20,8 % de sus orgánicos). Los segmentos finales son 500 por clase para entrenar y 250 por clase para probar, sin ninguna imagen compartida.
+1.200 fotografías, **150 por clase**, reunidas en octubre de 2026:
 
-| Clase | Partición | Originales | Únicas | Repetidas en TRAIN |
-|---|---|---|---|---|
-| Orgánico | TRAIN | 12.565 | 12.503 | — |
-| Orgánico | TEST | 1.401 | 1.401 | 291 |
-| Reciclable | TRAIN | 9.999 | 9.797 | — |
-| Reciclable | TEST | 1.112 | 1.098 | 4 |
+| Fuente | Clases | Detalle |
+|---|---|---|
+| Fotos propias del autor | 7 géneros | Archivo del canal (598 fotos revisadas, 335 útiles) |
+| Comunidad de plantas carnívoras y suscriptores del canal | 7 géneros | Fotos compartidas por mensajes directos y grupos de subastas (1.000 fotos revisadas, 343 útiles) |
+| iNaturalist (licencias CC BY, CC BY-NC, CC BY-SA, CC BY-NC-SA) | *No carnivora* | 136 observaciones de 32 taxones que se parecen a una carnívora (suculentas en roseta, calas, bromelias, musgo…) más 14 fotos propias sin plantas carnívoras |
 
-> ⚠️ Quien evalúe con la partición TEST tal como viene en Kaggle está midiendo en parte memoria y no generalización.
+Cada foto se revisó a mano: se descartaron las plantas muy pequeñas o lejanas, las flores y esquejes sin trampas, las borrosas, las duplicadas (dHash) y las de géneros fuera del alcance (*Cephalotus*, *Utricularia*…). Luego se renombraron a `<clase>_<nnn>.jpg` conservando en un CSV la fuente y el **grupo de ejemplar** de cada una.
 
-### 2 · Entrenamiento en Teachable Machine
+### 2 · Preparación y partición
 
-Proyecto de imagen con las clases **Orgánico** y **Reciclable**, 500 imágenes cada una, con los hiperparámetros por defecto: 50 épocas, lote de 16 y tasa de aprendizaje de 0,001. La herramienta aparta el 15 % de cada clase como prueba interna, así que solo 850 imágenes ajustan los pesos.
+`utils/scripts/prepare-dataset.py` recorta cada imagen a cuadrado de 512 px eligiendo la ventana con más detalle sobre el lado largo (para no cortar la boca de las jarras altas) y separa **120 de entrenamiento y 30 de prueba por clase**. Las fotos de una misma serie o planta van completas a un solo lado, así que ninguna imagen de prueba tiene una casi idéntica en entrenamiento. Semilla fija (42).
 
-### 3 · Despliegue en la nube
+### 3 · Entrenamiento en Teachable Machine
 
-*Exportar modelo → TensorFlow.js → Subir (enlace para compartir)*. La plataforma aloja el modelo y devuelve la URL del endpoint. También se descargó una copia (`models/tm-waste-model.zip`, 2,1 MiB) que produce **exactamente las mismas probabilidades** que la versión publicada.
+Proyecto de imagen con las ocho clases y 120 imágenes cada una, hiperparámetros por defecto: 50 épocas, lote de 16 y tasa de aprendizaje de 0,001. La herramienta aparta el 15 % de cada clase como prueba interna (18 imágenes por clase).
 
-### 4 · Aplicación web
+### 4 · Despliegue en la nube
 
-HTML + CSS + JavaScript sin *framework* de interfaz, con `@teachablemachine/image` y TensorFlow.js desde CDN. Tres modos:
+*Exportar modelo → TensorFlow.js → Subir (enlace para compartir)*. La plataforma aloja el modelo y devuelve la URL del endpoint. La copia descargada (`utils/models/tm-carnivoras-model.zip`, 2,1 MiB) produce **exactamente las mismas probabilidades** que la versión publicada (diferencia máxima 0,0 sobre las 240 imágenes de prueba).
+
+### 5 · Aplicación web
+
+HTML + CSS + JavaScript sin *framework*, con `@teachablemachine/image` y TensorFlow.js desde CDN, e identidad visual de *Andy Rubiano - Plantas carnívoras*. Tres modos:
 
 | Modo | Qué hace |
 |---|---|
-| **Una imagen** | Arrastrar o elegir una foto; muestra la clase, la caneca con su color, la confianza y las dos probabilidades |
-| **Conjunto de imágenes** | Cargar una carpeta completa; si trae subcarpetas `Orgánico/` y `Reciclable/` calcula exactitud, precisión, exhaustividad, F1 y matriz de confusión en vivo, y exporta un CSV |
-| **Cámara** | Clasificación en tiempo real desde la webcam |
+| **Una imagen** | Arrastrar o elegir una foto (o probar con una de muestra); muestra el género, su nombre común y tipo de trampa, la confianza, la segunda opción, las ocho probabilidades y la **ficha de cuidados** con enlace al canal |
+| **Conjunto de imágenes** | Cargar una carpeta completa; si las subcarpetas o los nombres de archivo traen la clase, calcula exactitud, precisión, exhaustividad, F1 y la matriz de confusión 8×8 en vivo, y exporta un CSV |
+| **Cámara** | Identificación en tiempo real desde la webcam |
 
-Los tres modos comparten un **interruptor de umbral de decisión**: *por defecto* (gana la clase con mayor probabilidad, umbral 0,5) o *ajustado* (solo se declara *Orgánico* si su probabilidad supera el umbral elegido en validación). En el modo *Conjunto de imágenes* el cambio recalcula al instante las métricas sin volver a ejecutar el modelo, lo que permite ver el efecto del ajuste sobre las mismas imágenes.
+Los tres modos comparten el **umbral de confianza** (0,8): si la clase ganadora no lo alcanza, la respuesta es "no estoy seguro" con las dos opciones más probables. En el modo *Conjunto* las imágenes sin responder no cuentan como acierto ni como error, y al cambiar el interruptor las métricas se recalculan sin volver a ejecutar el modelo.
 
-### 5 · Evaluación fuera de la herramienta
+### 6 · Evaluación fuera de la herramienta
 
-El panel *Más datos* de Teachable Machine no entrega la probabilidad de cada imagen, y sin ella no hay curva ROC. Por eso `eval/model-inference.js` carga el modelo **directamente desde el endpoint** en Node.js, repite el preprocesamiento de la plataforma (recorte central, 224 × 224, rango [-1, 1]) y escribe un CSV con las probabilidades; `eval/model-evaluation.py` calcula las métricas con scikit-learn y dibuja las figuras del informe.
+`utils/eval/model-inference.js` carga el modelo **directamente desde el endpoint** en Node.js, repite el preprocesamiento de la plataforma (recorte central, 224 × 224, rango [-1, 1]) y escribe un CSV con las probabilidades; `utils/eval/model-evaluation.py` calcula las métricas multiclase con scikit-learn y dibuja las figuras del informe.
 
 ---
 
 ## 📊 Resultados
 
-### Lo que reporta Teachable Machine (prueba interna, 150 imágenes)
+### Lo que reporta Teachable Machine (prueba interna, 18 imágenes por clase)
 
-Orgánico 0,85 · Reciclable 0,91 · exactitud interna **0,880** (132 de 150), con errores equilibrados entre clases (11 orgánicos y 7 reciclables mal clasificados). El entrenamiento llega a 1,0 hacia la época 5 y la prueba se estabiliza cerca de 0,88; la pérdida de prueba crece desde la época 12 hasta 0,55 mientras la de entrenamiento cae a cero: sobreajuste en la calibración, no en la etiqueta.
+Exactitud interna ≈ 0,85. Por clase: Pinguicula 1,00 · Drosera 0,94 · Darlingtonia 0,94 · Heliamphora 0,89 · Dionaea 0,83 · Nepenthes 0,83 · Sarracenia 0,78 · No carnivora 0,61. Capturas y JSON en `utils/teachable-machine/`.
 
-### Evaluación sobre el segmento independiente (500 imágenes)
+### Evaluación sobre el segmento independiente (240 imágenes, 30 por clase)
 
 | Métrica | Valor | IC 95 % (bootstrap) |
 |---|---|---|
-| **Exactitud** | **0,844** | [0,812; 0,874] |
-| F1 macro | 0,842 | [0,809; 0,872] |
-| AUC | 0,957 | [0,940; 0,972] |
-| Pérdida logarítmica | 0,782 | |
+| **Exactitud** | **0,879** | [0,837; 0,921] |
+| Exactitud top-2 | 0,958 | |
+| F1 macro | 0,878 | [0,831; 0,917] |
+| AUC macro (uno contra el resto) | 0,988 | [0,982; 0,994] |
+| Pérdida logarítmica | 0,526 | |
 
-| Clase | Precisión | Exhaustividad | F1 | Soporte |
+| Clase | Precisión | Exhaustividad | F1 | AUC |
 |---|---|---|---|---|
-| Orgánico | 0,781 | 0,956 | 0,860 | 250 |
-| Reciclable | 0,943 | 0,732 | 0,824 | 250 |
+| Dionaea | 0,871 | 0,900 | 0,885 | 0,988 |
+| Drosera | 0,933 | 0,933 | 0,933 | 0,996 |
+| Sarracenia | 0,880 | 0,733 | 0,800 | 0,979 |
+| Nepenthes | 0,963 | 0,867 | 0,912 | 0,995 |
+| Darlingtonia | 0,882 | 1,000 | 0,938 | 0,999 |
+| Heliamphora | 0,839 | 0,867 | 0,852 | 0,987 |
+| Pinguicula | 0,806 | 0,833 | 0,820 | 0,976 |
+| No carnivora | 0,871 | 0,900 | 0,885 | 0,988 |
 
-Matriz de confusión (filas = real, columnas = predicha): Orgánico `239 / 11`, Reciclable `67 / 183`.
+- **Dónde se equivoca (29 errores):** entre géneros de jarra parecidos (*Sarracenia* → *Heliamphora* 3, → *Darlingtonia* 2; *Nepenthes* → *Sarracenia* 3) y entre rosetas (*Pinguicula* → *No carnivora* 3, → *Dionaea* 2; *Dionaea* → *Pinguicula* 2).
+- **Confianza:** 0,955 en los aciertos frente a 0,829 en los errores; el modelo duda más cuando se equivoca. Con el **umbral de confianza de 0,8** responde el 89 % de las imágenes con exactitud de 0,906 y evita 9 de los 29 errores.
+- **Interna vs. independiente:** la prueba interna de 18 imágenes por clase daba 0,61 en *No carnivora*; con 30 imágenes nuevas esa clase llega a 0,90. Las muestras pequeñas engañan.
+- **Nube = local = app:** la copia descargada da las mismas probabilidades que el endpoint; la app, cargando la carpeta de prueba, reporta 88,3 % sin umbral (212 de 240) frente a 87,9 % del script, y 93,3 % con umbral sobre el 87 % de imágenes que responde.
 
-- **Sesgo hacia Orgánico**: 67 de los 78 errores son reciclables enviados a la caneca verde, el error menos costoso de los dos.
-- **Ajuste del modelo**: el umbral de decisión se eligió sobre un segmento de validación independiente (0,977) y en prueba sube la exactitud de 0,844 a **0,888** (errores de 78 a 56, mejora pareada [0,020; 0,070]); a cambio, los orgánicos enviados a la caneca blanca suben de 11 a 23. Está integrado en la app como selector de umbral.
-- **Confianza**: media de 0,969, y de 0,908 en los errores; el modelo se equivoca con seguridad.
-- **Interna vs. independiente**: la exactitud del panel, 0,880, queda 3,6 puntos por encima y fuera del intervalo de confianza, y su equilibrio de errores oculta el sesgo hacia Orgánico que aparece con imágenes nuevas.
-- **Nube = local = app**: la copia descargada da las mismas probabilidades que el endpoint, y la app reporta 423 aciertos frente a 422 del script con el umbral por defecto y 436 frente a 444 con el ajustado (diferencias por el redimensionamiento del navegador).
-- **Cámara en vivo**: cuatro objetos reales frente a la webcam (naranja, jengibre, celular y caja de cartón) clasificados correctamente con probabilidades por encima de 0,98; las capturas están en el informe.
-
-Las figuras (matriz de confusión, curva ROC, histograma de probabilidades y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
+Las figuras (matriz de confusión 8×8, curvas ROC por clase, barras por clase, histograma de confianza, curva umbral/cobertura y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
 
 ---
 
@@ -127,43 +129,40 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
 ├── .nojekyll                         # GitHub Pages sirve los archivos tal cual
 ├── .gitignore
 ├── src/                              # Lo que alimenta a index.html
-│   ├── styles.css                    # Identidad Universidad de La Salle, formas cuadradas
-│   ├── app.js                        # Carga del modelo, inferencia, métricas en vivo, CSV
-│   └── config.js                     # MODEL_URL (endpoint) y descripción de las clases
-├── assets/
-│   └── images/
-│       ├── Logo.png                  # Logo institucional (README y favicon)
-│       ├── logo-white.png            # Logo en blanco para la barra y el pie de la app
-│       └── author/                   # Fotografía del autor
+│   ├── styles.css                    # Identidad Andy Rubiano - Plantas carnívoras (negro, blanco, verde)
+│   ├── app.js                        # Carga del modelo, inferencia, umbral, fichas, métricas en vivo, CSV
+│   └── config.js                     # MODEL_URL, umbral de confianza, redes y ficha de cada clase
+├── assets/images/
+│   ├── logo/                         # Logos originales (texto negro y texto blanco)
+│   ├── logo-{dark,light}-{512,160,64}.png   # Versiones para la web y favicon
+│   └── samples/                      # Ocho fotos de muestra para probar la app
 └── utils/                            # Todo lo que no es la aplicación
     ├── scripts/
-    │   ├── dataset-inspection.py     # Formatos, modos y tamaños del dataset
-    │   └── split-construction.py     # dHash, exclusión de repetidos y muestreo 500/250 por clase
+    │   ├── download-non-carnivorous.py   # Descarga de iNaturalist con atribuciones (clase No carnivora)
+    │   ├── rename-dataset.py             # <clase>_<nnn>.jpg y CSV con fuente y grupo de ejemplar
+    │   └── prepare-dataset.py            # Recorte a cuadrado 512 px y partición 120/30 por grupo
     ├── eval/
     │   ├── package.json              # @tensorflow/tfjs · jpeg-js
     │   ├── model-inference.js        # Inferencia (nube o disco) → CSV de probabilidades
-    │   ├── model-evaluation.py       # Métricas, ROC, AUC, bootstrap y figuras del informe
-    │   ├── threshold-selection.py    # Elige el umbral en validación y lo evalúa en prueba
-    │   ├── error-gallery.py          # Galería de errores
-    │   ├── cloud-predictions.csv     # Probabilidades en prueba (500 filas)
-    │   ├── val-predictions.csv       # Probabilidades en validación (500 filas)
-    │   ├── cloud-metrics.json        # Métricas con el umbral por defecto
-    │   ├── cloud-threshold-metrics.json  # Umbral elegido y métricas con ambos umbrales
-    │   └── local-predictions.csv     # Mismas probabilidades con la copia descargada
+    │   ├── model-evaluation.py       # Métricas multiclase, ROC, AUC, bootstrap, umbral y figuras
+    │   ├── error-gallery.py          # Galería de errores y pares de clases más confundidos
+    │   ├── cloud-predictions.csv     # Probabilidades en prueba desde el endpoint (240 filas)
+    │   ├── local-predictions.csv     # Mismas probabilidades con la copia descargada
+    │   └── cloud-metrics.json        # Métricas, matriz de confusión, umbrales y lista de errores
     ├── models/
-    │   ├── tm-waste-model.zip        # Exportación TensorFlow.js descargada de Teachable Machine
-    │   └── tm-waste-model/           # model.json · weights.bin · metadata.json
+    │   ├── tm-carnivoras-model.zip   # Exportación TensorFlow.js descargada de Teachable Machine
+    │   └── tm-carnivoras-model/      # model.json · weights.bin · metadata.json
     ├── postman/
-    │   └── clasificador-residuos.postman_collection.json   # APIs del modelo numeradas 01-04, con pruebas
+    │   └── identificador-carnivoras.postman_collection.json   # APIs del modelo numeradas 01-04, con pruebas
     └── teachable-machine/
-        └── clasificador-residuos-sin-entrenar.tm   # Proyecto de TM con las 1.000 imágenes cargadas, sin entrenar
+        ├── identificador-carnivoras.tm                   # Proyecto de TM con las 960 imágenes cargadas
+        ├── identificador-carnivoras-metricas-internas.json
+        └── identificador-carnivoras-mas-datos.png        # Panel "Más datos" (y la columna derecha de la matriz)
 ```
 
-> ℹ️ **Colección de Postman.** `utils/postman/clasificador-residuos.postman_collection.json` reúne las peticiones al endpoint del modelo, numeradas: **01** `metadata.json` (etiquetas y tamaño de entrada), **02** `model.json` (arquitectura y manifiesto de pesos), **03** `model.weights.bin` (263 tensores, 2.154.032 bytes) y **04** la redirección 302 del endpoint hacia Google Cloud Storage (sin seguir la redirección, para ver la cabecera `Location`). Cada petición trae pruebas automáticas (estado, tipo de contenido, CORS, etiquetas, tamaño de los pesos). Se importa en Postman con *Import → File*; también corre desde consola con `npx newman run utils/postman/clasificador-residuos.postman_collection.json`.
+> ℹ️ **Colección de Postman.** `utils/postman/identificador-carnivoras.postman_collection.json` reúne las peticiones al endpoint del modelo: **01** `metadata.json` (ocho etiquetas y tamaño de entrada), **02** `model.json` (arquitectura y manifiesto de pesos), **03** `model.weights.bin` (263 tensores, 2.156.432 bytes) y **04** la redirección 302 del endpoint hacia Google Cloud Storage. Cada petición trae pruebas automáticas. Se importa con *Import → File*; también corre con `npx newman run utils/postman/identificador-carnivoras.postman_collection.json`.
 
-Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/, val/ y test/) se crean en la raíz al correr los scripts y **no se versionan**.
-
-> ℹ️ **Las imágenes no se versionan.** `dataset/` pesa unos 430 MB y `segments/` unos 80 MB; ambos se regeneran con los scripts de abajo, con semilla fija (`SEED = 42`), así que se obtienen exactamente las mismas 2.000 imágenes.
+> ℹ️ **Las imágenes no se versionan.** El dataset (`raw/` con 1.200 originales y `prepared/` con las versiones recortadas) vive fuera del repositorio, en `../dataset/`, junto con los CSV de fuentes, atribuciones y descartes. Las fotos de carnívoras son propias y de la comunidad del canal; las de *No carnivora* se descargan de iNaturalist con el script.
 
 ---
 
@@ -171,101 +170,61 @@ Las carpetas `dataset/` (caché de kagglehub) y `segments/` (train/, val/ y test
 
 | Componente | Dependencias |
 |---|---|
-| Scripts de Python (3.12) | `kagglehub`, `Pillow`, `numpy`, `pandas`, `scikit-learn`, `matplotlib` |
-| Evaluación en Node.js (18+) | `@tensorflow/tfjs`, `jpeg-js` (se instalan con `npm install` en `eval/`) |
+| Scripts de Python (3.12) | `Pillow`, `numpy`, `pandas`, `scikit-learn`, `matplotlib`, `requests` |
+| Evaluación en Node.js (18+) | `@tensorflow/tfjs`, `jpeg-js` (se instalan con `npm install` en `utils/eval/`) |
 | Aplicación web | Cualquier navegador moderno y conexión a Internet para descargar el modelo desde el endpoint |
 
 ---
 
 ## 🛠️ Reproducción
 
-### 1 · Dataset y segmentos
+### 1 · Dataset
+
+Con las fotos crudas en `../dataset/raw/<clase>/`:
 
 ```bash
-KAGGLEHUB_CACHE=./dataset python -c "import kagglehub; kagglehub.dataset_download('techsash/waste-classification-data')"
-python utils/scripts/dataset-inspection.py
-python utils/scripts/split-construction.py
+python utils/scripts/download-non-carnivorous.py   # solo la clase No carnivora (iNaturalist)
+python utils/scripts/rename-dataset.py
+python utils/scripts/prepare-dataset.py            # genera ../dataset/prepared/{train,test}
 ```
 
 ### 2 · Entrenamiento y despliegue
 
-> 💡 **Atajo para reproducir el entrenamiento.** `utils/teachable-machine/clasificador-residuos-sin-entrenar.tm` es el proyecto de Teachable Machine con las dos clases y sus 500 imágenes ya cargadas, **sin entrenar** y con los hiperparámetros por defecto. En la plataforma: menú ☰ → *Abrir el proyecto desde un archivo* → elegir el `.tm`, y queda listo para pulsar *Preparar modelo* (unos dos minutos). No requiere cuenta de Google.
+> 💡 **Atajo para reproducir el entrenamiento.** `utils/teachable-machine/identificador-carnivoras.tm` es el proyecto de Teachable Machine con las ocho clases y sus 120 imágenes ya cargadas. En la plataforma: menú ☰ → *Abrir el proyecto desde un archivo* → elegir el `.tm`, y queda listo para pulsar *Preparar modelo* (menos de un minuto con GPU). No requiere cuenta de Google.
 
-1. En Teachable Machine, proyecto de imagen con dos clases, **Orgánico** y **Reciclable**, y subir `segments/train/<clase>` (o abrir el `.tm` anterior).
+1. En Teachable Machine, proyecto de imagen con las ocho clases y subir `../dataset/prepared/train/<clase>` (o abrir el `.tm` anterior).
 2. *Preparar modelo* con los valores por defecto.
 3. *Exportar modelo → TensorFlow.js → Subir (enlace para compartir)* y copiar la URL en `src/config.js` (`MODEL_URL`).
 4. Opcional: *Descargar* para conservar una copia en `utils/models/`.
 
 ### 3 · Aplicación web
 
-En local, desde la raíz del repositorio:
-
 ```bash
 python -m http.server 8765
 ```
 
-Abrir <http://127.0.0.1:8765/>. Para probar el modo *Conjunto de imágenes* con métricas, cargar la carpeta `segments/test`.
-
-En **GitHub Pages** basta con publicar la rama desde la raíz (`/`): `index.html`, `src/` y `assets/` son todo lo que la página necesita, y el archivo `.nojekyll` evita que GitHub procese el sitio con Jekyll. El modelo se descarga desde el endpoint de Teachable Machine, así que no hay nada que compilar ni desplegar aparte.
+y abrir `http://localhost:8765/`. En GitHub Pages basta con publicar la rama: la raíz ya tiene `index.html` y `.nojekyll`.
 
 ### 4 · Evaluación
 
 ```bash
-cd utils/eval
-npm install
-node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../../segments/test cloud-predictions.csv
-node model-inference.js https://teachablemachine.withgoogle.com/models/UerwbSsVX/ ../../segments/val val-predictions.csv
+cd utils/eval && npm install
+node model-inference.js "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/" "../../../dataset/prepared/test" cloud-predictions.csv
+node model-inference.js "../models/tm-carnivoras-model/" "../../../dataset/prepared/test" local-predictions.csv
 python model-evaluation.py cloud-predictions.csv cloud
-python threshold-selection.py val-predictions.csv cloud-predictions.csv cloud
 python error-gallery.py cloud-predictions.csv cloud
 ```
 
-Para evaluar la copia local: `node model-inference.js ../models/tm-waste-model ../../segments/test local-predictions.csv`.
-
-> ⚠️ Las carpetas de `segments/` van sin tilde (`Organico`, `Reciclable`) mientras que las clases del modelo la llevan (`Orgánico`). Los scripts y la app normalizan el nombre, así que no hay que renombrar nada.
-
 ---
 
-## 🔑 Palabras Clave
+## 🙏 Créditos de las imágenes
 
-`AUC` · `Clasificación de Imágenes` · `Curva ROC` · `Despliegue en la Nube` · `Exhaustividad` · `F1` · `Inteligencia Artificial` · `MobileNet` · `Precisión` · `Reciclaje` · `Separación en la Fuente` · `Teachable Machine` · `TensorFlow.js` · `Transferencia de Aprendizaje` · `Visión por Computador`
+Las imágenes de plantas carnívoras son fotografías propias del autor y fotografías aportadas por la comunidad de cultivadores de plantas carnívoras y por suscriptores del canal de YouTube **Andy Rubiano - Plantas carnívoras**. Las imágenes de la clase *No carnivora* provienen de iNaturalist bajo licencias Creative Commons; la atribución de cada una (autor, licencia y enlace a la observación) está en `../dataset/raw/_fuentes/no_carnivora_atribuciones.csv`.
 
----
-
-## 🔗 Enlaces Adicionales
-
-- [Teachable Machine](https://teachablemachine.withgoogle.com/)
-- [Biblioteca @teachablemachine/image](https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image)
-- [TensorFlow.js](https://www.tensorflow.org/js)
-- [Resolución 2184 de 2019 – Código de colores para la separación de residuos](https://www.minambiente.gov.co/)
-- [Documentación de scikit-learn](https://scikit-learn.org/stable/)
-- [Documentación de kagglehub](https://github.com/Kaggle/kagglehub)
-
----
-
-## 📧 Contacto
-
-**Andrés Giovanny Rubiano Muñoz**
-Maestría en Inteligencia Artificial · Universidad de La Salle
-arubiano67@unisalle.edu.co
-
----
-
-## 📄 Derechos Reservados
-
-© 2026 Andrés Giovanny Rubiano Muñoz (Andy Rubiano). Todos los derechos reservados.
-
-Este trabajo académico y su contenido —investigación, código, metodologías y documentación— son propiedad intelectual conjunta de:
-
-- **Andrés Giovanny Rubiano Muñoz** (Andy Rubiano) — Autor
-- **Universidad de La Salle** — Institución académica
-
-El uso, reproducción o distribución requiere autorización previa escrita de los titulares de derechos.
-
-> ℹ️ Las imágenes provienen del dataset *Waste Classification data*, publicado por Sashaank Sekar en Kaggle. No se redistribuyen en este repositorio; su uso aquí es exclusivamente académico y se rige por los términos de la fuente original.
-
----
-
-<div align="center">
-  Universidad de La Salle | Bogotá D. C., Colombia
-</div>
+| Red | Enlace |
+|---|---|
+| YouTube | https://www.youtube.com/@RubianoAndy |
+| TikTok | https://www.tiktok.com/@RubianoAndy |
+| Instagram | https://www.instagram.com/RubianoAndy |
+| Facebook | https://www.facebook.com/RubianoAndy |
+| LinkedIn | https://www.linkedin.com/company/andyrubiano |

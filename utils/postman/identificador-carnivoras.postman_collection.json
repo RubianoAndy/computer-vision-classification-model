@@ -1,19 +1,19 @@
 {
   "info": {
-    "name": "Clasificador de residuos · Teachable Machine",
+    "name": "Identificador de plantas carnívoras · Teachable Machine",
     "_postman_id": "42c7cfdc-3bbe-40e3-9be7-65ff50de1381",
-    "description": "APIs que consume el proyecto final de Visión por Computador (Universidad de La Salle, 2026).\n\nEl modelo entrenado en Teachable Machine se publica como un endpoint de solo lectura que sirve tres archivos estáticos (peticiones GET, sin autenticación). Cada dirección bajo `{{modelUrl}}` redirige con 302 al almacenamiento de Google Cloud Storage (`{{storageUrl}}`), que responde con la cabecera `Access-Control-Allow-Origin: *`.\n\n- **01** metadata.json · etiquetas y tamaño de entrada (JSON, 257 bytes)\n- **02** model.json · arquitectura y manifiesto de pesos (JSON, 91.918 bytes)\n- **03** model.weights.bin · 263 tensores float32 (binario, 2.154.032 bytes)\n- **04** redirección 302 del endpoint (sin seguir la redirección)\n\nVariables de la colección: `modelUrl` y `storageUrl`.",
+    "description": "APIs que consume el identificador de plantas carnívoras de Andy Rubiano - Plantas carnívoras (proyecto final de Visión por Computador, Universidad de La Salle, 2026).\n\nEl modelo entrenado en Teachable Machine se publica como un endpoint de solo lectura que sirve tres archivos estáticos (peticiones GET, sin autenticación). Cada dirección bajo `{{modelUrl}}` redirige con 302 al almacenamiento de Google Cloud Storage (`{{storageUrl}}`), que responde con la cabecera `Access-Control-Allow-Origin: *`.\n\n- **01** metadata.json · etiquetas y tamaño de entrada (JSON, 334 bytes)\n- **02** model.json · arquitectura y manifiesto de pesos (JSON, 91.916 bytes)\n- **03** model.weights.bin · 263 tensores float32 (binario, 2.156.432 bytes)\n- **04** redirección 302 del endpoint (sin seguir la redirección)\n\nVariables de la colección: `modelUrl` y `storageUrl`.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "modelUrl",
-      "value": "https://teachablemachine.withgoogle.com/models/UerwbSsVX/",
+      "value": "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/",
       "type": "string"
     },
     {
       "key": "storageUrl",
-      "value": "https://storage.googleapis.com/tm-model/UerwbSsVX/",
+      "value": "https://storage.googleapis.com/tm-model/RmIb0tr6_/",
       "type": "string"
     }
   ],
@@ -29,7 +29,7 @@
             "{{modelUrl}}metadata.json"
           ]
         },
-        "description": "Único archivo que la aplicación necesita leer por su cuenta: trae el orden de las clases con el que se interpretan las probabilidades (`labels`) y el tamaño al que debe llevarse cada imagen (`imageSize`).\n\nRespuesta esperada:\n```json\n{\n  \"tfjsVersion\": \"1.7.4\",\n  \"tmVersion\": \"2.4.16\",\n  \"packageVersion\": \"0.8.4-alpha2\",\n  \"packageName\": \"@teachablemachine/image\",\n  \"timeStamp\": \"2026-09-24T03:12:56.752Z\",\n  \"userMetadata\": {},\n  \"modelName\": \"tm-my-image-model\",\n  \"labels\": [\"Orgánico\", \"Reciclable\"],\n  \"imageSize\": 224\n}\n```"
+        "description": "Único archivo que la aplicación necesita leer por su cuenta: trae el orden de las clases con el que se interpretan las probabilidades (`labels`) y el tamaño al que debe llevarse cada imagen (`imageSize`).\n\nRespuesta esperada:\n```json\n{\n  \"tfjsVersion\": \"1.7.4\",\n  \"tmVersion\": \"2.4.17\",\n  \"packageVersion\": \"0.8.4-alpha2\",\n  \"packageName\": \"@teachablemachine/image\",\n  \"timeStamp\": \"2026-10-02T22:31:48.467Z\",\n  \"userMetadata\": {},\n  \"modelName\": \"tm-my-image-model\",\n  \"labels\": [\"Dionaea\", \"Drosera\", \"Sarracenia\", \"Nepenthes\", \"Darlingtonia\", \"Heliamphora\", \"Pinguicula\", \"No carnivora\"],\n  \"imageSize\": 224\n}\n```"
       },
       "event": [
         {
@@ -41,7 +41,7 @@
               "pm.test('Content-Type JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
               "pm.test('CORS abierto', () => pm.expect(pm.response.headers.get('Access-Control-Allow-Origin')).to.eql('*'));",
               "const body = pm.response.json();",
-              "pm.test('Dos clases: Orgánico y Reciclable', () => pm.expect(body.labels).to.eql(['Orgánico', 'Reciclable']));",
+              "pm.test('Ocho clases en el orden del modelo', () => pm.expect(body.labels).to.eql(['Dionaea', 'Drosera', 'Sarracenia', 'Nepenthes', 'Darlingtonia', 'Heliamphora', 'Pinguicula', 'No carnivora']));",
               "pm.test('Tamaño de entrada 224', () => pm.expect(body.imageSize).to.eql(224));",
               "pm.test('Biblioteca @teachablemachine/image', () => pm.expect(body.packageName).to.eql('@teachablemachine/image'));"
             ]
@@ -77,7 +77,7 @@
               "pm.test('Los pesos están en ./model.weights.bin', () => pm.expect(body.weightsManifest[0].paths).to.eql(['./model.weights.bin']));",
               "pm.test('263 tensores en el manifiesto', () => pm.expect(body.weightsManifest[0].weights.length).to.eql(263));",
               "const bytes = body.weightsManifest[0].weights.reduce((s, w) => s + w.shape.reduce((a, b) => a * b, 1) * 4, 0);",
-              "pm.test('El manifiesto suma 2.154.032 bytes en float32', () => pm.expect(bytes).to.eql(2154032));"
+              "pm.test('El manifiesto suma 2.156.432 bytes en float32', () => pm.expect(bytes).to.eql(2156432));"
             ]
           }
         }
@@ -95,7 +95,7 @@
             "{{modelUrl}}model.weights.bin"
           ]
         },
-        "description": "Archivo binario con la concatenación de los 263 tensores del manifiesto, en el mismo orden y sin cabecera (float32, little-endian). Su tamaño coincide exactamente con la suma de elementos por cuatro bytes: 2.154.032.\n\nNota: en la descarga ZIP de Teachable Machine este archivo se llama `weights.bin`; en la nube se llama `model.weights.bin`."
+        "description": "Archivo binario con la concatenación de los 263 tensores del manifiesto, en el mismo orden y sin cabecera (float32, little-endian). Su tamaño coincide exactamente con la suma de elementos por cuatro bytes: 2.156.432.\n\nNota: en la descarga ZIP de Teachable Machine este archivo se llama `weights.bin`; en la nube se llama `model.weights.bin`."
       },
       "event": [
         {
@@ -105,7 +105,7 @@
             "exec": [
               "pm.test('Estado 200', () => pm.response.to.have.status(200));",
               "pm.test('Content-Type binario', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/octet-stream'));",
-              "pm.test('2.154.032 bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(2154032));"
+              "pm.test('2.156.432 bytes', () => pm.expect(Number(pm.response.headers.get('Content-Length'))).to.eql(2156432));"
             ]
           }
         }

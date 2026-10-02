@@ -24,6 +24,19 @@ const SOCIAL = [
     { name: "LinkedIn", url: "https://www.linkedin.com/company/andyrubiano", icon: "linkedin" },
 ];
 
+// Fotos de muestra para probar la aplicación sin tener una a la mano
+// (tomadas del segmento de prueba, que el modelo no vio al entrenar).
+const SAMPLES = [
+    { label: "Dionaea", src: "assets/images/samples/dionaea_043.jpg" },
+    { label: "Drosera", src: "assets/images/samples/drosera_050.jpg" },
+    { label: "Sarracenia", src: "assets/images/samples/sarracenia_004.jpg" },
+    { label: "Nepenthes", src: "assets/images/samples/nepenthes_002.jpg" },
+    { label: "Darlingtonia", src: "assets/images/samples/darlingtonia_017.jpg" },
+    { label: "Heliamphora", src: "assets/images/samples/heliamphora_020.jpg" },
+    { label: "Pinguicula", src: "assets/images/samples/pinguicula_048.jpg" },
+    { label: "¿Y esta?", src: "assets/images/samples/no_carnivora_093.jpg" },
+];
+
 // Ficha de cada clase del modelo: nombre, tipo de trampa, color para las
 // barras, descripción, cuidados básicos y video del canal (vacío si aún no hay).
 const CLASSES = {

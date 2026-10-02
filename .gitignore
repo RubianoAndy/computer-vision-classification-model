@@ -1,7 +1,3 @@
-# Datos pesados que se regeneran con los scripts
-dataset/
-segments/
-
 # Dependencias de Node
 utils/eval/node_modules/
 

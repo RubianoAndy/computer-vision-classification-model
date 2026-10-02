@@ -1,524 +1,425 @@
 {
   "model": "cloud",
-  "n": 500,
-  "accuracy": 0.844,
-  "log_loss": 0.7821309403780885,
-  "mean_confidence": 0.9692653475231279,
-  "mean_confidence_errors": 0.9077650994757003,
+  "n": 240,
+  "accuracy": 0.8791666666666667,
+  "top2_accuracy": 0.9583333333333334,
+  "log_loss": 0.5263055579434369,
+  "mean_confidence": 0.9397770540375966,
+  "mean_confidence_errors": 0.8287737762111469,
+  "mean_confidence_hits": 0.9550334287151655,
   "macro": {
-    "precision": 0.862172360353076,
-    "recall": 0.844,
-    "f1": 0.8420182772700758
+    "precision": 0.8807182514582894,
+    "recall": 0.8791666666666667,
+    "f1": 0.8782171232384239
   },
-  "auc": 0.95688,
+  "auc_macro": 0.9883928571428571,
   "ci95": {
     "accuracy": [
-      0.812,
-      0.874
+      0.8373958333333333,
+      0.9208333333333333
     ],
     "f1_macro": [
-      0.8087105539810304,
-      0.8720962810471051
+      0.8312943423252234,
+      0.9172880954663838
     ],
-    "auc": [
-      0.9401773786557128,
-      0.9716949436733294
+    "auc_macro": [
+      0.9817661246398028,
+      0.9941373447503645
     ]
   },
   "per_class": {
-    "Orgánico": {
-      "precision": 0.7810457516339869,
-      "recall": 0.956,
-      "f1": 0.8597122302158273,
-      "support": 250,
-      "auc": 0.95688
+    "Dionaea": {
+      "precision": 0.8709677419354839,
+      "recall": 0.9,
+      "f1": 0.8852459016393442,
+      "support": 30,
+      "auc": 0.988095238095238
     },
-    "Reciclable": {
-      "precision": 0.9432989690721649,
-      "recall": 0.732,
-      "f1": 0.8243243243243243,
-      "support": 250,
-      "auc": 0.95688
+    "Drosera": {
+      "precision": 0.9333333333333333,
+      "recall": 0.9333333333333333,
+      "f1": 0.9333333333333333,
+      "support": 30,
+      "auc": 0.9957142857142857
+    },
+    "Sarracenia": {
+      "precision": 0.88,
+      "recall": 0.7333333333333333,
+      "f1": 0.8,
+      "support": 30,
+      "auc": 0.9785714285714285
+    },
+    "Nepenthes": {
+      "precision": 0.9629629629629629,
+      "recall": 0.8666666666666667,
+      "f1": 0.9122807017543859,
+      "support": 30,
+      "auc": 0.9946031746031746
+    },
+    "Darlingtonia": {
+      "precision": 0.8823529411764706,
+      "recall": 1.0,
+      "f1": 0.9375,
+      "support": 30,
+      "auc": 0.9990476190476191
+    },
+    "Heliamphora": {
+      "precision": 0.8387096774193549,
+      "recall": 0.8666666666666667,
+      "f1": 0.8524590163934426,
+      "support": 30,
+      "auc": 0.9873015873015873
+    },
+    "Pinguicula": {
+      "precision": 0.8064516129032258,
+      "recall": 0.8333333333333334,
+      "f1": 0.819672131147541,
+      "support": 30,
+      "auc": 0.9757142857142858
+    },
+    "No carnivora": {
+      "precision": 0.8709677419354839,
+      "recall": 0.9,
+      "f1": 0.8852459016393442,
+      "support": 30,
+      "auc": 0.9880952380952381
     }
   },
   "confusion_matrix": [
     [
-      239,
-      11
+      27,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      0
     ],
     [
-      67,
-      183
+      0,
+      28,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      22,
+      1,
+      2,
+      3,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      3,
+      26,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      30,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      1,
+      26,
+      1,
+      0
+    ],
+    [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      3
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      2,
+      27
     ]
+  ],
+  "confidence_threshold": [
+    {
+      "umbral": 0.0,
+      "cobertura": 1.0,
+      "exactitud_respondidas": 0.8791666666666667,
+      "errores_respondidos": 29,
+      "errores_evitados": 0,
+      "aciertos_perdidos": 0
+    },
+    {
+      "umbral": 0.5,
+      "cobertura": 0.9833333333333333,
+      "exactitud_respondidas": 0.8898305084745762,
+      "errores_respondidos": 26,
+      "errores_evitados": 3,
+      "aciertos_perdidos": 1
+    },
+    {
+      "umbral": 0.6,
+      "cobertura": 0.9625,
+      "exactitud_respondidas": 0.8917748917748918,
+      "errores_respondidos": 25,
+      "errores_evitados": 4,
+      "aciertos_perdidos": 5
+    },
+    {
+      "umbral": 0.7,
+      "cobertura": 0.9208333333333333,
+      "exactitud_respondidas": 0.8959276018099548,
+      "errores_respondidos": 23,
+      "errores_evitados": 6,
+      "aciertos_perdidos": 13
+    },
+    {
+      "umbral": 0.8,
+      "cobertura": 0.8875,
+      "exactitud_respondidas": 0.9061032863849765,
+      "errores_respondidos": 20,
+      "errores_evitados": 9,
+      "aciertos_perdidos": 18
+    },
+    {
+      "umbral": 0.9,
+      "cobertura": 0.8041666666666667,
+      "exactitud_respondidas": 0.9326424870466321,
+      "errores_respondidos": 13,
+      "errores_evitados": 16,
+      "aciertos_perdidos": 31
+    }
   ],
   "errors": [
     {
-      "file": "O_12580.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.9981576537484538
+      "file": "dionaea_033.jpg",
+      "true": "Dionaea",
+      "pred": "Pinguicula",
+      "prob": 0.9481153331937077,
+      "second": "Dionaea"
     },
     {
-      "file": "O_12607.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.54424536
+      "file": "dionaea_070.jpg",
+      "true": "Dionaea",
+      "pred": "Pinguicula",
+      "prob": 0.9900135559970664,
+      "second": "Dionaea"
     },
     {
-      "file": "O_12620.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.9991206217348776
+      "file": "dionaea_072.jpg",
+      "true": "Dionaea",
+      "pred": "Heliamphora",
+      "prob": 0.6362623938443873,
+      "second": "Dionaea"
     },
     {
-      "file": "O_12695.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.8557740571154812
+      "file": "drosera_051.jpg",
+      "true": "Drosera",
+      "pred": "Darlingtonia",
+      "prob": 0.9926329444445494,
+      "second": "Drosera"
     },
     {
-      "file": "O_12741.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.8919485289194853
+      "file": "drosera_149.jpg",
+      "true": "Drosera",
+      "pred": "Pinguicula",
+      "prob": 0.8542575072485391,
+      "second": "Drosera"
     },
     {
-      "file": "O_13133.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.8565873928293697
+      "file": "sarracenia_004.jpg",
+      "true": "Sarracenia",
+      "pred": "Heliamphora",
+      "prob": 0.9546056857095634,
+      "second": "Nepenthes"
     },
     {
-      "file": "O_13246.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.5374950038751499
+      "file": "sarracenia_023.jpg",
+      "true": "Sarracenia",
+      "pred": "Darlingtonia",
+      "prob": 0.9658230387849593,
+      "second": "Heliamphora"
     },
     {
-      "file": "O_13256.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.9124228826639652
+      "file": "sarracenia_059.jpg",
+      "true": "Sarracenia",
+      "pred": "Nepenthes",
+      "prob": 0.5820826577604788,
+      "second": "Heliamphora"
     },
     {
-      "file": "O_13448.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.9267457857546784
+      "file": "sarracenia_075.jpg",
+      "true": "Sarracenia",
+      "pred": "Heliamphora",
+      "prob": 0.7787628123159474,
+      "second": "Darlingtonia"
     },
     {
-      "file": "O_13460.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.6268920111932397
+      "file": "sarracenia_090.jpg",
+      "true": "Sarracenia",
+      "pred": "No carnivora",
+      "prob": 0.8657586008030778,
+      "second": "Darlingtonia"
     },
     {
-      "file": "O_13863.jpg",
-      "true": "Orgánico",
-      "pred": "Reciclable",
-      "prob": 0.9999997960525127
+      "file": "sarracenia_098.jpg",
+      "true": "Sarracenia",
+      "pred": "Heliamphora",
+      "prob": 0.7896979714231767,
+      "second": "Sarracenia"
     },
     {
-      "file": "R_10087.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.73386163
+      "file": "sarracenia_139.jpg",
+      "true": "Sarracenia",
+      "pred": "Dionaea",
+      "prob": 0.8861219650904298,
+      "second": "Darlingtonia"
     },
     {
-      "file": "R_10108.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999966008503932
+      "file": "sarracenia_146.jpg",
+      "true": "Sarracenia",
+      "pred": "Darlingtonia",
+      "prob": 0.8733024102149334,
+      "second": "Sarracenia"
     },
     {
-      "file": "R_10116.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.8520582903559196
+      "file": "nepenthes_016.jpg",
+      "true": "Nepenthes",
+      "pred": "Sarracenia",
+      "prob": 0.9139896858997529,
+      "second": "Nepenthes"
     },
     {
-      "file": "R_10127.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.651094949065697
+      "file": "nepenthes_069.jpg",
+      "true": "Nepenthes",
+      "pred": "Heliamphora",
+      "prob": 0.3569172246014985,
+      "second": "Nepenthes"
     },
     {
-      "file": "R_10152.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.967163075492554
+      "file": "nepenthes_078.jpg",
+      "true": "Nepenthes",
+      "pred": "Sarracenia",
+      "prob": 0.9833950748874334,
+      "second": "Nepenthes"
     },
     {
-      "file": "R_10156.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.7508651450519087
+      "file": "nepenthes_123.jpg",
+      "true": "Nepenthes",
+      "pred": "Sarracenia",
+      "prob": 0.44679679631839436,
+      "second": "Heliamphora"
     },
     {
-      "file": "R_10162.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.80464798
+      "file": "heliamphora_119.jpg",
+      "true": "Heliamphora",
+      "pred": "Drosera",
+      "prob": 0.688886322867397,
+      "second": "Heliamphora"
     },
     {
-      "file": "R_10179.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.8492617
+      "file": "heliamphora_135.jpg",
+      "true": "Heliamphora",
+      "pred": "Dionaea",
+      "prob": 0.9199699219787979,
+      "second": "Heliamphora"
     },
     {
-      "file": "R_10193.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.6663436100096917
+      "file": "heliamphora_141.jpg",
+      "true": "Heliamphora",
+      "pred": "Darlingtonia",
+      "prob": 0.4909507745257225,
+      "second": "Dionaea"
     },
     {
-      "file": "R_10218.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9614075442383623
+      "file": "heliamphora_143.jpg",
+      "true": "Heliamphora",
+      "pred": "Pinguicula",
+      "prob": 0.8621327066328809,
+      "second": "Heliamphora"
     },
     {
-      "file": "R_10219.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9998347146809605
+      "file": "pinguicula_100.jpg",
+      "true": "Pinguicula",
+      "pred": "No carnivora",
+      "prob": 0.808282778925278,
+      "second": "Pinguicula"
     },
     {
-      "file": "R_10220.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.6426788214392706
+      "file": "pinguicula_103.jpg",
+      "true": "Pinguicula",
+      "pred": "Dionaea",
+      "prob": 0.954646317628898,
+      "second": "Darlingtonia"
     },
     {
-      "file": "R_10290.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9047788653338081
+      "file": "pinguicula_111.jpg",
+      "true": "Pinguicula",
+      "pred": "No carnivora",
+      "prob": 0.9989241279951875,
+      "second": "Pinguicula"
     },
     {
-      "file": "R_10309.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9980896785687609
+      "file": "pinguicula_114.jpg",
+      "true": "Pinguicula",
+      "pred": "No carnivora",
+      "prob": 0.9998870639215724,
+      "second": "Pinguicula"
     },
     {
-      "file": "R_10312.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9474311541015619
+      "file": "pinguicula_136.jpg",
+      "true": "Pinguicula",
+      "pred": "Dionaea",
+      "prob": 0.8961480822027765,
+      "second": "Pinguicula"
     },
     {
-      "file": "R_10355.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.76975179
+      "file": "no_carnivora_086.jpg",
+      "true": "No carnivora",
+      "pred": "Pinguicula",
+      "prob": 0.7212326993905228,
+      "second": "No carnivora"
     },
     {
-      "file": "R_10374.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9822307740226925
+      "file": "no_carnivora_094.jpg",
+      "true": "No carnivora",
+      "pred": "Drosera",
+      "prob": 0.9246928541243089,
+      "second": "No carnivora"
     },
     {
-      "file": "R_10476.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.931647444597397
-    },
-    {
-      "file": "R_10480.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9837730765618731
-    },
-    {
-      "file": "R_10484.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9204043607959564
-    },
-    {
-      "file": "R_10577.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999982787351882
-    },
-    {
-      "file": "R_10601.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9906379150576963
-    },
-    {
-      "file": "R_10606.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9812942376172901
-    },
-    {
-      "file": "R_10631.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9665132887747957
-    },
-    {
-      "file": "R_10634.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9997720330047545
-    },
-    {
-      "file": "R_10654.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.6406139507815815
-    },
-    {
-      "file": "R_10655.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9906640689445121
-    },
-    {
-      "file": "R_10685.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.98973805
-    },
-    {
-      "file": "R_10697.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9665511732341419
-    },
-    {
-      "file": "R_10707.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9304766448771306
-    },
-    {
-      "file": "R_10709.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999418801900828
-    },
-    {
-      "file": "R_10713.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.52061266
-    },
-    {
-      "file": "R_10718.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9818334569463405
-    },
-    {
-      "file": "R_10721.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9995351373791237
-    },
-    {
-      "file": "R_10761.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9976283812208702
-    },
-    {
-      "file": "R_10771.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.7820526478205265
-    },
-    {
-      "file": "R_10807.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999509160027236
-    },
-    {
-      "file": "R_10826.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9888137494406876
-    },
-    {
-      "file": "R_10838.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9760248246403723
-    },
-    {
-      "file": "R_10845.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999128671183797
-    },
-    {
-      "file": "R_10864.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9582205068301742
-    },
-    {
-      "file": "R_10871.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9991500030514329
-    },
-    {
-      "file": "R_10884.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9998690661257453
-    },
-    {
-      "file": "R_10894.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9977488200322395
-    },
-    {
-      "file": "R_10900.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.81476766
-    },
-    {
-      "file": "R_10912.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.998901899934114
-    },
-    {
-      "file": "R_10921.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999999601172946
-    },
-    {
-      "file": "R_10934.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999942635623942
-    },
-    {
-      "file": "R_10937.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999749786597832
-    },
-    {
-      "file": "R_10941.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999546745871518
-    },
-    {
-      "file": "R_10944.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.8920812753959363
-    },
-    {
-      "file": "R_10957.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9257468720347094
-    },
-    {
-      "file": "R_10958.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.96682939190537
-    },
-    {
-      "file": "R_10961.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9549566119640021
-    },
-    {
-      "file": "R_10987.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9998820982202099
-    },
-    {
-      "file": "R_10991.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9920117933895537
-    },
-    {
-      "file": "R_10992.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9290308771612351
-    },
-    {
-      "file": "R_11011.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.7688735469337936
-    },
-    {
-      "file": "R_11013.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9991269301748006
-    },
-    {
-      "file": "R_11044.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9503689790918824
-    },
-    {
-      "file": "R_11051.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9972509507530566
-    },
-    {
-      "file": "R_11057.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9429883082896493
-    },
-    {
-      "file": "R_11062.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999970975331233
-    },
-    {
-      "file": "R_11067.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9987537544443662
-    },
-    {
-      "file": "R_11085.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9999901246345555
-    },
-    {
-      "file": "R_11097.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.6155434492228274
-    },
-    {
-      "file": "R_11108.jpg",
-      "true": "Reciclable",
-      "pred": "Orgánico",
-      "prob": 0.9343874042150172
+      "file": "no_carnivora_118.jpg",
+      "true": "No carnivora",
+      "pred": "Pinguicula",
+      "prob": 0.9501502013920159,
+      "second": "Dionaea"
     }
   ]
 }

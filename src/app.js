@@ -86,9 +86,24 @@ async function loadModel() {
     }
 }
 
+// Recorte cuadrado central de la imagen original (tamaño natural, no el que
+// tiene en pantalla), llevado a 224 × 224: lo mismo que hace Teachable Machine
+// al entrenar y que el script de evaluación. Sin esto, la biblioteca escala el
+// elemento <img> con sus dimensiones en pantalla y la foto llega deformada.
+const squareCanvas = document.createElement("canvas");
+function toSquare(source) {
+    const w = source.naturalWidth || source.videoWidth || source.width;
+    const h = source.naturalHeight || source.videoHeight || source.height;
+    const side = Math.min(w, h);
+    squareCanvas.width = squareCanvas.height = 224;
+    squareCanvas.getContext("2d").drawImage(source, (w - side) / 2, (h - side) / 2, side, side, 0, 0, 224, 224);
+    return squareCanvas;
+}
+
 // Devuelve las probabilidades por clase ordenadas de mayor a menor
 async function predict(imageElement) {
-    const predictions = await model.predict(imageElement);
+    const input = imageElement instanceof HTMLImageElement ? toSquare(imageElement) : imageElement;
+    const predictions = await model.predict(input);
     predictions.sort((a, b) => b.probability - a.probability);
     const probs = Object.fromEntries(predictions.map((p) => [p.className, p.probability]));
     return { predictions, probs };
@@ -152,12 +167,29 @@ async function classifySingle(file) {
     const url = URL.createObjectURL(file);
     preview.src = url;
     preview.hidden = false;
+    $("dropzone-note").hidden = false;
     $("dropzone-single-inner").hidden = true;
     dropzone.classList.add("has-image");
     await new Promise((resolve) => (preview.onload = resolve));
     lastSingle = await predict(preview);
     renderResult($("result-single"), lastSingle);
     URL.revokeObjectURL(url);
+}
+
+// Fotos de muestra: se descargan como archivo y siguen el mismo camino que una foto del usuario
+function renderSamples() {
+    const row = $("samples");
+    if (!row) return;
+    row.innerHTML = SAMPLES.map((s) => `
+        <button class="sample" type="button" data-src="${s.src}" title="${s.label}">
+            <img src="${s.src}" alt="${s.label}" loading="lazy">
+            <span>${s.label}</span>
+        </button>`).join("");
+    row.querySelectorAll(".sample").forEach((b) => b.addEventListener("click", async () => {
+        const blob = await (await fetch(b.dataset.src)).blob();
+        classifySingle(new File([blob], b.dataset.src.split("/").pop(), { type: blob.type || "image/jpeg" }));
+        $("identificador").scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
 }
 
 $("file-single").addEventListener("change", (e) => classifySingle(e.target.files[0]));
@@ -405,6 +437,7 @@ function renderSocial() {
 }
 
 renderSocial();
+renderSamples();
 renderGenera();
 setConfidence(CONFIDENCE.enabledByDefault);
 loadModel();
