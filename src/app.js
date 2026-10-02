@@ -1,9 +1,9 @@
-/* Clasificador de residuos · aplicación web
+/* Identificador de plantas carnívoras · aplicación web
  * Carga el modelo publicado en la nube de Teachable Machine y lo ejecuta en el
  * navegador con TensorFlow.js. Tres modos: una imagen, conjunto de imágenes
- * (con métricas si las carpetas traen la etiqueta) y cámara en vivo.
- * La decisión final se toma con un umbral configurable: el argmax por defecto
- * (0,5) o el umbral ajustado que corrige el sesgo hacia la clase orgánica.
+ * (con métricas multiclase si las carpetas traen la etiqueta) y cámara en vivo.
+ * Si la probabilidad de la clase ganadora no alcanza el umbral de confianza,
+ * la respuesta es "no estoy seguro" con las dos opciones más probables.
  */
 
 let model = null;
@@ -11,12 +11,20 @@ let labels = [];
 let webcam = null;
 let cameraLoop = null;
 let batchRows = [];
-let useAdjustedThreshold = false;
+let useConfidence = CONFIDENCE.enabledByDefault;
+let lastSingle = null;
 
+const UNSURE = "No estoy seguro";
 const $ = (id) => document.getElementById(id);
 const pct = (p) => `${(p * 100).toFixed(1).replace(".", ",")} %`;
 const num = (v, d = 3) => (Number.isFinite(v) ? v.toFixed(d).replace(".", ",") : "—");
 const normalize = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+// Formas en que puede aparecer una clase en carpetas o nombres de archivo:
+// "No carnivora", "no_carnivora", "no-carnivora", "nocarnivora"
+const slugs = (label) => {
+    const n = normalize(label);
+    return [...new Set([n, n.replace(/\s+/g, "_"), n.replace(/\s+/g, "-"), n.replace(/\s+/g, "")])];
+};
 
 /* ─── Pestañas ─────────────────────────────────────────────────────────── */
 function showTab(name) {
@@ -34,34 +42,28 @@ document.querySelectorAll("[data-goto]").forEach((link) => {
     link.addEventListener("click", () => showTab(link.dataset.goto));
 });
 
-/* ─── Umbral de decisión ───────────────────────────────────────────────── */
-function currentThreshold() {
-    return useAdjustedThreshold ? THRESHOLD.value : THRESHOLD.defaultValue;
+/* ─── Umbral de confianza ──────────────────────────────────────────────── */
+// Convierte las probabilidades ordenadas en la respuesta final
+function decide(predictions) {
+    const [top, second] = predictions;
+    const unsure = useConfidence && top.probability < CONFIDENCE.value;
+    return { label: unsure ? UNSURE : top.className, top, second, unsure };
 }
 
-// Convierte las probabilidades en una etiqueta final según el umbral activo
-function decide(probs) {
-    const p = probs[THRESHOLD.positive];
-    if (p === undefined) {
-        return Object.entries(probs).sort((a, b) => b[1] - a[1])[0][0];
-    }
-    return p >= currentThreshold() ? THRESHOLD.positive : THRESHOLD.fallback;
-}
-
-function setThreshold(adjusted) {
-    useAdjustedThreshold = adjusted;
+function setConfidence(enabled) {
+    useConfidence = enabled;
     document.querySelectorAll(".threshold-option").forEach((b) => {
-        b.classList.toggle("active", (b.dataset.threshold === "adjusted") === adjusted);
+        b.classList.toggle("active", (b.dataset.threshold === "on") === enabled);
     });
-    $("threshold-note").textContent = adjusted
-        ? `Umbral ajustado: solo se declara ${THRESHOLD.positive} si su probabilidad es al menos ${pct(THRESHOLD.value)}.`
-        : `Umbral por defecto: gana la clase con mayor probabilidad (${pct(THRESHOLD.defaultValue)}).`;
+    $("threshold-note").textContent = enabled
+        ? `Si la clase ganadora no alcanza ${pct(CONFIDENCE.value)} de probabilidad, la respuesta es "${UNSURE}" y se muestran las dos opciones más probables.`
+        : "Siempre responde la clase con mayor probabilidad, aunque la confianza sea baja.";
     if (lastSingle) renderResult($("result-single"), lastSingle);
     if (batchRows.length) applyDecisionToBatch();
 }
 
 document.querySelectorAll(".threshold-option").forEach((b) => {
-    b.addEventListener("click", () => setThreshold(b.dataset.threshold === "adjusted"));
+    b.addEventListener("click", () => setConfidence(b.dataset.threshold === "on"));
 });
 
 /* ─── Carga del modelo desde el endpoint de Teachable Machine ─────────── */
@@ -74,7 +76,8 @@ async function loadModel() {
         labels = model.getClassLabels();
         status.classList.remove("loading");
         status.classList.add("ready");
-        text.textContent = `Modelo en la nube listo · ${labels.join(" / ")}`;
+        text.textContent = `Modelo en la nube listo · ${labels.length} clases`;
+        fillBatchLabelOptions();
     } catch (err) {
         console.error(err);
         status.classList.remove("loading");
@@ -83,22 +86,36 @@ async function loadModel() {
     }
 }
 
-// Devuelve las probabilidades por clase (ordenadas) y la decisión final
+// Devuelve las probabilidades por clase ordenadas de mayor a menor
 async function predict(imageElement) {
     const predictions = await model.predict(imageElement);
     predictions.sort((a, b) => b.probability - a.probability);
     const probs = Object.fromEntries(predictions.map((p) => [p.className, p.probability]));
-    return { predictions, probs, decision: decide(probs) };
+    return { predictions, probs };
 }
 
 /* ─── Tarjeta de resultado ─────────────────────────────────────────────── */
-let lastSingle = null;
+function careHtml(label) {
+    const meta = CLASSES[label];
+    if (!meta) return "";
+    const rows = Object.entries(meta.care).map(([k, v]) => `<div class="care-row"><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+    const video = meta.video
+        ? `<a class="button ghost small-button" href="${meta.video}" target="_blank" rel="noopener">Ver el video de ${label} en el canal ▶</a>`
+        : `<a class="button ghost small-button" href="${CHANNEL_URL}" target="_blank" rel="noopener">Ver más en el canal ▶</a>`;
+    return `
+        <details class="care" open>
+            <summary>Ficha de cuidados · ${label}${meta.common ? ` (${meta.common})` : ""}</summary>
+            <dl>${rows}</dl>
+            ${video}
+        </details>`;
+}
 
-function renderResult(container, result) {
-    const decision = decide(result.probs);
-    const meta = CLASSES[decision] || { bin: "Sin caneca asignada", color: "#ddd", text: "#111", hint: "" };
-    const argmax = result.predictions[0].className;
-    const bars = result.predictions.map((p) => {
+function renderResult(container, result, { compact = false } = {}) {
+    const d = decide(result.predictions);
+    const meta = d.unsure
+        ? { color: "#b8c0cc", text: "#1a1a1a", trap: "Confianza baja", common: "" }
+        : (CLASSES[d.label] || { color: "#ddd", text: "#111", trap: "", common: "" });
+    const bars = result.predictions.slice(0, compact ? 3 : labels.length).map((p) => {
         const m = CLASSES[p.className] || { color: "#999" };
         return `
             <div class="bar-row">
@@ -107,20 +124,23 @@ function renderResult(container, result) {
                 <span class="bar-value">${pct(p.probability)}</span>
             </div>`;
     }).join("");
-    const note = useAdjustedThreshold && decision !== argmax
-        ? `<p class="result-note">Con el umbral por defecto la respuesta habría sido <strong>${argmax}</strong>; el umbral ajustado la corrige a <strong>${decision}</strong>.</p>`
-        : "";
+    const subtitle = d.unsure
+        ? `Lo más probable es <strong>${d.top.className}</strong> (${pct(d.top.probability)}); la segunda opción es <strong>${d.second.className}</strong> (${pct(d.second.probability)}).`
+        : `Confianza ${pct(d.top.probability)} · segunda opción: ${d.second.className} (${pct(d.second.probability)})`;
+    const hint = d.unsure
+        ? "La foto no alcanza el umbral de confianza. Prueba con la trampa más cerca, centrada y con buena luz."
+        : (CLASSES[d.label]?.hint || "");
     container.innerHTML = `
         <div class="result-head">
-            <span class="bin-chip" style="background:${meta.color};color:${meta.text}">${meta.bin}</span>
+            <span class="bin-chip" style="background:${meta.color};color:${meta.text}">${meta.trap || "—"}</span>
             <div>
-                <p class="result-label">${decision}</p>
-                <span class="result-conf">Probabilidad de ${decision}: ${pct(result.probs[decision] ?? 0)} · umbral ${useAdjustedThreshold ? "ajustado" : "por defecto"}</span>
+                <p class="result-label">${d.label}${meta.common ? `<span class="result-common">${meta.common}</span>` : ""}</p>
+                <span class="result-conf">${subtitle}</span>
             </div>
         </div>
-        <p class="result-hint">${meta.hint}</p>
+        <p class="result-hint">${hint}</p>
         ${bars}
-        ${note}`;
+        ${compact || d.unsure ? "" : careHtml(d.label)}`;
 }
 
 /* ─── Modo: una imagen ─────────────────────────────────────────────────── */
@@ -146,19 +166,30 @@ $("file-single").addEventListener("change", (e) => classifySingle(e.target.files
 dropzone.addEventListener("drop", (e) => classifySingle(e.dataTransfer.files[0]));
 
 /* ─── Modo: conjunto de imágenes ───────────────────────────────────────── */
-// Etiqueta real a partir de la carpeta que contiene la imagen: el nombre de la
-// clase o cualquiera de sus alias (O, R, organic, recyclable...)
+function fillBatchLabelOptions() {
+    const select = $("batch-label");
+    labels.forEach((l) => {
+        const opt = document.createElement("option");
+        opt.value = l;
+        opt.textContent = `Todas son ${l}`;
+        select.insertBefore(opt, select.lastElementChild);
+    });
+}
+
+// Etiqueta real a partir de la carpeta que contiene la imagen
 function labelFromPath(file) {
     const parts = (file.webkitRelativePath || "").split("/");
     if (parts.length < 2) return null;
     const folder = normalize(parts[parts.length - 2]);
-    return labels.find((l) => normalize(l) === folder || (LABEL_ALIASES[l] || []).includes(folder)) || null;
+    return labels.find((l) => slugs(l).includes(folder)) || null;
 }
 
-// Etiqueta real a partir del prefijo del nombre de archivo (O_123.jpg, R_45.jpg)
+// Etiqueta real a partir del prefijo del nombre (dionaea_012.jpg, no_carnivora_003.jpg)
 function labelFromName(name) {
     const n = normalize(name);
-    return labels.find((l) => (FILENAME_PREFIXES[l] || []).some((p) => n.startsWith(p))) || null;
+    const hits = labels.filter((l) => slugs(l).some((s) => n.startsWith(`${s}_`) || n.startsWith(`${s}-`)));
+    // "no_carnivora" también empieza por "no"... se elige la coincidencia más larga
+    return hits.sort((a, b) => b.length - a.length)[0] || null;
 }
 
 // Clase real según el selector: automática (carpeta y luego prefijo), una
@@ -171,9 +202,9 @@ function truthFor(row) {
 }
 
 function rowHtml(row, index) {
-    const tag = row.correct === null ? `<span class="tag na">Sin etiqueta</span>`
+    const tag = row.correct === null ? `<span class="tag na">${row.truth ? "Sin responder" : "Sin etiqueta"}</span>`
         : row.correct ? `<span class="tag ok">Acierto</span>` : `<span class="tag bad">Error</span>`;
-    const meta = CLASSES[row.pred] || { color: "#ddd", text: "#111" };
+    const meta = row.unsure ? { color: "#b8c0cc", text: "#1a1a1a" } : (CLASSES[row.pred] || { color: "#ddd", text: "#111" });
     return `
         <tr>
             <td>${index + 1}</td>
@@ -181,19 +212,26 @@ function rowHtml(row, index) {
             <td>${row.file}</td>
             <td>${row.truth || "—"}</td>
             <td><span class="tag" style="background:${meta.color};color:${meta.text};border:1px solid rgba(0,0,0,.12)">${row.pred}</span></td>
-            <td>${pct(row.probs[row.pred] ?? 0)}</td>
+            <td>${pct(row.top.probability)}</td>
+            <td>${row.second.className} (${pct(row.second.probability)})</td>
             <td>${tag}</td>
         </tr>`;
 }
 
-// Recalcula la etiqueta de cada fila con el umbral activo, sin volver a
-// ejecutar el modelo, y vuelve a dibujar la tabla y las métricas
+function applyRow(row) {
+    const d = decide(row.predictions);
+    row.truth = truthFor(row);
+    row.pred = d.label;
+    row.top = d.top;
+    row.second = d.second;
+    row.unsure = d.unsure;
+    // Las imágenes sin responder no cuentan como acierto ni como error
+    row.correct = row.truth && !row.unsure ? row.truth === row.pred : null;
+}
+
+// Recalcula cada fila con el umbral activo, sin volver a ejecutar el modelo
 function applyDecisionToBatch() {
-    batchRows.forEach((row) => {
-        row.truth = truthFor(row);
-        row.pred = decide(row.probs);
-        row.correct = row.truth ? row.truth === row.pred : null;
-    });
+    batchRows.forEach(applyRow);
     $("batch-table").querySelector("tbody").innerHTML = batchRows.map(rowHtml).join("");
     renderMetrics();
 }
@@ -221,9 +259,8 @@ async function classifyBatch(fileList) {
         img.src = url;
         await new Promise((resolve) => (img.onload = resolve));
         const result = await predict(img);
-        const row = { file: file.name, fileObj: file, url, probs: result.probs, pred: result.decision };
-        row.truth = truthFor(row);
-        row.correct = row.truth ? row.truth === row.pred : null;
+        const row = { file: file.name, fileObj: file, url, probs: result.probs, predictions: result.predictions };
+        applyRow(row);
         batchRows.push(row);
         tbody.insertAdjacentHTML("beforeend", rowHtml(row, i));
         $("progress-bar").style.width = `${((i + 1) / files.length) * 100}%`;
@@ -239,10 +276,11 @@ function renderMetrics() {
     const box = $("metrics");
     if (!labeled.length) { box.hidden = true; return; }
 
+    const answered = labeled.filter((r) => !r.unsure);
     const n = labels.length;
     const idx = Object.fromEntries(labels.map((l, i) => [l, i]));
     const cm = Array.from({ length: n }, () => Array(n).fill(0));
-    labeled.forEach((r) => cm[idx[r.truth]][idx[r.pred]]++);
+    answered.forEach((r) => cm[idx[r.truth]][idx[r.pred]]++);
 
     const perClass = labels.map((label, i) => {
         const tp = cm[i][i];
@@ -251,16 +289,21 @@ function renderMetrics() {
         const precision = tp + fp ? tp / (tp + fp) : NaN;
         const recall = tp + fn ? tp / (tp + fn) : NaN;
         const f1 = precision + recall ? (2 * precision * recall) / (precision + recall) : NaN;
-        return { label, precision, recall, f1, support: cm[i].reduce((a, b) => a + b, 0) };
+        return { label, precision, recall, f1, support: labeled.filter((r) => r.truth === label).length };
     });
-    const accuracy = labeled.filter((r) => r.correct).length / labeled.length;
-    const macroF1 = perClass.reduce((s, c) => s + (c.f1 || 0), 0) / n;
+    const hits = answered.filter((r) => r.correct).length;
+    const accuracy = answered.length ? hits / answered.length : NaN;
+    const present = perClass.filter((c) => c.support > 0);
+    const macroF1 = present.reduce((s, c) => s + (c.f1 || 0), 0) / present.length;
+    const unsureNote = useConfidence
+        ? `${labeled.length - answered.length} sin responder por confianza baja (cobertura ${pct(answered.length / labeled.length)})`
+        : "sin umbral de confianza";
 
     box.innerHTML = `
         <div class="metric-card">
-            <h3>Exactitud · umbral ${useAdjustedThreshold ? "ajustado" : "por defecto"}</h3>
-            <div class="kpi">${pct(accuracy)}</div>
-            <div class="kpi-sub">${labeled.filter((r) => r.correct).length} aciertos de ${labeled.length} imágenes etiquetadas · F1 macro ${num(macroF1)}</div>
+            <h3>Exactitud en las imágenes respondidas</h3>
+            <div class="kpi">${Number.isFinite(accuracy) ? pct(accuracy) : "—"}</div>
+            <div class="kpi-sub">${hits} aciertos de ${answered.length} respondidas · ${unsureNote} · F1 macro ${num(macroF1)}</div>
         </div>
         <div class="metric-card">
             <h3>Métricas por clase</h3>
@@ -269,19 +312,19 @@ function renderMetrics() {
                 ${perClass.map((c) => `<tr><td>${c.label}</td><td>${num(c.precision)}</td><td>${num(c.recall)}</td><td>${num(c.f1)}</td><td>${c.support}</td></tr>`).join("")}
             </table>
         </div>
-        <div class="metric-card">
-            <h3>Matriz de confusión</h3>
+        <div class="metric-card wide">
+            <h3>Matriz de confusión (filas: clase real · columnas: predicha)</h3>
             <table class="cm">
-                <tr><th>Real \\ Predicha</th>${labels.map((l) => `<th class="rot">${l}</th>`).join("")}</tr>
-                ${labels.map((l, i) => `<tr><td>${l}</td>${cm[i].map((v, j) => `<td class="${i === j ? "diag" : ""}">${v}</td>`).join("")}</tr>`).join("")}
+                <tr><th></th>${labels.map((l) => `<th class="rot">${l.replace("No carnivora", "No carn.")}</th>`).join("")}</tr>
+                ${labels.map((l, i) => `<tr><td>${l}</td>${cm[i].map((v, j) => `<td class="${i === j ? "diag" : v ? "off" : ""}">${v}</td>`).join("")}</tr>`).join("")}
             </table>
         </div>`;
     box.hidden = false;
 }
 
 function exportCsv() {
-    const header = ["file", "true", "pred", "threshold", ...labels].join(",");
-    const lines = batchRows.map((r) => [r.file, r.truth || "", r.pred, currentThreshold(), ...labels.map((l) => (r.probs[l] ?? 0).toFixed(6))].join(","));
+    const header = ["file", "true", "pred", "confidence_threshold", ...labels].join(",");
+    const lines = batchRows.map((r) => [r.file, r.truth || "", r.pred, useConfidence ? CONFIDENCE.value : 0, ...labels.map((l) => (r.probs[l] ?? 0).toFixed(6))].join(","));
     const blob = new Blob([[header, ...lines].join("\n")], { type: "text/csv;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -309,7 +352,7 @@ async function startCamera() {
     const loop = async () => {
         if (!webcam) return;
         webcam.update();
-        renderResult($("result-camera"), await predict(webcam.canvas));
+        renderResult($("result-camera"), await predict(webcam.canvas), { compact: true });
         cameraLoop = window.requestAnimationFrame(loop);
     };
     loop();
@@ -328,5 +371,20 @@ function stopCamera() {
 $("camera-start").addEventListener("click", startCamera);
 $("camera-stop").addEventListener("click", stopCamera);
 
-setThreshold(false);
+/* ─── Sección de géneros (fichas) ──────────────────────────────────────── */
+function renderGenera() {
+    const grid = $("genera");
+    if (!grid) return;
+    grid.innerHTML = Object.entries(CLASSES).filter(([l]) => l !== "No carnivora").map(([label, m]) => `
+        <article class="genus" style="--c:${m.color}">
+            <span class="genus-trap">${m.trap}</span>
+            <h3>${label}</h3>
+            <p class="genus-common">${m.common}</p>
+            <p class="genus-hint">${m.hint}</p>
+            ${careHtml(label).replace(" open>", ">")}
+        </article>`).join("");
+}
+
+renderGenera();
+setConfidence(CONFIDENCE.enabledByDefault);
 loadModel();

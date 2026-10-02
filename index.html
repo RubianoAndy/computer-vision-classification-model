@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clasificador de residuos · Universidad de La Salle</title>
+    <title>Identificador de plantas carnívoras · Universidad de La Salle</title>
     <link rel="icon" href="assets/images/Logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,9 +16,10 @@
                 <img src="assets/images/logo-white.png" alt="Universidad de La Salle">
             </a>
             <nav class="topnav">
-                <a href="#clasificador" data-goto="single">Clasificar</a>
-                <a href="#clasificador" data-goto="batch">Conjunto</a>
-                <a href="#clasificador" data-goto="camera">Cámara</a>
+                <a href="#identificador" data-goto="single">Identificar</a>
+                <a href="#identificador" data-goto="batch">Conjunto</a>
+                <a href="#identificador" data-goto="camera">Cámara</a>
+                <a href="#generos">Géneros</a>
                 <a href="#como-funciona">¿Cómo funciona?</a>
                 <a href="#modelo">Modelo</a>
             </nav>
@@ -34,23 +35,25 @@
         <div class="wrap hero-grid">
             <div class="hero-copy">
                 <span class="badge">Visión por Computador | Proyecto final | 2026</span>
-                <h1>Clasificador de <span class="accent">residuos</span></h1>
+                <h1>¿Qué <span class="accent">carnívora</span> es esta?</h1>
                 <p class="lead">
-                    Toma una foto de un residuo y descubre en qué caneca va. Un modelo de
-                    visión por computador entrenado en Teachable Machine y publicado en la
-                    nube decide si es <strong>orgánico</strong> o <strong>reciclable</strong>
-                    y lo traduce al código de colores colombiano: caneca verde o caneca blanca.
-                    Todo ocurre en tu navegador, las imágenes nunca salen de tu equipo.
+                    Sube una foto y un modelo de visión por computador, entrenado en Teachable
+                    Machine con fotos del canal <strong>Andy Rubiano - Plantas carnívoras</strong>
+                    y de su comunidad, te dice a qué género pertenece: <em>Dionaea</em>,
+                    <em>Drosera</em>, <em>Sarracenia</em>, <em>Nepenthes</em>, <em>Darlingtonia</em>,
+                    <em>Heliamphora</em> o <em>Pinguicula</em>. Con la respuesta recibes la ficha
+                    de cuidados del género. Todo ocurre en tu navegador: las fotos nunca salen
+                    de tu equipo.
                 </p>
                 <div class="hero-actions">
-                    <a class="button primary" href="#clasificador" data-goto="single">Clasificar una imagen <span aria-hidden="true">→</span></a>
-                    <a class="button ghost" href="#como-funciona">Ver cómo funciona</a>
+                    <a class="button primary" href="#identificador" data-goto="single">Identificar una planta <span aria-hidden="true">→</span></a>
+                    <a class="button ghost" href="#generos">Ver los géneros</a>
                 </div>
                 <div class="stats">
-                    <div class="stat"><span class="stat-n">2</span><span class="stat-l">Clases</span></div>
-                    <div class="stat"><span class="stat-n">1.000</span><span class="stat-l">Imágenes de entrenamiento</span></div>
-                    <div class="stat"><span class="stat-n">84,4 %</span><span class="stat-l">Exactitud en 500 de prueba</span></div>
-                    <div class="stat"><span class="stat-n">0,957</span><span class="stat-l">AUC</span></div>
+                    <div class="stat"><span class="stat-n">8</span><span class="stat-l">Clases (7 géneros + no carnívora)</span></div>
+                    <div class="stat"><span class="stat-n">960</span><span class="stat-l">Imágenes de entrenamiento</span></div>
+                    <div class="stat"><span class="stat-n">87,9 %</span><span class="stat-l">Exactitud en 240 de prueba</span></div>
+                    <div class="stat"><span class="stat-n">0,988</span><span class="stat-l">AUC macro</span></div>
                 </div>
             </div>
             <aside class="author-card">
@@ -66,23 +69,24 @@
         </div>
     </section>
 
-    <!-- Clasificador -->
+    <!-- Identificador -->
     <main>
-        <section class="block" id="clasificador">
+        <section class="block" id="identificador">
             <div class="wrap">
-                <span class="eyebrow">01 - Clasificador</span>
-                <h2>Clasifica un residuo y conoce su caneca</h2>
+                <span class="eyebrow">01 - Identificador</span>
+                <h2>Identifica el género y conoce sus cuidados</h2>
                 <p class="block-intro">
                     Elige cómo quieres probar el modelo: una fotografía, una carpeta completa
-                    de imágenes o la cámara en vivo.
+                    de imágenes o la cámara en vivo. Funciona mejor con la trampa centrada,
+                    de cerca y con buena luz.
                 </p>
 
                 <div class="threshold">
                     <div class="threshold-head">
-                        <span class="threshold-title">Umbral de decisión</span>
-                        <div class="threshold-switch" role="group" aria-label="Umbral de decisión">
-                            <button class="threshold-option active" data-threshold="default">Por defecto (0,5)</button>
-                            <button class="threshold-option" data-threshold="adjusted">Ajustado (0,977)</button>
+                        <span class="threshold-title">Umbral de confianza</span>
+                        <div class="threshold-switch" role="group" aria-label="Umbral de confianza">
+                            <button class="threshold-option active" data-threshold="on">Con umbral (0,8)</button>
+                            <button class="threshold-option" data-threshold="off">Sin umbral</button>
                         </div>
                     </div>
                     <p class="threshold-note small muted" id="threshold-note"></p>
@@ -100,14 +104,14 @@
                         <label class="dropzone" id="dropzone-single" for="file-single">
                             <input type="file" id="file-single" accept="image/*" hidden>
                             <div class="dropzone-inner" id="dropzone-single-inner">
-                                <span class="dropzone-icon">📷</span>
-                                <strong>Arrastra una foto del residuo o haz clic para elegirla</strong>
+                                <span class="dropzone-icon">🌱</span>
+                                <strong>Arrastra una foto de la planta o haz clic para elegirla</strong>
                                 <span class="muted">JPG, PNG o WEBP · la imagen se procesa en tu navegador</span>
                             </div>
                             <img id="preview-single" alt="Vista previa" hidden>
                         </label>
                         <div class="result-card" id="result-single">
-                            <p class="muted">La predicción aparecerá aquí.</p>
+                            <p class="muted">La identificación aparecerá aquí.</p>
                         </div>
                     </div>
                 </section>
@@ -127,20 +131,20 @@
                         <label class="batch-label" for="batch-label">
                             Clase real
                             <select id="batch-label">
-                                <option value="auto">Automática (carpeta o prefijo O_ / R_)</option>
-                                <option value="Orgánico">Todas son Orgánico</option>
-                                <option value="Reciclable">Todas son Reciclable</option>
+                                <option value="auto">Automática (carpeta o prefijo del archivo)</option>
                                 <option value="none">Sin etiqueta</option>
                             </select>
                         </label>
                     </div>
                     <p class="muted small">
-                        La clase real de cada imagen se toma de su carpeta (<em>Orgánico</em> /
-                        <em>Reciclable</em>, o <em>O</em> / <em>R</em> como en el dataset) o, si
-                        cargas imágenes sueltas, del prefijo del nombre (<em>O_</em>, <em>R_</em>).
-                        Si tus fotos no siguen ninguna convención, indica arriba de qué clase son.
-                        Con la clase real la aplicación marca aciertos y errores y calcula
-                        exactitud, precisión, exhaustividad, F1 y la matriz de confusión.
+                        La clase real de cada imagen se toma de su carpeta (<em>Dionaea</em>,
+                        <em>Nepenthes</em>, <em>No carnivora</em>…) o, si cargas imágenes sueltas,
+                        del prefijo del nombre (<em>dionaea_012.jpg</em>). Si tus fotos no siguen
+                        ninguna convención, indica arriba de qué clase son. Con la clase real la
+                        aplicación marca aciertos y errores y calcula exactitud, precisión,
+                        exhaustividad, F1 y la matriz de confusión de las ocho clases. Las imágenes
+                        que no superan el umbral de confianza quedan "sin responder" y no cuentan
+                        como acierto ni como error.
                     </p>
 
                     <div class="progress" id="progress" hidden>
@@ -155,7 +159,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th><th>Imagen</th><th>Archivo</th><th>Clase real</th>
-                                    <th>Predicción</th><th>Probabilidad</th><th>Resultado</th>
+                                    <th>Respuesta</th><th>Confianza</th><th>Segunda opción</th><th>Resultado</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -176,45 +180,48 @@
                             </div>
                         </div>
                         <div class="result-card" id="result-camera">
-                            <p class="muted">Muestra un residuo a la cámara.</p>
+                            <p class="muted">Acerca una planta a la cámara.</p>
                         </div>
                     </div>
                 </section>
             </div>
         </section>
 
-        <!-- Cómo funciona -->
-        <section class="block alt" id="como-funciona">
+        <!-- Géneros -->
+        <section class="block alt" id="generos">
             <div class="wrap">
-                <span class="eyebrow">02 - ¿Cómo funciona?</span>
-                <h2>Dos clases, dos canecas</h2>
+                <span class="eyebrow">02 - Los géneros</span>
+                <h2>Siete géneros, cuatro tipos de trampa</h2>
                 <p class="block-intro">
-                    La aplicación clasifica fotografías de residuos en dos categorías e indica
-                    en qué caneca deben depositarse según el código de colores unificado de
-                    Colombia (Resolución 2184 de 2019).
+                    El modelo reconoce los siete géneros más cultivados y una clase extra,
+                    <em>No carnivora</em>, para plantas y objetos que no son ninguno de ellos.
+                    Cada ficha resume los cuidados básicos; el detalle está en los videos del canal.
                 </p>
-                <div class="bins">
-                    <div class="bin" style="--bin:#2e8b57;--ink:#fff"><span class="bin-tag">Orgánico</span><strong>Caneca verde</strong><span>Restos de comida, cáscaras, residuos de jardín y otros biodegradables.</span></div>
-                    <div class="bin" style="--bin:#f7f7f4;--ink:#1a1a1a"><span class="bin-tag">Reciclable</span><strong>Caneca blanca</strong><span>Plástico, vidrio, metales, papel y cartón limpios y secos.</span></div>
-                    <div class="bin" style="--bin:#2b2b2b;--ink:#fff"><span class="bin-tag">Fuera del alcance</span><strong>Caneca negra</strong><span>No aprovechables. El modelo aún no reconoce esta categoría.</span></div>
-                </div>
+                <div class="genera" id="genera"></div>
+            </div>
+        </section>
 
+        <!-- Cómo funciona -->
+        <section class="block" id="como-funciona">
+            <div class="wrap">
+                <span class="eyebrow">03 - ¿Cómo funciona?</span>
+                <h2>Del dataset propio al navegador</h2>
                 <div class="steps">
-                    <div class="step"><span class="step-n">1</span><h4>Dataset</h4><p>25.077 fotografías del conjunto público <em>Waste Classification data</em> de Kaggle, depuradas por contenido: 500 por clase para entrenar y 250 por clase para probar.</p></div>
-                    <div class="step"><span class="step-n">2</span><h4>Entrenamiento</h4><p>Teachable Machine con transferencia de aprendizaje sobre MobileNet, 50 épocas, lote de 16 y tasa de 0,001.</p></div>
-                    <div class="step"><span class="step-n">3</span><h4>Despliegue</h4><p>El modelo se publicó en la nube de la plataforma, que expone un endpoint con la arquitectura, los pesos y las etiquetas.</p></div>
-                    <div class="step"><span class="step-n">4</span><h4>Aplicación</h4><p>Esta página descarga el modelo con <code>@teachablemachine/image</code> y ejecuta la inferencia con TensorFlow.js en tu navegador.</p></div>
+                    <div class="step"><span class="step-n">1</span><h4>Dataset</h4><p>1.200 fotografías propias y de la comunidad del canal, 150 por clase, revisadas una por una. Las de <em>No carnivora</em> vienen de iNaturalist con licencia Creative Commons. Se recortan a cuadrado y se separan 120 para entrenar y 30 para probar por clase, sin que una misma planta quede en ambos lados.</p></div>
+                    <div class="step"><span class="step-n">2</span><h4>Entrenamiento</h4><p>Teachable Machine con transferencia de aprendizaje sobre MobileNet, 50 épocas, lote de 16 y tasa de 0,001. El proyecto se guarda como archivo <code>.tm</code> para reproducirlo.</p></div>
+                    <div class="step"><span class="step-n">3</span><h4>Despliegue</h4><p>El modelo se publicó en la nube de la plataforma, que expone un endpoint con la arquitectura, los pesos y las ocho etiquetas.</p></div>
+                    <div class="step"><span class="step-n">4</span><h4>Aplicación</h4><p>Esta página descarga el modelo con <code>@teachablemachine/image</code>, ejecuta la inferencia con TensorFlow.js en tu navegador y aplica el umbral de confianza antes de responder.</p></div>
                 </div>
             </div>
         </section>
 
         <!-- Modelo -->
-        <section class="block" id="modelo">
+        <section class="block alt" id="modelo">
             <div class="wrap">
-                <span class="eyebrow">03 - El modelo</span>
+                <span class="eyebrow">04 - El modelo</span>
                 <h2>Qué tan bien funciona</h2>
                 <p class="block-intro">
-                    Evaluado sobre 500 imágenes que nunca vio, 250 por clase, descargando el
+                    Evaluado sobre 240 imágenes que nunca vio, 30 por clase, descargando el
                     modelo directamente desde el endpoint de la nube.
                 </p>
                 <div class="model-grid">
@@ -222,18 +229,25 @@
                         <h3>Métricas globales</h3>
                         <table>
                             <tr><th>Métrica</th><th>Valor</th></tr>
-                            <tr><td>Exactitud</td><td>0,844</td></tr>
-                            <tr><td>F1 macro</td><td>0,842</td></tr>
-                            <tr><td>AUC</td><td>0,957</td></tr>
-                            <tr><td>Pérdida logarítmica</td><td>0,782</td></tr>
+                            <tr><td>Exactitud</td><td>0,879</td></tr>
+                            <tr><td>Exactitud top-2</td><td>0,958</td></tr>
+                            <tr><td>F1 macro</td><td>0,878</td></tr>
+                            <tr><td>AUC macro</td><td>0,988</td></tr>
+                            <tr><td>Pérdida logarítmica</td><td>0,526</td></tr>
                         </table>
                     </div>
                     <div class="metric-card">
                         <h3>Por clase</h3>
                         <table>
                             <tr><th>Clase</th><th>Precisión</th><th>Exhaust.</th><th>F1</th></tr>
-                            <tr><td>Orgánico</td><td>0,781</td><td>0,956</td><td>0,860</td></tr>
-                            <tr><td>Reciclable</td><td>0,943</td><td>0,732</td><td>0,824</td></tr>
+                            <tr><td>Dionaea</td><td>0,871</td><td>0,900</td><td>0,885</td></tr>
+                            <tr><td>Drosera</td><td>0,933</td><td>0,933</td><td>0,933</td></tr>
+                            <tr><td>Sarracenia</td><td>0,880</td><td>0,733</td><td>0,800</td></tr>
+                            <tr><td>Nepenthes</td><td>0,963</td><td>0,867</td><td>0,912</td></tr>
+                            <tr><td>Darlingtonia</td><td>0,882</td><td>1,000</td><td>0,938</td></tr>
+                            <tr><td>Heliamphora</td><td>0,839</td><td>0,867</td><td>0,852</td></tr>
+                            <tr><td>Pinguicula</td><td>0,806</td><td>0,833</td><td>0,820</td></tr>
+                            <tr><td>No carnivora</td><td>0,871</td><td>0,900</td><td>0,885</td></tr>
                         </table>
                     </div>
                     <div class="metric-card">
@@ -244,12 +258,14 @@
                     </div>
                 </div>
                 <p class="muted small">
-                    El modelo tiende a llamar <em>orgánico</em> a reciclables blandos y de colores vivos
-                    (papel de seda, tela, pitillos). Por eso el clasificador ofrece un
-                    <strong>umbral ajustado</strong>: solo declara orgánico un residuo cuando la
-                    probabilidad supera el 97,7 %, un valor elegido sobre un segmento de validación
-                    independiente. Con él la exactitud sobre las 500 imágenes de prueba sube de
-                    84,4 % a 88,8 %. Ante la duda, revisa el residuo antes de decidir.
+                    Los errores se concentran entre géneros de jarra parecidos (<em>Sarracenia</em>
+                    con <em>Heliamphora</em> y <em>Darlingtonia</em>, <em>Nepenthes</em> con
+                    <em>Sarracenia</em>) y entre <em>Pinguicula</em>, <em>Dionaea</em> y plantas no
+                    carnívoras de roseta. La confianza del modelo separa bien aciertos de errores
+                    (0,96 frente a 0,83 en promedio), por eso la aplicación aplica un
+                    <strong>umbral de confianza de 0,8</strong>: responde el 89 % de las imágenes de
+                    prueba con exactitud de 0,91 y en el resto dice "no estoy seguro" mostrando las
+                    dos opciones más probables.
                 </p>
             </div>
         </section>
@@ -258,7 +274,7 @@
     <footer class="footer">
         <div class="wrap footer-inner">
             <img src="assets/images/logo-white.png" alt="Universidad de La Salle">
-            <p>Proyecto final | Visión por Computador | Maestría en Inteligencia Artificial | Facultad de Ingeniería<br>Universidad de La Salle | Bogotá D. C., Colombia | 2026<br><strong>Andrés Giovanny Rubiano Muñoz "Andy Rubiano"</strong></p>
+            <p>Proyecto final | Visión por Computador | Maestría en Inteligencia Artificial | Facultad de Ingeniería<br>Universidad de La Salle | Bogotá D. C., Colombia | 2026<br><strong>Andrés Giovanny Rubiano Muñoz "Andy Rubiano"</strong> · Fotos propias y de la comunidad del canal <a href="https://www.youtube.com/@AndyRubiano" target="_blank" rel="noopener">Andy Rubiano - Plantas carnívoras</a></p>
         </div>
     </footer>
 

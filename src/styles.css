@@ -192,10 +192,22 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
     border: 1px solid rgba(0, 0, 0, .12); white-space: nowrap;
 }
 .result-label { font-size: 28px; font-weight: 800; margin: 0; line-height: 1.1; }
+.result-common { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
 .result-conf { color: var(--muted); font-size: 13px; }
 .result-hint { color: var(--muted); font-size: 14px; margin: 6px 0 16px; }
 
-.bar-row { display: grid; grid-template-columns: 100px 1fr 68px; align-items: center; gap: 10px; margin: 8px 0; font-size: 14px; }
+/* Ficha de cuidados */
+.care { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+.care summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--navy); list-style: none; }
+.care summary::before { content: "▸ "; color: var(--gold-ink); }
+.care[open] summary::before { content: "▾ "; }
+.care dl { margin: 12px 0 14px; }
+.care-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.care-row dt { font-weight: 700; color: var(--navy); }
+.care-row dd { margin: 0; color: #3b4758; }
+.small-button { padding: 9px 14px; font-size: 13px; }
+
+.bar-row { display: grid; grid-template-columns: 110px 1fr 68px; align-items: center; gap: 10px; margin: 8px 0; font-size: 14px; }
 .bar-row > span { white-space: nowrap; }
 .bar-track { height: 12px; background: #e9eef5; border-radius: 0; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 0; transition: width .3s; }
@@ -224,7 +236,11 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
 .metric-card th, .metric-card td { padding: 6px 6px; text-align: right; border-bottom: 1px solid var(--line); }
 .metric-card th { color: var(--muted); font-weight: 600; }
 .metric-card th:first-child, .metric-card td:first-child { text-align: left; }
+.metric-card.wide { grid-column: 1 / -1; overflow: auto; }
+.cm td, .cm th { text-align: center; padding: 5px 6px; font-size: 12px; }
+.cm td:first-child { text-align: left; font-weight: 600; }
 .cm td.diag { background: #eef4fb; font-weight: 700; color: var(--navy); }
+.cm td.off { background: #fbe9e7; color: var(--bad); font-weight: 600; }
 .cm th.rot { font-weight: 500; color: var(--muted); }
 
 .table-wrap { overflow: auto; max-height: 790px; background: var(--surface); border: 1px solid var(--line); border-radius: 0; }  /* unas 10 filas visibles */
@@ -243,13 +259,19 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 0; font-size: 13px;
 .webcam-container canvas { width: 100%; height: auto; display: block; }
 .camera-actions { display: flex; gap: 10px; margin-top: 12px; }
 
-/* Canecas y pasos */
-.bins { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 0 0 40px; }
-.bin { background: var(--bin); color: var(--ink); border: 1px solid rgba(0, 0, 0, .12); border-radius: 0; padding: 22px; }
-.bin strong, .bin span { display: block; color: var(--ink); }
-.bin strong { font-size: 20px; margin: 6px 0 8px; }
-.bin span { font-size: 14px; opacity: .9; }
-.bin .bin-tag { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; opacity: .8; }
+/* Géneros */
+.genera { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.genus {
+    background: var(--bg); border: 1px solid var(--line); border-top: 5px solid var(--c);
+    padding: 22px; display: flex; flex-direction: column;
+}
+.genus-trap { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--c); }
+.genus h3 { margin: 8px 0 0; font-size: 22px; font-weight: 800; font-style: italic; }
+.genus-common { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+.genus-hint { margin: 0; font-size: 14px; color: #3b4758; }
+.genus .care { margin-top: auto; padding-top: 12px; }
+.genus .care dl { margin-bottom: 12px; }
+.genus .care-row { grid-template-columns: 100px 1fr; }
 
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
 .step { background: var(--bg); border: 1px solid var(--line); border-radius: 0; padding: 22px; position: relative; }
