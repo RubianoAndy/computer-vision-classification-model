@@ -1,0 +1,26 @@
+{
+  "fuente": "Teachable Machine, panel 'Más datos' (15 % de prueba interna, 18 imágenes por clase)",
+  "fecha": "2026-10-02",
+  "modelo_nube": "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/",
+  "hiperparametros": { "epocas": 50, "lote": 16, "tasa_aprendizaje": 0.001 },
+  "imagenes_entrenamiento_por_clase": 120,
+  "precision_por_clase": {
+    "Dionaea": 0.83, "Drosera": 0.94, "Sarracenia": 0.78, "Nepenthes": 0.83,
+    "Darlingtonia": 0.94, "Heliamphora": 0.89, "Pinguicula": 1.00, "No carnivora": 0.61
+  },
+  "matriz_confusion": {
+    "orden": ["Dionaea", "Drosera", "Sarracenia", "Nepenthes", "Darlingtonia", "Heliamphora", "Pinguicula", "No carnivora"],
+    "filas_real_columnas_prediccion": [
+      [15, 0, 0, 0, 0, 0, 3, 0],
+      [0, 17, 1, 0, 0, 0, 0, 0],
+      [1, 0, 14, 2, 1, 0, 0, 0],
+      [0, 0, 2, 15, 0, 1, 0, 0],
+      [0, 0, 0, 1, 17, 0, 0, 0],
+      [0, 0, 2, 0, 0, 16, 0, 0],
+      [0, 0, 0, 0, 0, 0, 18, 0],
+      [1, 1, 1, 1, 1, 0, 2, 11]
+    ],
+    "nota": "Capturas: identificador-carnivoras-mas-datos.png (panel completo) e identificador-carnivoras-matriz-derecha.png (columna No carnivora)."
+  },
+  "exactitud_global_interna": 0.854
+}
