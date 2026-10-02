@@ -13,8 +13,16 @@ const CONFIDENCE = {
     enabledByDefault: true,
 };
 
-// Canal de YouTube del autor. Las fichas enlazan a los videos de cada género.
-const CHANNEL_URL = "https://www.youtube.com/@AndyRubiano";
+// Redes de Andy Rubiano - Plantas carnívoras. Las fichas enlazan al canal de
+// YouTube (o al video del género cuando se indique en CLASSES[...].video).
+const CHANNEL_URL = "https://www.youtube.com/@RubianoAndy";
+const SOCIAL = [
+    { name: "YouTube", url: "https://www.youtube.com/@RubianoAndy", icon: "youtube" },
+    { name: "TikTok", url: "https://www.tiktok.com/@RubianoAndy", icon: "tiktok" },
+    { name: "Instagram", url: "https://www.instagram.com/RubianoAndy", icon: "instagram" },
+    { name: "Facebook", url: "https://www.facebook.com/RubianoAndy", icon: "facebook" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/company/andyrubiano", icon: "linkedin" },
+];
 
 // Ficha de cada clase del modelo: nombre, tipo de trampa, color para las
 // barras, descripción, cuidados básicos y video del canal (vacío si aún no hay).

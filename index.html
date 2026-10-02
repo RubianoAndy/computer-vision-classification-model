@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identificador de plantas carnívoras · Universidad de La Salle</title>
-    <link rel="icon" href="assets/images/Logo.png" type="image/png">
+    <title>¿Qué carnívora es? · Andy Rubiano - Plantas carnívoras</title>
+    <meta name="description" content="Sube una foto de tu planta carnívora y descubre su género y sus cuidados. Identificador con inteligencia artificial de Andy Rubiano - Plantas carnívoras.">
+    <link rel="icon" href="assets/images/logo-dark-64.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles.css">
@@ -12,20 +13,19 @@
 <body>
     <header class="topbar">
         <div class="wrap topbar-inner">
-            <a class="brand" href="#inicio" aria-label="Universidad de La Salle">
-                <img src="assets/images/logo-white.png" alt="Universidad de La Salle">
+            <a class="brand" href="#inicio" aria-label="Andy Rubiano - Plantas carnívoras">
+                <img src="assets/images/logo-light-160.png" alt="Andy Rubiano - Plantas carnívoras">
             </a>
             <nav class="topnav">
                 <a href="#identificador" data-goto="single">Identificar</a>
-                <a href="#identificador" data-goto="batch">Conjunto</a>
-                <a href="#identificador" data-goto="camera">Cámara</a>
                 <a href="#generos">Géneros</a>
                 <a href="#como-funciona">¿Cómo funciona?</a>
-                <a href="#modelo">Modelo</a>
+                <a href="#modelo">Precisión</a>
             </nav>
+            <div class="social-row" data-social="icons"></div>
             <div class="model-status loading" id="model-status" title="Estado del modelo">
                 <span class="dot"></span>
-                <span id="model-status-text">Cargando modelo desde la nube…</span>
+                <span id="model-status-text">Cargando modelo…</span>
             </div>
         </div>
     </header>
@@ -34,37 +34,32 @@
     <section class="hero" id="inicio">
         <div class="wrap hero-grid">
             <div class="hero-copy">
-                <span class="badge">Visión por Computador | Proyecto final | 2026</span>
+                <span class="badge">Identificador con inteligencia artificial</span>
                 <h1>¿Qué <span class="accent">carnívora</span> es esta?</h1>
                 <p class="lead">
-                    Sube una foto y un modelo de visión por computador, entrenado en Teachable
-                    Machine con fotos del canal <strong>Andy Rubiano - Plantas carnívoras</strong>
-                    y de su comunidad, te dice a qué género pertenece: <em>Dionaea</em>,
-                    <em>Drosera</em>, <em>Sarracenia</em>, <em>Nepenthes</em>, <em>Darlingtonia</em>,
-                    <em>Heliamphora</em> o <em>Pinguicula</em>. Con la respuesta recibes la ficha
-                    de cuidados del género. Todo ocurre en tu navegador: las fotos nunca salen
-                    de tu equipo.
+                    Sube una foto de tu planta y te decimos a qué género pertenece:
+                    <em>Dionaea</em>, <em>Drosera</em>, <em>Sarracenia</em>, <em>Nepenthes</em>,
+                    <em>Darlingtonia</em>, <em>Heliamphora</em> o <em>Pinguicula</em>. Con la respuesta
+                    recibes la ficha de cuidados y el enlace al video del canal. El modelo se
+                    entrenó con fotos de nuestro cultivo y de la comunidad, y todo ocurre en tu
+                    navegador: tus fotos nunca salen de tu equipo.
                 </p>
                 <div class="hero-actions">
-                    <a class="button primary" href="#identificador" data-goto="single">Identificar una planta <span aria-hidden="true">→</span></a>
-                    <a class="button ghost" href="#generos">Ver los géneros</a>
+                    <a class="button primary" href="#identificador" data-goto="single">Identificar mi planta <span aria-hidden="true">→</span></a>
+                    <a class="button ghost" href="#generos">Conocer los géneros</a>
                 </div>
                 <div class="stats">
-                    <div class="stat"><span class="stat-n">8</span><span class="stat-l">Clases (7 géneros + no carnívora)</span></div>
-                    <div class="stat"><span class="stat-n">960</span><span class="stat-l">Imágenes de entrenamiento</span></div>
-                    <div class="stat"><span class="stat-n">87,9 %</span><span class="stat-l">Exactitud en 240 de prueba</span></div>
-                    <div class="stat"><span class="stat-n">0,988</span><span class="stat-l">AUC macro</span></div>
+                    <div class="stat"><span class="stat-n">7</span><span class="stat-l">Géneros reconocidos</span></div>
+                    <div class="stat"><span class="stat-n">1.200</span><span class="stat-l">Fotos de la comunidad</span></div>
+                    <div class="stat"><span class="stat-n">9 de 10</span><span class="stat-l">Aciertos con buena foto</span></div>
+                    <div class="stat"><span class="stat-n">0 s</span><span class="stat-l">Sin registro ni espera</span></div>
                 </div>
             </div>
-            <aside class="author-card">
-                <div class="author-photo"><img src="assets/images/author/Andy%20Rubiano.png" alt="Andrés Giovanny Rubiano Muñoz"></div>
-                <h3>Andrés Giovanny Rubiano Muñoz</h3>
-                <p>Maestría en Inteligencia Artificial</p>
-                <a href="mailto:arubiano67@unisalle.edu.co">arubiano67@unisalle.edu.co</a>
-                <hr>
-                <p><strong>Visión por Computador</strong></p>
-                <p>Facultad de Ingeniería</p>
-                <p>Universidad de La Salle</p>
+            <aside class="brand-card">
+                <img class="brand-logo" src="assets/images/logo-dark-512.png" alt="Andy Rubiano - Plantas carnívoras">
+                <p class="brand-tagline">Cultivo, cuidados y comunidad de plantas carnívoras en Colombia.</p>
+                <a class="button primary full" href="https://www.youtube.com/@RubianoAndy" target="_blank" rel="noopener">Suscribirme al canal ▶</a>
+                <div class="social-list" data-social="text"></div>
             </aside>
         </div>
     </section>
@@ -73,12 +68,11 @@
     <main>
         <section class="block" id="identificador">
             <div class="wrap">
-                <span class="eyebrow">01 - Identificador</span>
+                <span class="eyebrow">Identificador</span>
                 <h2>Identifica el género y conoce sus cuidados</h2>
                 <p class="block-intro">
-                    Elige cómo quieres probar el modelo: una fotografía, una carpeta completa
-                    de imágenes o la cámara en vivo. Funciona mejor con la trampa centrada,
-                    de cerca y con buena luz.
+                    Una fotografía, una carpeta completa o la cámara en vivo. Funciona mejor
+                    con la trampa centrada, de cerca y con buena luz.
                 </p>
 
                 <div class="threshold">
@@ -105,7 +99,7 @@
                             <input type="file" id="file-single" accept="image/*" hidden>
                             <div class="dropzone-inner" id="dropzone-single-inner">
                                 <span class="dropzone-icon">🌱</span>
-                                <strong>Arrastra una foto de la planta o haz clic para elegirla</strong>
+                                <strong>Arrastra una foto de tu planta o haz clic para elegirla</strong>
                                 <span class="muted">JPG, PNG o WEBP · la imagen se procesa en tu navegador</span>
                             </div>
                             <img id="preview-single" alt="Vista previa" hidden>
@@ -137,14 +131,12 @@
                         </label>
                     </div>
                     <p class="muted small">
-                        La clase real de cada imagen se toma de su carpeta (<em>Dionaea</em>,
-                        <em>Nepenthes</em>, <em>No carnivora</em>…) o, si cargas imágenes sueltas,
-                        del prefijo del nombre (<em>dionaea_012.jpg</em>). Si tus fotos no siguen
-                        ninguna convención, indica arriba de qué clase son. Con la clase real la
-                        aplicación marca aciertos y errores y calcula exactitud, precisión,
-                        exhaustividad, F1 y la matriz de confusión de las ocho clases. Las imágenes
-                        que no superan el umbral de confianza quedan "sin responder" y no cuentan
-                        como acierto ni como error.
+                        Ideal para revisar una colección completa. Si cada carpeta lleva el nombre del
+                        género (<em>Dionaea</em>, <em>Nepenthes</em>, <em>No carnivora</em>…) o los archivos
+                        empiezan por él (<em>dionaea_012.jpg</em>), la aplicación marca aciertos y errores y
+                        calcula exactitud, precisión, exhaustividad, F1 y la matriz de confusión. Las imágenes
+                        que no superan el umbral de confianza quedan "sin responder" y no cuentan como acierto
+                        ni como error.
                     </p>
 
                     <div class="progress" id="progress" hidden>
@@ -190,10 +182,10 @@
         <!-- Géneros -->
         <section class="block alt" id="generos">
             <div class="wrap">
-                <span class="eyebrow">02 - Los géneros</span>
+                <span class="eyebrow">Los géneros</span>
                 <h2>Siete géneros, cuatro tipos de trampa</h2>
                 <p class="block-intro">
-                    El modelo reconoce los siete géneros más cultivados y una clase extra,
+                    El identificador reconoce los siete géneros más cultivados y una clase extra,
                     <em>No carnivora</em>, para plantas y objetos que no son ninguno de ellos.
                     Cada ficha resume los cuidados básicos; el detalle está en los videos del canal.
                 </p>
@@ -204,40 +196,40 @@
         <!-- Cómo funciona -->
         <section class="block" id="como-funciona">
             <div class="wrap">
-                <span class="eyebrow">03 - ¿Cómo funciona?</span>
-                <h2>Del dataset propio al navegador</h2>
+                <span class="eyebrow">¿Cómo funciona?</span>
+                <h2>De las fotos de la comunidad a tu navegador</h2>
                 <div class="steps">
-                    <div class="step"><span class="step-n">1</span><h4>Dataset</h4><p>1.200 fotografías propias y de la comunidad del canal, 150 por clase, revisadas una por una. Las de <em>No carnivora</em> vienen de iNaturalist con licencia Creative Commons. Se recortan a cuadrado y se separan 120 para entrenar y 30 para probar por clase, sin que una misma planta quede en ambos lados.</p></div>
-                    <div class="step"><span class="step-n">2</span><h4>Entrenamiento</h4><p>Teachable Machine con transferencia de aprendizaje sobre MobileNet, 50 épocas, lote de 16 y tasa de 0,001. El proyecto se guarda como archivo <code>.tm</code> para reproducirlo.</p></div>
-                    <div class="step"><span class="step-n">3</span><h4>Despliegue</h4><p>El modelo se publicó en la nube de la plataforma, que expone un endpoint con la arquitectura, los pesos y las ocho etiquetas.</p></div>
-                    <div class="step"><span class="step-n">4</span><h4>Aplicación</h4><p>Esta página descarga el modelo con <code>@teachablemachine/image</code>, ejecuta la inferencia con TensorFlow.js en tu navegador y aplica el umbral de confianza antes de responder.</p></div>
+                    <div class="step"><span class="step-n">1</span><h4>Fotos</h4><p>1.200 fotografías de nuestro cultivo y de la comunidad de plantas carnívoras, 150 por clase, revisadas una por una. Las de <em>No carnivora</em> vienen de iNaturalist con licencia Creative Commons.</p></div>
+                    <div class="step"><span class="step-n">2</span><h4>Entrenamiento</h4><p>El modelo aprende con Teachable Machine (transferencia de aprendizaje sobre MobileNet): 120 fotos por clase para entrenar y 30 reservadas para medir, sin que una misma planta esté en los dos lados.</p></div>
+                    <div class="step"><span class="step-n">3</span><h4>Publicación</h4><p>El modelo vive en la nube de Teachable Machine, que entrega la arquitectura, los pesos y las ocho etiquetas a cualquier página que lo pida.</p></div>
+                    <div class="step"><span class="step-n">4</span><h4>En tu navegador</h4><p>Esta página descarga el modelo y lo ejecuta con TensorFlow.js en tu dispositivo. Nada se sube a un servidor; por eso no hay registro, espera ni costo.</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- Modelo -->
+        <!-- Precisión -->
         <section class="block alt" id="modelo">
             <div class="wrap">
-                <span class="eyebrow">04 - El modelo</span>
-                <h2>Qué tan bien funciona</h2>
+                <span class="eyebrow">Precisión</span>
+                <h2>Qué tan bien acierta</h2>
                 <p class="block-intro">
-                    Evaluado sobre 240 imágenes que nunca vio, 30 por clase, descargando el
-                    modelo directamente desde el endpoint de la nube.
+                    Medido con 240 fotos que el modelo nunca vio, 30 por clase, descargándolo
+                    directamente desde la nube.
                 </p>
                 <div class="model-grid">
                     <div class="metric-card">
-                        <h3>Métricas globales</h3>
+                        <h3>En general</h3>
                         <table>
                             <tr><th>Métrica</th><th>Valor</th></tr>
                             <tr><td>Exactitud</td><td>0,879</td></tr>
-                            <tr><td>Exactitud top-2</td><td>0,958</td></tr>
+                            <tr><td>La clase correcta está entre las dos primeras</td><td>0,958</td></tr>
                             <tr><td>F1 macro</td><td>0,878</td></tr>
                             <tr><td>AUC macro</td><td>0,988</td></tr>
-                            <tr><td>Pérdida logarítmica</td><td>0,526</td></tr>
+                            <tr><td>Con umbral de confianza 0,8</td><td>0,91 (responde el 89 %)</td></tr>
                         </table>
                     </div>
                     <div class="metric-card">
-                        <h3>Por clase</h3>
+                        <h3>Por género</h3>
                         <table>
                             <tr><th>Clase</th><th>Precisión</th><th>Exhaust.</th><th>F1</th></tr>
                             <tr><td>Dionaea</td><td>0,871</td><td>0,900</td><td>0,885</td></tr>
@@ -251,30 +243,37 @@
                         </table>
                     </div>
                     <div class="metric-card">
-                        <h3>Endpoint</h3>
-                        <p class="small">El modelo vive en la nube de Teachable Machine y se descarga al abrir esta página.</p>
-                        <p class="small mono" id="about-model-url"></p>
-                        <p class="small muted">Archivos: <code>model.json</code> · <code>model.weights.bin</code> · <code>metadata.json</code></p>
+                        <h3>Dónde se equivoca</h3>
+                        <p class="small">Sobre todo entre géneros de jarra parecidos (<em>Sarracenia</em> con <em>Heliamphora</em> y <em>Darlingtonia</em>, <em>Nepenthes</em> con <em>Sarracenia</em>) y entre <em>Pinguicula</em>, <em>Dionaea</em> y plantas de roseta que no son carnívoras.</p>
+                        <p class="small">Cuando duda, lo dice: con el umbral de confianza responde "no estoy seguro" y muestra las dos opciones más probables en vez de inventar.</p>
+                        <p class="small mono muted" id="about-model-url"></p>
                     </div>
                 </div>
-                <p class="muted small">
-                    Los errores se concentran entre géneros de jarra parecidos (<em>Sarracenia</em>
-                    con <em>Heliamphora</em> y <em>Darlingtonia</em>, <em>Nepenthes</em> con
-                    <em>Sarracenia</em>) y entre <em>Pinguicula</em>, <em>Dionaea</em> y plantas no
-                    carnívoras de roseta. La confianza del modelo separa bien aciertos de errores
-                    (0,96 frente a 0,83 en promedio), por eso la aplicación aplica un
-                    <strong>umbral de confianza de 0,8</strong>: responde el 89 % de las imágenes de
-                    prueba con exactitud de 0,91 y en el resto dice "no estoy seguro" mostrando las
-                    dos opciones más probables.
-                </p>
+            </div>
+        </section>
+
+        <!-- Comunidad -->
+        <section class="block community" id="comunidad">
+            <div class="wrap community-inner">
+                <img src="assets/images/logo-dark-512.png" alt="Andy Rubiano - Plantas carnívoras">
+                <div>
+                    <h2>Sigue el cultivo en nuestras redes</h2>
+                    <p class="block-intro">Videos de cuidados, propagación, subastas y la comunidad de plantas carnívoras más activa de Colombia.</p>
+                    <div class="social-list big" data-social="text"></div>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="wrap footer-inner">
-            <img src="assets/images/logo-white.png" alt="Universidad de La Salle">
-            <p>Proyecto final | Visión por Computador | Maestría en Inteligencia Artificial | Facultad de Ingeniería<br>Universidad de La Salle | Bogotá D. C., Colombia | 2026<br><strong>Andrés Giovanny Rubiano Muñoz "Andy Rubiano"</strong> · Fotos propias y de la comunidad del canal <a href="https://www.youtube.com/@AndyRubiano" target="_blank" rel="noopener">Andy Rubiano - Plantas carnívoras</a></p>
+            <img src="assets/images/logo-light-160.png" alt="Andy Rubiano - Plantas carnívoras">
+            <div>
+                <p><strong>Andy Rubiano - Plantas carnívoras</strong> · Bogotá D. C., Colombia · 2026</p>
+                <p>Fotos propias y de la comunidad de plantas carnívoras y suscriptores del canal. Imágenes de la clase <em>No carnivora</em> de iNaturalist (licencias Creative Commons).</p>
+                <p class="small">Aplicación desarrollada por Andrés Giovanny Rubiano Muñoz como proyecto de la Maestría en Inteligencia Artificial de la Universidad de La Salle.</p>
+            </div>
+            <div class="social-row" data-social="icons"></div>
         </div>
     </footer>
 
