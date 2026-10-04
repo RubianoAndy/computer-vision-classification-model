@@ -8,12 +8,12 @@
   "variable": [
     {
       "key": "modelUrl",
-      "value": "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/",
+      "value": "https://teachablemachine.withgoogle.com/models/AOGVYthEm/",
       "type": "string"
     },
     {
       "key": "storageUrl",
-      "value": "https://storage.googleapis.com/tm-model/RmIb0tr6_/",
+      "value": "https://storage.googleapis.com/tm-model/AOGVYthEm/",
       "type": "string"
     }
   ],
@@ -29,7 +29,7 @@
             "{{modelUrl}}metadata.json"
           ]
         },
-        "description": "Único archivo que la aplicación necesita leer por su cuenta: trae el orden de las clases con el que se interpretan las probabilidades (`labels`) y el tamaño al que debe llevarse cada imagen (`imageSize`).\n\nRespuesta esperada:\n```json\n{\n  \"tfjsVersion\": \"1.7.4\",\n  \"tmVersion\": \"2.4.17\",\n  \"packageVersion\": \"0.8.4-alpha2\",\n  \"packageName\": \"@teachablemachine/image\",\n  \"timeStamp\": \"2026-10-02T22:31:48.467Z\",\n  \"userMetadata\": {},\n  \"modelName\": \"tm-my-image-model\",\n  \"labels\": [\"Dionaea\", \"Drosera\", \"Sarracenia\", \"Nepenthes\", \"Darlingtonia\", \"Heliamphora\", \"Pinguicula\", \"No carnivora\"],\n  \"imageSize\": 224\n}\n```"
+        "description": "Único archivo que la aplicación necesita leer por su cuenta: trae el orden de las clases con el que se interpretan las probabilidades (`labels`) y el tamaño al que debe llevarse cada imagen (`imageSize`).\n\nRespuesta esperada:\n```json\n{\n  \"tfjsVersion\": \"1.7.4\",\n  \"tmVersion\": \"2.4.17\",\n  \"packageVersion\": \"0.8.4-alpha2\",\n  \"packageName\": \"@teachablemachine/image\",\n  \"timeStamp\": \"2026-10-04T15:02:03.877Z\",\n  \"userMetadata\": {},\n  \"modelName\": \"tm-my-image-model\",\n  \"labels\": [\"Dionaea\", \"Drosera\", \"Sarracenia\", \"Nepenthes\", \"Darlingtonia\", \"Heliamphora\", \"Pinguicula\", \"No carnivora\"],\n  \"imageSize\": 224\n}\n```"
       },
       "event": [
         {
