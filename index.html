@@ -226,30 +226,30 @@
                         <h3>En general</h3>
                         <table>
                             <tr><th>Métrica</th><th>Valor</th></tr>
-                            <tr><td>Exactitud</td><td>0,879</td></tr>
-                            <tr><td>La clase correcta está entre las dos primeras</td><td>0,958</td></tr>
-                            <tr><td>F1 macro</td><td>0,878</td></tr>
-                            <tr><td>AUC macro</td><td>0,988</td></tr>
-                            <tr><td>Con umbral de confianza 0,8</td><td>0,91 (responde el 89 %)</td></tr>
+                            <tr><td>Exactitud</td><td>0,892</td></tr>
+                            <tr><td>La clase correcta está entre las dos primeras</td><td>0,942</td></tr>
+                            <tr><td>F1 macro</td><td>0,892</td></tr>
+                            <tr><td>AUC macro</td><td>0,990</td></tr>
+                            <tr><td>Con umbral de confianza 0,8</td><td>0,94 (responde el 88 %)</td></tr>
                         </table>
                     </div>
                     <div class="metric-card">
                         <h3>Por género</h3>
                         <table>
                             <tr><th>Clase</th><th>Precisión</th><th>Exhaust.</th><th>F1</th></tr>
-                            <tr><td>Dionaea</td><td>0,871</td><td>0,900</td><td>0,885</td></tr>
-                            <tr><td>Drosera</td><td>0,933</td><td>0,933</td><td>0,933</td></tr>
-                            <tr><td>Sarracenia</td><td>0,880</td><td>0,733</td><td>0,800</td></tr>
-                            <tr><td>Nepenthes</td><td>0,963</td><td>0,867</td><td>0,912</td></tr>
-                            <tr><td>Darlingtonia</td><td>0,882</td><td>1,000</td><td>0,938</td></tr>
-                            <tr><td>Heliamphora</td><td>0,839</td><td>0,867</td><td>0,852</td></tr>
-                            <tr><td>Pinguicula</td><td>0,806</td><td>0,833</td><td>0,820</td></tr>
-                            <tr><td>No carnivora</td><td>0,871</td><td>0,900</td><td>0,885</td></tr>
+                            <tr><td>Dionaea</td><td>0,960</td><td>0,800</td><td>0,873</td></tr>
+                            <tr><td>Drosera</td><td>0,853</td><td>0,967</td><td>0,906</td></tr>
+                            <tr><td>Sarracenia</td><td>0,862</td><td>0,833</td><td>0,847</td></tr>
+                            <tr><td>Nepenthes</td><td>0,929</td><td>0,867</td><td>0,897</td></tr>
+                            <tr><td>Darlingtonia</td><td>0,784</td><td>0,967</td><td>0,866</td></tr>
+                            <tr><td>Heliamphora</td><td>0,931</td><td>0,900</td><td>0,915</td></tr>
+                            <tr><td>Pinguicula</td><td>0,929</td><td>0,867</td><td>0,897</td></tr>
+                            <tr><td>No carnivora</td><td>0,933</td><td>0,933</td><td>0,933</td></tr>
                         </table>
                     </div>
                     <div class="metric-card">
                         <h3>Dónde se equivoca</h3>
-                        <p class="small">Sobre todo entre géneros de jarra parecidos (<em>Sarracenia</em> con <em>Heliamphora</em> y <em>Darlingtonia</em>, <em>Nepenthes</em> con <em>Sarracenia</em>) y entre <em>Pinguicula</em>, <em>Dionaea</em> y plantas de roseta que no son carnívoras.</p>
+                        <p class="small">Sobre todo entre géneros de jarra parecidos (<em>Sarracenia</em> con <em>Nepenthes</em> y <em>Darlingtonia</em>) y entre plantas de roseta o de hojas pegajosas (<em>Dionaea</em>, <em>Pinguicula</em> y <em>Drosera</em>).</p>
                         <p class="small">Cuando duda, lo dice: con el umbral de confianza responde "no estoy seguro" y muestra las dos opciones más probables en vez de inventar.</p>
                         <p class="small mono muted" id="about-model-url"></p>
                     </div>

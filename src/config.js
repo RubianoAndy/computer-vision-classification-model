@@ -1,13 +1,13 @@
 // Dirección del modelo publicado en la nube de Teachable Machine.
 // Se obtiene en: Exportar modelo → TensorFlow.js → Subir (enlace para compartir).
 // El endpoint sirve tres archivos: model.json, metadata.json y model.weights.bin.
-const MODEL_URL = "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/";
+const MODEL_URL = "https://teachablemachine.withgoogle.com/models/AOGVYthEm/";
 
 // Umbral de confianza. El modelo siempre elige alguna clase; si la probabilidad
 // de la clase ganadora no alcanza este valor, la aplicación responde "no estoy
 // seguro" y muestra las dos opciones más probables. Con 0,8 el modelo responde
-// el 89 % de las imágenes de prueba con una exactitud de 0,91 (ver
-// utils/eval/cloud-carnivoras-metrics.json).
+// el 88 % de las imágenes de prueba con una exactitud de 0,94 (ver
+// utils/eval/cloud-metrics.json).
 const CONFIDENCE = {
     value: 0.8,
     enabledByDefault: true,
@@ -27,14 +27,14 @@ const SOCIAL = [
 // Fotos de muestra para probar la aplicación sin tener una a la mano
 // (tomadas del segmento de prueba, que el modelo no vio al entrenar).
 const SAMPLES = [
-    { label: "Dionaea", src: "assets/images/samples/dionaea_043.jpg" },
-    { label: "Drosera", src: "assets/images/samples/drosera_050.jpg" },
-    { label: "Sarracenia", src: "assets/images/samples/sarracenia_004.jpg" },
-    { label: "Nepenthes", src: "assets/images/samples/nepenthes_002.jpg" },
-    { label: "Darlingtonia", src: "assets/images/samples/darlingtonia_017.jpg" },
-    { label: "Heliamphora", src: "assets/images/samples/heliamphora_020.jpg" },
-    { label: "Pinguicula", src: "assets/images/samples/pinguicula_048.jpg" },
-    { label: "¿Y esta?", src: "assets/images/samples/no_carnivora_093.jpg" },
+    { label: "Dionaea", src: "assets/images/samples/dionaea_069.jpg" },
+    { label: "Drosera", src: "assets/images/samples/drosera_100.jpg" },
+    { label: "Sarracenia", src: "assets/images/samples/sarracenia_038.jpg" },
+    { label: "Nepenthes", src: "assets/images/samples/nepenthes_147.jpg" },
+    { label: "Darlingtonia", src: "assets/images/samples/darlingtonia_112.jpg" },
+    { label: "Heliamphora", src: "assets/images/samples/heliamphora_121.jpg" },
+    { label: "Pinguicula", src: "assets/images/samples/pinguicula_092.jpg" },
+    { label: "¿Y esta?", src: "assets/images/samples/no_carnivora_059.jpg" },
 ];
 
 // Ficha de cada clase del modelo: nombre, tipo de trampa, color para las

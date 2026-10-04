@@ -1,220 +1,220 @@
 {
   "model": "cloud",
   "n": 240,
-  "accuracy": 0.8791666666666667,
-  "top2_accuracy": 0.9583333333333334,
-  "log_loss": 0.5263055579434369,
-  "mean_confidence": 0.9397770540375966,
-  "mean_confidence_errors": 0.8287737762111469,
-  "mean_confidence_hits": 0.9550334287151655,
+  "accuracy": 0.8916666666666667,
+  "top2_accuracy": 0.9416666666666667,
+  "log_loss": 0.45737376824982423,
+  "mean_confidence": 0.9367742003165023,
+  "mean_confidence_errors": 0.7436181487867299,
+  "mean_confidence_hits": 0.9602417579789978,
   "macro": {
-    "precision": 0.8807182514582894,
-    "recall": 0.8791666666666667,
-    "f1": 0.8782171232384239
+    "precision": 0.8975380748758031,
+    "recall": 0.8916666666666667,
+    "f1": 0.8917246950667865
   },
-  "auc_macro": 0.9883928571428571,
+  "auc_macro": 0.9895238095238095,
   "ci95": {
     "accuracy": [
-      0.8373958333333333,
-      0.9208333333333333
+      0.85,
+      0.9291666666666667
     ],
     "f1_macro": [
-      0.8312943423252234,
-      0.9172880954663838
+      0.8476823863189243,
+      0.9299402439762084
     ],
     "auc_macro": [
-      0.9817661246398028,
-      0.9941373447503645
+      0.9824988950957587,
+      0.99511749414192
     ]
   },
   "per_class": {
     "Dionaea": {
-      "precision": 0.8709677419354839,
-      "recall": 0.9,
-      "f1": 0.8852459016393442,
+      "precision": 0.96,
+      "recall": 0.8,
+      "f1": 0.8727272727272727,
       "support": 30,
-      "auc": 0.988095238095238
+      "auc": 0.9941269841269841
     },
     "Drosera": {
+      "precision": 0.8529411764705882,
+      "recall": 0.9666666666666667,
+      "f1": 0.90625,
+      "support": 30,
+      "auc": 0.996984126984127
+    },
+    "Sarracenia": {
+      "precision": 0.8620689655172413,
+      "recall": 0.8333333333333334,
+      "f1": 0.847457627118644,
+      "support": 30,
+      "auc": 0.9784126984126984
+    },
+    "Nepenthes": {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "support": 30,
+      "auc": 0.9888888888888888
+    },
+    "Darlingtonia": {
+      "precision": 0.7837837837837838,
+      "recall": 0.9666666666666667,
+      "f1": 0.8656716417910447,
+      "support": 30,
+      "auc": 0.9876190476190476
+    },
+    "Heliamphora": {
+      "precision": 0.9310344827586207,
+      "recall": 0.9,
+      "f1": 0.9152542372881356,
+      "support": 30,
+      "auc": 0.9895238095238095
+    },
+    "Pinguicula": {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "support": 30,
+      "auc": 0.9852380952380952
+    },
+    "No carnivora": {
       "precision": 0.9333333333333333,
       "recall": 0.9333333333333333,
       "f1": 0.9333333333333333,
       "support": 30,
-      "auc": 0.9957142857142857
-    },
-    "Sarracenia": {
-      "precision": 0.88,
-      "recall": 0.7333333333333333,
-      "f1": 0.8,
-      "support": 30,
-      "auc": 0.9785714285714285
-    },
-    "Nepenthes": {
-      "precision": 0.9629629629629629,
-      "recall": 0.8666666666666667,
-      "f1": 0.9122807017543859,
-      "support": 30,
-      "auc": 0.9946031746031746
-    },
-    "Darlingtonia": {
-      "precision": 0.8823529411764706,
-      "recall": 1.0,
-      "f1": 0.9375,
-      "support": 30,
-      "auc": 0.9990476190476191
-    },
-    "Heliamphora": {
-      "precision": 0.8387096774193549,
-      "recall": 0.8666666666666667,
-      "f1": 0.8524590163934426,
-      "support": 30,
-      "auc": 0.9873015873015873
-    },
-    "Pinguicula": {
-      "precision": 0.8064516129032258,
-      "recall": 0.8333333333333334,
-      "f1": 0.819672131147541,
-      "support": 30,
-      "auc": 0.9757142857142858
-    },
-    "No carnivora": {
-      "precision": 0.8709677419354839,
-      "recall": 0.9,
-      "f1": 0.8852459016393442,
-      "support": 30,
-      "auc": 0.9880952380952381
+      "auc": 0.9953968253968255
     }
   },
   "confusion_matrix": [
     [
-      27,
-      0,
-      0,
-      0,
-      0,
-      1,
+      24,
       2,
-      0
-    ],
-    [
-      0,
-      28,
-      0,
-      0,
       1,
+      0,
+      2,
       0,
       1,
       0
     ],
     [
+      0,
+      29,
+      0,
+      0,
       1,
       0,
-      22,
-      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      25,
       2,
-      3,
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      26,
+      0,
+      1,
       0,
       1
     ],
     [
       0,
       0,
-      3,
-      26,
       0,
-      1,
       0,
-      0
+      29,
+      0,
+      0,
+      1
     ],
     [
       0,
       0,
-      0,
-      0,
-      30,
-      0,
-      0,
-      0
-    ],
-    [
-      1,
       1,
       0,
-      0,
       1,
-      26,
+      27,
       1,
       0
     ],
     [
+      1,
       2,
       0,
       0,
+      1,
       0,
-      0,
-      0,
-      25,
-      3
+      26,
+      0
     ],
     [
       0,
       1,
       0,
       0,
+      1,
       0,
       0,
-      2,
-      27
+      28
     ]
   ],
   "confidence_threshold": [
     {
       "umbral": 0.0,
       "cobertura": 1.0,
-      "exactitud_respondidas": 0.8791666666666667,
-      "errores_respondidos": 29,
+      "exactitud_respondidas": 0.8916666666666667,
+      "errores_respondidos": 26,
       "errores_evitados": 0,
       "aciertos_perdidos": 0
     },
     {
       "umbral": 0.5,
-      "cobertura": 0.9833333333333333,
-      "exactitud_respondidas": 0.8898305084745762,
-      "errores_respondidos": 26,
-      "errores_evitados": 3,
+      "cobertura": 0.9708333333333333,
+      "exactitud_respondidas": 0.9141630901287554,
+      "errores_respondidos": 20,
+      "errores_evitados": 6,
       "aciertos_perdidos": 1
     },
     {
       "umbral": 0.6,
-      "cobertura": 0.9625,
-      "exactitud_respondidas": 0.8917748917748918,
-      "errores_respondidos": 25,
-      "errores_evitados": 4,
-      "aciertos_perdidos": 5
+      "cobertura": 0.9375,
+      "exactitud_respondidas": 0.92,
+      "errores_respondidos": 18,
+      "errores_evitados": 8,
+      "aciertos_perdidos": 7
     },
     {
       "umbral": 0.7,
-      "cobertura": 0.9208333333333333,
-      "exactitud_respondidas": 0.8959276018099548,
-      "errores_respondidos": 23,
-      "errores_evitados": 6,
-      "aciertos_perdidos": 13
+      "cobertura": 0.9083333333333333,
+      "exactitud_respondidas": 0.9311926605504587,
+      "errores_respondidos": 15,
+      "errores_evitados": 11,
+      "aciertos_perdidos": 11
     },
     {
       "umbral": 0.8,
-      "cobertura": 0.8875,
-      "exactitud_respondidas": 0.9061032863849765,
-      "errores_respondidos": 20,
-      "errores_evitados": 9,
-      "aciertos_perdidos": 18
+      "cobertura": 0.875,
+      "exactitud_respondidas": 0.9428571428571428,
+      "errores_respondidos": 12,
+      "errores_evitados": 14,
+      "aciertos_perdidos": 16
     },
     {
       "umbral": 0.9,
-      "cobertura": 0.8041666666666667,
-      "exactitud_respondidas": 0.9326424870466321,
-      "errores_respondidos": 13,
+      "cobertura": 0.8375,
+      "exactitud_respondidas": 0.9502487562189055,
+      "errores_respondidos": 10,
       "errores_evitados": 16,
-      "aciertos_perdidos": 31
+      "aciertos_perdidos": 23
     }
   ],
   "errors": [
@@ -222,204 +222,183 @@
       "file": "dionaea_033.jpg",
       "true": "Dionaea",
       "pred": "Pinguicula",
-      "prob": 0.9481153331937077,
+      "prob": 0.6554557898360587,
       "second": "Dionaea"
     },
     {
-      "file": "dionaea_070.jpg",
+      "file": "dionaea_107.jpg",
       "true": "Dionaea",
-      "pred": "Pinguicula",
-      "prob": 0.9900135559970664,
-      "second": "Dionaea"
+      "pred": "Sarracenia",
+      "prob": 0.9858005149710855,
+      "second": "Darlingtonia"
     },
     {
-      "file": "dionaea_072.jpg",
+      "file": "dionaea_116.jpg",
       "true": "Dionaea",
-      "pred": "Heliamphora",
-      "prob": 0.6362623938443873,
+      "pred": "Darlingtonia",
+      "prob": 0.42381795593473814,
+      "second": "Drosera"
+    },
+    {
+      "file": "dionaea_130.jpg",
+      "true": "Dionaea",
+      "pred": "Drosera",
+      "prob": 0.8530725955413107,
+      "second": "Darlingtonia"
+    },
+    {
+      "file": "dionaea_139.jpg",
+      "true": "Dionaea",
+      "pred": "Darlingtonia",
+      "prob": 0.3876429562635349,
+      "second": "Drosera"
+    },
+    {
+      "file": "dionaea_143.jpg",
+      "true": "Dionaea",
+      "pred": "Drosera",
+      "prob": 0.5165747540535196,
       "second": "Dionaea"
     },
     {
       "file": "drosera_051.jpg",
       "true": "Drosera",
       "pred": "Darlingtonia",
-      "prob": 0.9926329444445494,
-      "second": "Drosera"
-    },
-    {
-      "file": "drosera_149.jpg",
-      "true": "Drosera",
-      "pred": "Pinguicula",
-      "prob": 0.8542575072485391,
+      "prob": 0.8348890279883442,
       "second": "Drosera"
     },
     {
       "file": "sarracenia_004.jpg",
       "true": "Sarracenia",
       "pred": "Heliamphora",
-      "prob": 0.9546056857095634,
-      "second": "Nepenthes"
+      "prob": 0.9829366806657055,
+      "second": "Pinguicula"
     },
     {
       "file": "sarracenia_023.jpg",
       "true": "Sarracenia",
       "pred": "Darlingtonia",
-      "prob": 0.9658230387849593,
-      "second": "Heliamphora"
+      "prob": 0.9998806893554043,
+      "second": "Pinguicula"
+    },
+    {
+      "file": "sarracenia_025.jpg",
+      "true": "Sarracenia",
+      "pred": "Nepenthes",
+      "prob": 0.47357879447327733,
+      "second": "Sarracenia"
     },
     {
       "file": "sarracenia_059.jpg",
       "true": "Sarracenia",
       "pred": "Nepenthes",
-      "prob": 0.5820826577604788,
+      "prob": 0.6312876873972009,
       "second": "Heliamphora"
     },
     {
-      "file": "sarracenia_075.jpg",
-      "true": "Sarracenia",
-      "pred": "Heliamphora",
-      "prob": 0.7787628123159474,
-      "second": "Darlingtonia"
-    },
-    {
-      "file": "sarracenia_090.jpg",
-      "true": "Sarracenia",
-      "pred": "No carnivora",
-      "prob": 0.8657586008030778,
-      "second": "Darlingtonia"
-    },
-    {
-      "file": "sarracenia_098.jpg",
-      "true": "Sarracenia",
-      "pred": "Heliamphora",
-      "prob": 0.7896979714231767,
-      "second": "Sarracenia"
-    },
-    {
-      "file": "sarracenia_139.jpg",
-      "true": "Sarracenia",
-      "pred": "Dionaea",
-      "prob": 0.8861219650904298,
-      "second": "Darlingtonia"
-    },
-    {
-      "file": "sarracenia_146.jpg",
+      "file": "sarracenia_084.jpg",
       "true": "Sarracenia",
       "pred": "Darlingtonia",
-      "prob": 0.8733024102149334,
+      "prob": 0.4638707325758742,
       "second": "Sarracenia"
-    },
-    {
-      "file": "nepenthes_016.jpg",
-      "true": "Nepenthes",
-      "pred": "Sarracenia",
-      "prob": 0.9139896858997529,
-      "second": "Nepenthes"
-    },
-    {
-      "file": "nepenthes_069.jpg",
-      "true": "Nepenthes",
-      "pred": "Heliamphora",
-      "prob": 0.3569172246014985,
-      "second": "Nepenthes"
     },
     {
       "file": "nepenthes_078.jpg",
       "true": "Nepenthes",
       "pred": "Sarracenia",
-      "prob": 0.9833950748874334,
+      "prob": 0.9835057530879866,
+      "second": "Heliamphora"
+    },
+    {
+      "file": "nepenthes_086.jpg",
+      "true": "Nepenthes",
+      "pred": "No carnivora",
+      "prob": 0.9959994406677803,
       "second": "Nepenthes"
     },
     {
-      "file": "nepenthes_123.jpg",
+      "file": "nepenthes_119.jpg",
       "true": "Nepenthes",
       "pred": "Sarracenia",
-      "prob": 0.44679679631839436,
-      "second": "Heliamphora"
+      "prob": 0.7217900946972464,
+      "second": "Drosera"
     },
     {
-      "file": "heliamphora_119.jpg",
-      "true": "Heliamphora",
-      "pred": "Drosera",
-      "prob": 0.688886322867397,
-      "second": "Heliamphora"
+      "file": "nepenthes_144.jpg",
+      "true": "Nepenthes",
+      "pred": "Heliamphora",
+      "prob": 0.9936839597317751,
+      "second": "Nepenthes"
     },
     {
-      "file": "heliamphora_135.jpg",
-      "true": "Heliamphora",
-      "pred": "Dionaea",
-      "prob": 0.9199699219787979,
-      "second": "Heliamphora"
+      "file": "darlingtonia_117.jpg",
+      "true": "Darlingtonia",
+      "pred": "No carnivora",
+      "prob": 0.9973701766354036,
+      "second": "Nepenthes"
     },
     {
-      "file": "heliamphora_141.jpg",
+      "file": "heliamphora_082.jpg",
       "true": "Heliamphora",
       "pred": "Darlingtonia",
-      "prob": 0.4909507745257225,
+      "prob": 0.574044019057827,
+      "second": "Heliamphora"
+    },
+    {
+      "file": "heliamphora_114.jpg",
+      "true": "Heliamphora",
+      "pred": "Pinguicula",
+      "prob": 0.999547529853312,
+      "second": "Heliamphora"
+    },
+    {
+      "file": "heliamphora_131.jpg",
+      "true": "Heliamphora",
+      "pred": "Sarracenia",
+      "prob": 0.6319554050658168,
       "second": "Dionaea"
     },
     {
-      "file": "heliamphora_143.jpg",
-      "true": "Heliamphora",
-      "pred": "Pinguicula",
-      "prob": 0.8621327066328809,
-      "second": "Heliamphora"
+      "file": "pinguicula_042.jpg",
+      "true": "Pinguicula",
+      "pred": "Drosera",
+      "prob": 0.9821035935860909,
+      "second": "No carnivora"
     },
     {
-      "file": "pinguicula_100.jpg",
+      "file": "pinguicula_075.jpg",
       "true": "Pinguicula",
-      "pred": "No carnivora",
-      "prob": 0.808282778925278,
+      "pred": "Drosera",
+      "prob": 0.7326915036554951,
       "second": "Pinguicula"
     },
     {
       "file": "pinguicula_103.jpg",
       "true": "Pinguicula",
       "pred": "Dionaea",
-      "prob": 0.954646317628898,
+      "prob": 0.940546658309033,
       "second": "Darlingtonia"
     },
     {
-      "file": "pinguicula_111.jpg",
+      "file": "pinguicula_146.jpg",
       "true": "Pinguicula",
-      "pred": "No carnivora",
-      "prob": 0.9989241279951875,
+      "pred": "Darlingtonia",
+      "prob": 0.7661175126614923,
       "second": "Pinguicula"
-    },
-    {
-      "file": "pinguicula_114.jpg",
-      "true": "Pinguicula",
-      "pred": "No carnivora",
-      "prob": 0.9998870639215724,
-      "second": "Pinguicula"
-    },
-    {
-      "file": "pinguicula_136.jpg",
-      "true": "Pinguicula",
-      "pred": "Dionaea",
-      "prob": 0.8961480822027765,
-      "second": "Pinguicula"
-    },
-    {
-      "file": "no_carnivora_086.jpg",
-      "true": "No carnivora",
-      "pred": "Pinguicula",
-      "prob": 0.7212326993905228,
-      "second": "No carnivora"
     },
     {
       "file": "no_carnivora_094.jpg",
       "true": "No carnivora",
       "pred": "Drosera",
-      "prob": 0.9246928541243089,
+      "prob": 0.49987343982235266,
       "second": "No carnivora"
     },
     {
       "file": "no_carnivora_118.jpg",
       "true": "No carnivora",
-      "pred": "Pinguicula",
-      "prob": 0.9501502013920159,
-      "second": "Dionaea"
+      "pred": "Darlingtonia",
+      "prob": 0.30603460256731096,
+      "second": "Pinguicula"
     }
   ]
 }

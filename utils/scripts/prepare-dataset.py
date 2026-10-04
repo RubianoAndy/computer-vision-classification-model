@@ -35,12 +35,25 @@ def dhash(im, n=8):
     return int("".join("1" if a > b else "0" for a, b in zip(px[:, :-1].ravel(), px[:, 1:].ravel())), 2)
 
 
-def recorte_cuadrado(im):
+def recortes_manuales():
+    """Posición (0 = inicio, 1 = final del lado largo) fijada a mano para las
+    pocas imágenes en las que el recorte automático no encuadra la trampa."""
+    ruta = RAW / "_fuentes" / "recortes_manuales.csv"
+    if not ruta.exists():
+        return {}
+    with ruta.open(encoding="utf-8-sig") as f:
+        return {(r["clase"], r["archivo"]): float(r["posicion"]) for r in csv.DictReader(f)}
+
+
+def recorte_cuadrado(im, posicion=None):
     """Devuelve el recorte cuadrado con más detalle a lo largo del lado largo."""
     w, h = im.size
     lado = min(w, h)
     if w == h:
         return im
+    if posicion is not None:
+        off = int(round(posicion * (max(w, h) - lado)))
+        return im.crop((off, 0, off + lado, lado) if w > h else (0, off, lado, off + lado))
     chica = im.copy()
     chica.thumbnail((400, 400))
     escala = chica.size[0] / w
@@ -101,10 +114,20 @@ def grupos_por_clase(clase, archivos):
     return list(grupos.values())
 
 
-def repartir(grupos, rng):
+def solo_entrenamiento(clase):
+    """Imágenes cuyo grupo no puede ir a prueba (duplicados que contarían doble)."""
+    ruta = RAW / "_fuentes" / "solo_entrenamiento.csv"
+    if not ruta.exists():
+        return set()
+    with ruta.open(encoding="utf-8-sig") as f:
+        return {r["archivo"] for r in csv.DictReader(f) if r["clase"] == clase}
+
+
+def repartir(grupos, rng, excluidas=frozenset()):
     """Elige grupos al azar para prueba hasta sumar exactamente N_PRUEBA."""
+    candidatos = [g for g in grupos if not excluidas & set(g)]
     for _ in range(1000):
-        orden = grupos[:]
+        orden = candidatos[:]
         rng.shuffle(orden)
         prueba, total = [], 0
         for g in orden:
@@ -118,11 +141,12 @@ def repartir(grupos, rng):
 
 def main():
     rng = random.Random(SEMILLA)
+    manuales = recortes_manuales()
     filas = []
     for clase in CLASES:
         archivos = sorted(f for f in (RAW / clase).iterdir() if f.is_file())
         grupos = grupos_por_clase(clase, archivos)
-        en_prueba = repartir(grupos, rng)
+        en_prueba = repartir(grupos, rng, solo_entrenamiento(clase))
         n_series = sum(1 for g in grupos if len(g) > 1)
         for particion in ("train", "test"):
             (OUT / particion / clase).mkdir(parents=True, exist_ok=True)
@@ -130,7 +154,7 @@ def main():
             particion = "test" if a.name in en_prueba else "train"
             with Image.open(a) as im:
                 im = ImageOps.exif_transpose(im).convert("RGB")
-                im = recorte_cuadrado(im).resize((LADO, LADO), Image.LANCZOS)
+                im = recorte_cuadrado(im, manuales.get((clase, a.name))).resize((LADO, LADO), Image.LANCZOS)
                 im.save(OUT / particion / clase / a.name, "JPEG", quality=90, optimize=True)
             filas.append({"clase": clase, "archivo": a.name, "particion": particion})
         print(f"{clase}: {len(archivos) - len(en_prueba)} train / {len(en_prueba)} test, "
