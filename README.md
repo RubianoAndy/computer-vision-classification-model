@@ -29,7 +29,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 | **Video demostrativo (YouTube, no listado)** | *pendiente* |
 | **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
-| **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/RmIb0tr6_/ |
+| **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/AOGVYthEm/ |
 | **Canal de YouTube** | https://www.youtube.com/@RubianoAndy |
 | **Herramienta** | [Teachable Machine](https://teachablemachine.withgoogle.com/) |
 | **Informe** | `../computer vision-classification-model-report/build/main.pdf` |
@@ -42,19 +42,19 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 ### 1 · Dataset propio
 
-1.200 fotografías, **150 por clase**, reunidas en octubre de 2026:
+1.200 fotografías, **150 por clase**, reunidas en octubre de 2026 a partir de 3.531 revisadas:
 
 | Fuente | Clases | Detalle |
 |---|---|---|
 | Fotos propias del autor | 7 géneros | Archivo del canal (598 fotos revisadas, 335 útiles) |
-| Comunidad de plantas carnívoras y suscriptores del canal | 7 géneros | Fotos compartidas por mensajes directos y grupos de subastas (1.000 fotos revisadas, 343 útiles) |
+| Comunidad de plantas carnívoras y suscriptores del canal | 7 géneros | Fotos compartidas por mensajes directos (1.612 revisadas, 901 útiles) y grupos de subastas (1.000 revisadas, 343 útiles) |
 | iNaturalist (licencias CC BY, CC BY-NC, CC BY-SA, CC BY-NC-SA) | *No carnivora* | 136 observaciones de 32 taxones que se parecen a una carnívora (suculentas en roseta, calas, bromelias, musgo…) más 14 fotos propias sin plantas carnívoras |
 
 Cada foto se revisó a mano: se descartaron las plantas muy pequeñas o lejanas, las flores y esquejes sin trampas, las borrosas, las duplicadas (dHash) y las de géneros fuera del alcance (*Cephalotus*, *Utricularia*…). Luego se renombraron a `<clase>_<nnn>.jpg` conservando en un CSV la fuente y el **grupo de ejemplar** de cada una.
 
 ### 2 · Preparación y partición
 
-`utils/scripts/prepare-dataset.py` recorta cada imagen a cuadrado de 512 px eligiendo la ventana con más detalle sobre el lado largo (para no cortar la boca de las jarras altas) y separa **120 de entrenamiento y 30 de prueba por clase**. Las fotos de una misma serie o planta van completas a un solo lado, así que ninguna imagen de prueba tiene una casi idéntica en entrenamiento. Semilla fija (42).
+`utils/scripts/prepare-dataset.py` recorta cada imagen a cuadrado de 512 px eligiendo la ventana con más detalle sobre el lado largo (para no cortar la boca de las jarras altas) y separa **120 de entrenamiento y 30 de prueba por clase**. Las fotos de una misma serie o planta van completas a un solo lado, así que ninguna imagen de prueba tiene una casi idéntica en entrenamiento. Semilla fija (42). Las pocas imágenes en las que el recorte automático no encuadra la trampa llevan su posición fijada en `recortes_manuales.csv`.
 
 ### 3 · Entrenamiento en Teachable Machine
 
@@ -86,33 +86,34 @@ Los tres modos comparten el **umbral de confianza** (0,8): si la clase ganadora 
 
 ### Lo que reporta Teachable Machine (prueba interna, 18 imágenes por clase)
 
-Exactitud interna ≈ 0,85. Por clase: Pinguicula 1,00 · Drosera 0,94 · Darlingtonia 0,94 · Heliamphora 0,89 · Dionaea 0,83 · Nepenthes 0,83 · Sarracenia 0,78 · No carnivora 0,61. Capturas y JSON en `utils/teachable-machine/`.
+Exactitud interna ≈ 0,85 (122 de 144). Por clase: Drosera 0,94 · Heliamphora 0,94 · Pinguicula 0,94 · Sarracenia 0,89 · Darlingtonia 0,83 · No carnivora 0,78 · Dionaea 0,72 · Nepenthes 0,72. Capturas y JSON en `utils/teachable-machine/`.
 
 ### Evaluación sobre el segmento independiente (240 imágenes, 30 por clase)
 
 | Métrica | Valor | IC 95 % (bootstrap) |
 |---|---|---|
-| **Exactitud** | **0,879** | [0,837; 0,921] |
-| Exactitud top-2 | 0,958 | |
-| F1 macro | 0,878 | [0,831; 0,917] |
-| AUC macro (uno contra el resto) | 0,988 | [0,982; 0,994] |
-| Pérdida logarítmica | 0,526 | |
+| **Exactitud** | **0,892** | [0,850; 0,929] |
+| Exactitud top-2 | 0,942 | |
+| F1 macro | 0,892 | [0,848; 0,930] |
+| AUC macro (uno contra el resto) | 0,990 | [0,982; 0,995] |
+| Pérdida logarítmica | 0,457 | |
 
 | Clase | Precisión | Exhaustividad | F1 | AUC |
 |---|---|---|---|---|
-| Dionaea | 0,871 | 0,900 | 0,885 | 0,988 |
-| Drosera | 0,933 | 0,933 | 0,933 | 0,996 |
-| Sarracenia | 0,880 | 0,733 | 0,800 | 0,979 |
-| Nepenthes | 0,963 | 0,867 | 0,912 | 0,995 |
-| Darlingtonia | 0,882 | 1,000 | 0,938 | 0,999 |
-| Heliamphora | 0,839 | 0,867 | 0,852 | 0,987 |
-| Pinguicula | 0,806 | 0,833 | 0,820 | 0,976 |
-| No carnivora | 0,871 | 0,900 | 0,885 | 0,988 |
+| Dionaea | 0,960 | 0,800 | 0,873 | 0,994 |
+| Drosera | 0,853 | 0,967 | 0,906 | 0,997 |
+| Sarracenia | 0,862 | 0,833 | 0,847 | 0,978 |
+| Nepenthes | 0,929 | 0,867 | 0,897 | 0,989 |
+| Darlingtonia | 0,784 | 0,967 | 0,866 | 0,988 |
+| Heliamphora | 0,931 | 0,900 | 0,915 | 0,990 |
+| Pinguicula | 0,929 | 0,867 | 0,897 | 0,985 |
+| No carnivora | 0,933 | 0,933 | 0,933 | 0,995 |
 
-- **Dónde se equivoca (29 errores):** entre géneros de jarra parecidos (*Sarracenia* → *Heliamphora* 3, → *Darlingtonia* 2; *Nepenthes* → *Sarracenia* 3) y entre rosetas (*Pinguicula* → *No carnivora* 3, → *Dionaea* 2; *Dionaea* → *Pinguicula* 2).
-- **Confianza:** 0,955 en los aciertos frente a 0,829 en los errores; el modelo duda más cuando se equivoca. Con el **umbral de confianza de 0,8** responde el 89 % de las imágenes con exactitud de 0,906 y evita 9 de los 29 errores.
-- **Interna vs. independiente:** la prueba interna de 18 imágenes por clase daba 0,61 en *No carnivora*; con 30 imágenes nuevas esa clase llega a 0,90. Las muestras pequeñas engañan.
-- **Nube = local = app:** la copia descargada da las mismas probabilidades que el endpoint; la app, cargando la carpeta de prueba, reporta 88,3 % sin umbral (212 de 240) frente a 87,9 % del script, y 93,3 % con umbral sobre el 87 % de imágenes que responde.
+- **Dónde se equivoca (26 errores):** 17 ocurren dentro de una misma familia visual: 10 entre géneros de jarra (*Sarracenia* ↔ *Nepenthes* 4, *Sarracenia* → *Darlingtonia* 2) y 7 entre rosetas y hojas pegajosas (*Dionaea* → *Drosera* 2, *Pinguicula* → *Drosera* 2).
+- **Confianza:** 0,960 en los aciertos frente a 0,744 en los errores. Con el **umbral de confianza de 0,8** responde el 87,5 % de las imágenes con exactitud de 0,943 y evita 14 de los 26 errores.
+- **Interna vs. independiente:** la prueba interna de 18 imágenes por clase daba 0,72 en *Dionaea* y *Nepenthes*; con 30 imágenes nuevas llegan a 0,80 y 0,87. Las muestras pequeñas engañan.
+- **Nube = local = app:** la copia descargada da las mismas probabilidades que el endpoint; la app, cargando la carpeta de prueba, reporta 215 aciertos de 240 sin umbral (89,6 %) frente a 214 del script, y 93,9 % con umbral sobre el 89 % de imágenes que responde.
+- **Segunda versión del modelo:** una primera versión, entrenada antes de sumar 70 fotos nuevas de la comunidad (sobre todo *Nepenthes* y *Heliamphora*), obtuvo 0,879 sobre su propio segmento de prueba. Las cifras no son comparables una a una porque la partición cambió.
 
 Las figuras (matriz de confusión 8×8, curvas ROC por clase, barras por clase, histograma de confianza, curva umbral/cobertura y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
 
@@ -135,12 +136,12 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
 ├── assets/images/
 │   ├── logo/                         # Logos originales (texto negro y texto blanco)
 │   ├── logo-{dark,light}-{512,160,64}.png   # Versiones para la web y favicon
-│   └── samples/                      # Ocho fotos de muestra para probar la app
+│   └── samples/                      # Ocho fotos de muestra para probar la app (del segmento de prueba)
 └── utils/                            # Todo lo que no es la aplicación
     ├── scripts/
     │   ├── download-non-carnivorous.py   # Descarga de iNaturalist con atribuciones (clase No carnivora)
     │   ├── rename-dataset.py             # <clase>_<nnn>.jpg y CSV con fuente y grupo de ejemplar
-    │   └── prepare-dataset.py            # Recorte a cuadrado 512 px y partición 120/30 por grupo
+    │   └── prepare-dataset.py            # Recorte a cuadrado 512 px (con recortes manuales) y partición 120/30 por grupo
     ├── eval/
     │   ├── package.json              # @tensorflow/tfjs · jpeg-js
     │   ├── model-inference.js        # Inferencia (nube o disco) → CSV de probabilidades
@@ -209,7 +210,7 @@ y abrir `http://localhost:8765/`. En GitHub Pages basta con publicar la rama: la
 
 ```bash
 cd utils/eval && npm install
-node model-inference.js "https://teachablemachine.withgoogle.com/models/RmIb0tr6_/" "../../../dataset/prepared/test" cloud-predictions.csv
+node model-inference.js "https://teachablemachine.withgoogle.com/models/AOGVYthEm/" "../../../dataset/prepared/test" cloud-predictions.csv
 node model-inference.js "../models/tm-carnivoras-model/" "../../../dataset/prepared/test" local-predictions.csv
 python model-evaluation.py cloud-predictions.csv cloud
 python error-gallery.py cloud-predictions.csv cloud
