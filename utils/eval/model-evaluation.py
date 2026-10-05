@@ -102,7 +102,7 @@ Path(csv_path).with_name(f"{model_name}-metrics.json").write_text(
     json.dumps(metrics, indent=2, default=float, ensure_ascii=False), encoding="utf-8")
 
 # ---------- Gráficos ----------
-INK, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
+INK, MUTED, GRID, SURFACE = "#0b0b0b", "#52514e", "#e4e3df", "#ffffff"
 SERIES = ["#2e8b57", "#2a78d6", "#eb6834", "#8e44ad", "#c0392b", "#16a085", "#d4a017", "#5d6d7e"]
 plt.rcParams.update({
     "font.size": 9, "axes.edgecolor": GRID, "axes.labelcolor": MUTED, "text.color": INK,
@@ -114,7 +114,7 @@ short = [l.replace("No carnivora", "No carn.") for l in labels]
 
 # Matriz de confusión
 fig, ax = plt.subplots(figsize=(5.2, 4.8))
-greens = LinearSegmentedColormap.from_list("greens", ["#f1f8f3", "#8fcaa6", "#2e8b57", "#12442a"])
+greens = LinearSegmentedColormap.from_list("greens", ["#ffffff", "#8fcaa6", "#2e8b57", "#12442a"])
 ax.imshow(cm, cmap=greens, vmin=0, vmax=cm.max())
 for i in range(K):
     for j in range(K):
@@ -157,7 +157,7 @@ ax.set_ylim(0, 1.05)
 ax.yaxis.set_major_formatter(comma)
 ax.grid(axis="y", color=GRID, lw=0.6)
 ax.set_axisbelow(True)
-ax.legend(frameon=False, fontsize=8, ncol=3, loc="lower left")
+ax.legend(frameon=False, fontsize=8, ncol=3, loc="lower center", bbox_to_anchor=(0.5, 1.0))
 fig.savefig(OUT / f"{model_name}-per-class.png", dpi=300, bbox_inches="tight")
 plt.close(fig)
 
