@@ -26,7 +26,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Recurso | Enlace |
 |---|---|
-| **Video demostrativo (público, en el canal de YouTube del autor)** | *enlace pendiente* |
+| **Video demostrativo (público, en el canal de YouTube del autor)** | https://youtu.be/2afyaiAXE0U |
 | **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
 | **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/AOGVYthEm/ |
