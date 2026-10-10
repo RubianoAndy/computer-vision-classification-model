@@ -26,7 +26,7 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Recurso | Enlace |
 |---|---|
-| **Video demostrativo (YouTube, no listado)** | *pendiente* |
+| **Video demostrativo (público, en el canal de YouTube del autor)** | *enlace pendiente* |
 | **Repositorio en GitHub** | https://github.com/RubianoAndy/computer-vision-classification-model |
 | **Aplicación publicada (GitHub Pages)** | https://rubianoandy.github.io/computer-vision-classification-model/ |
 | **Modelo en la nube (endpoint)** | https://teachablemachine.withgoogle.com/models/AOGVYthEm/ |
@@ -46,8 +46,9 @@ Este repositorio contiene el **proyecto** del informe: los scripts que preparan 
 
 | Fuente | Clases | Detalle |
 |---|---|---|
-| Fotos propias del autor | 7 géneros | Archivo del canal (598 fotos revisadas, 335 útiles) |
-| Comunidad de plantas carnívoras y suscriptores del canal | 7 géneros | Fotos compartidas por mensajes directos (1.612 revisadas, 901 útiles) y grupos de subastas (1.000 revisadas, 343 útiles) |
+| Archivo del canal | 7 géneros | Fotos tomadas por el autor para los videos y redes del canal (598 revisadas, 335 útiles) |
+| Suscriptores del canal | 7 géneros | Fotos enviadas por mensajes directos, en su mayoría de plantas que ellos cultivan (1.612 revisadas, 901 útiles) |
+| Comunidad internacional de cultivadores | 7 géneros | Fotos publicadas en grupos de subastas e intercambio de plantas carnívoras (1.000 revisadas, 343 útiles) |
 | iNaturalist (licencias CC BY, CC BY-NC, CC BY-SA, CC BY-NC-SA) | *No carnivora* | 136 observaciones de 32 taxones que se parecen a una carnívora (suculentas en roseta, calas, bromelias, musgo…) más 14 fotos propias sin plantas carnívoras |
 
 Cada foto se revisó a mano: se descartaron las plantas muy pequeñas o lejanas, las flores y esquejes sin trampas, las borrosas, las duplicadas (dHash) y las de géneros fuera del alcance (*Cephalotus*, *Utricularia*…). Luego se renombraron a `<clase>_<nnn>.jpg` conservando en un CSV la fuente y el **grupo de ejemplar** de cada una.
@@ -58,7 +59,7 @@ Cada foto se revisó a mano: se descartaron las plantas muy pequeñas o lejanas,
 
 ### 3 · Entrenamiento en Teachable Machine
 
-Proyecto de imagen con las ocho clases y 120 imágenes cada una, hiperparámetros por defecto: 50 épocas, lote de 16 y tasa de aprendizaje de 0,001. La herramienta aparta el 15 % de cada clase como prueba interna (18 imágenes por clase).
+Proyecto de imagen con las ocho clases; las 120 imágenes de cada una se cargan a mano desde `prepared/train/<clase>`. Hiperparámetros por defecto: 50 épocas, lote de 16 y tasa de aprendizaje de 0,001. La herramienta aparta el 15 % de cada clase como prueba interna (18 imágenes por clase).
 
 ### 4 · Despliegue en la nube
 
@@ -113,7 +114,9 @@ Exactitud interna ≈ 0,85 (122 de 144). Por clase: Drosera 0,94 · Heliamphora 
 - **Confianza:** 0,960 en los aciertos frente a 0,744 en los errores. Con el **umbral de confianza de 0,8** responde el 87,5 % de las imágenes con exactitud de 0,943 y evita 14 de los 26 errores.
 - **Interna vs. independiente:** la prueba interna de 18 imágenes por clase daba 0,72 en *Dionaea* y *Nepenthes*; con 30 imágenes nuevas llegan a 0,80 y 0,87. Las muestras pequeñas engañan.
 - **Nube = local = app:** la copia descargada da las mismas probabilidades que el endpoint; la app, cargando la carpeta de prueba, reporta 215 aciertos de 240 sin umbral (89,6 %) frente a 214 del script, y 93,9 % con umbral sobre el 89 % de imágenes que responde.
-- **Segunda versión del modelo:** una primera versión, entrenada antes de sumar 70 fotos nuevas de la comunidad (sobre todo *Nepenthes* y *Heliamphora*), obtuvo 0,879 sobre su propio segmento de prueba. Las cifras no son comparables una a una porque la partición cambió.
+- **Fotos nunca vistas (fuera del dataset y de la prueba):** *Dionaea* → *Dionaea* 100 % (acierto con y sin umbral); *Pinguicula* → *Pinguicula* 53,8 % frente a *Drosera* 46,2 % (con umbral responde "No estoy seguro", sin umbral acierta); *Sarracenia* → *Darlingtonia* 99,9 % (error con alta confianza que el umbral no detecta).
+- **Modo Cámara en vivo:** *Pinguicula* 99,4 / 99,9 % y *Sarracenia* 99,5 / 98,9 % (con / sin umbral) aun con la persona en el encuadre; una *Drosera filiformis* pequeña en el fotograma se declara *No carnivora* (98,4 / 99,6 %). La confianza varía entre modos porque la cámara clasifica cada fotograma de forma continua.
+- **Segunda versión del modelo:** una primera versión, entrenada antes de sumar 88 fotos nuevas de los suscriptores (sobre todo *Nepenthes* y *Heliamphora*), obtuvo 0,879 sobre su propio segmento de prueba. Las cifras no son comparables una a una porque la partición cambió.
 
 Las figuras (matriz de confusión 8×8, curvas ROC por clase, barras por clase, histograma de confianza, curva umbral/cobertura y galería de errores) se generan en `../computer vision-classification-model-report/assets/images/results/`.
 
@@ -163,7 +166,7 @@ La raíz está organizada para publicarse tal cual en **GitHub Pages**: `index.h
 
 > ℹ️ **Colección de Postman.** `utils/postman/identificador-carnivoras.postman_collection.json` reúne las peticiones al endpoint del modelo: **01** `metadata.json` (ocho etiquetas y tamaño de entrada), **02** `model.json` (arquitectura y manifiesto de pesos), **03** `model.weights.bin` (263 tensores, 2.156.432 bytes) y **04** la redirección 302 del endpoint hacia Google Cloud Storage. Cada petición trae pruebas automáticas. Se importa con *Import → File*; también corre con `npx newman run utils/postman/identificador-carnivoras.postman_collection.json`.
 
-> ℹ️ **Las imágenes no se versionan.** El dataset (`raw/` con 1.200 originales y `prepared/` con las versiones recortadas) vive fuera del repositorio, en `../dataset/`, junto con los CSV de fuentes, atribuciones y descartes. Las fotos de carnívoras son propias y de la comunidad del canal; las de *No carnivora* se descargan de iNaturalist con el script.
+> ℹ️ **Las imágenes no se versionan.** El dataset (`raw/` con 1.200 originales y `prepared/` con las versiones recortadas) vive fuera del repositorio, en `../dataset/`, junto con los CSV de fuentes, atribuciones y descartes. Las fotos de carnívoras provienen del archivo del canal, de sus suscriptores y de la comunidad internacional de cultivadores; las de *No carnivora* se descargan de iNaturalist con el script.
 
 ---
 
@@ -220,7 +223,7 @@ python error-gallery.py cloud-predictions.csv cloud
 
 ## 🙏 Créditos de las imágenes
 
-Las imágenes de plantas carnívoras son fotografías propias del autor y fotografías aportadas por la comunidad de cultivadores de plantas carnívoras y por suscriptores del canal de YouTube **Andy Rubiano - Plantas carnívoras**. Las imágenes de la clase *No carnivora* provienen de iNaturalist bajo licencias Creative Commons; la atribución de cada una (autor, licencia y enlace a la observación) está en `../dataset/raw/_fuentes/no_carnivora_atribuciones.csv`.
+Las imágenes de plantas carnívoras son fotografías propias del autor para el canal de YouTube **Andy Rubiano - Plantas carnívoras**, fotografías enviadas por los suscriptores del canal y fotografías aportadas por la comunidad internacional de cultivadores de plantas carnívoras. Las imágenes de la clase *No carnivora* provienen de iNaturalist bajo licencias Creative Commons; la atribución de cada una (autor, licencia y enlace a la observación) está en `../dataset/raw/_fuentes/no_carnivora_atribuciones.csv`.
 
 | Red | Enlace |
 |---|---|
